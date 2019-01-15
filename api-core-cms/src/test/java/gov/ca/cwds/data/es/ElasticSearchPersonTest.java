@@ -7,24 +7,22 @@ import static org.hamcrest.CoreMatchers.notNullValue;
 import static org.junit.Assert.assertThat;
 import static org.mockito.Mockito.mock;
 
+import gov.ca.cwds.common.OscarTheGrouch;
+import gov.ca.cwds.data.es.ElasticSearchPerson.ESColumn;
+import gov.ca.cwds.data.es.ElasticSearchPerson.ESOptionalCollection;
+import gov.ca.cwds.data.legacy.cms.entity.Client;
+import gov.ca.cwds.rest.validation.TestSystemCodeCache;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
 import org.apache.commons.io.IOUtils;
 import org.elasticsearch.search.SearchHit;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
-
-import gov.ca.cwds.common.OscarTheGrouch;
-import gov.ca.cwds.data.es.ElasticSearchPerson.ESColumn;
-import gov.ca.cwds.data.es.ElasticSearchPerson.ESOptionalCollection;
-import gov.ca.cwds.data.legacy.cms.entity.Client;
-import gov.ca.cwds.rest.validation.TestSystemCodeCache;
 
 public class ElasticSearchPersonTest extends OscarTheGrouch<Client> {
 
@@ -165,7 +163,8 @@ public class ElasticSearchPersonTest extends OscarTheGrouch<Client> {
   public void getSearchableDateOfBirth() throws Exception {
     target.setDateOfBirth("1990-09-09");
     String[] expectedDateOfBirths =
-        {"99", "991990", "91990", "0909", "1990", "091990", "090990", "9990", "09091990"};
+      {"99", "90990", "991990", "91990", "0909", "0990", "1990", "09990", "091990", "090990",
+        "9990", "09091990"};
     String[] actualSearchableDateOfBirth = target.getSearchableDateOfBirth();
     assertThat(Arrays.equals(expectedDateOfBirths, actualSearchableDateOfBirth), is(true));
   }
