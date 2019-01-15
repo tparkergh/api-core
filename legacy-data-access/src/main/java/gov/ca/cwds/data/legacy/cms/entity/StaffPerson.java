@@ -38,7 +38,8 @@ import javax.persistence.SqlResultSetMappings;
               + "      AND a.END_DT IS NULL "
               + "      AND a.FKSTFPERST = ?1) "
               + "  AND a.UNTAUTH_CD <> 'S' "
-              + "  AND stf.END_DT IS NULL"),
+              + "  AND stf.END_DT IS NULL"
+              + "  AND a.END_DT IS NULL"),
   @NamedNativeQuery(
       name = ClientIdsByStaff.NATIVE_FIND_CLIENT_IDS_BY_STAFF_IDS,
       query =

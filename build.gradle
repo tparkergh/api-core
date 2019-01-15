@@ -46,7 +46,7 @@ allprojects {
         newrelicVersion = "3.41.0"
         dropwizardSundialVersion = "1.3.1"
 
-        projectMajorVersion = "1.11.2"
+        projectMajorVersion = "1.19.1"
 
         isRelease = System.getProperty("Release") == "true"
         buildNumber = System.getProperty('BuildNumber')
