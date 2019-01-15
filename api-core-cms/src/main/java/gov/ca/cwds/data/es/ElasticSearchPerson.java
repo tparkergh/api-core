@@ -1227,6 +1227,21 @@ public class ElasticSearchPerson implements ApiTypedIdentifier<String> {
       df = new SimpleDateFormat("Md");
       String mdDob = df.format(date);
       dobValues.add(mdDob);
+
+      // Day without zeros, e.g. 01/9/16
+      df = new SimpleDateFormat("MMdyy");
+      String mmdyyDob = df.format(date);
+      dobValues.add(mmdyyDob);
+
+      // Month without zeros, e.g. 1/09/16
+      df = new SimpleDateFormat("Mddyy");
+      String mddyyDob = df.format(date);
+      dobValues.add(mddyyDob);
+
+      // Month and Year, e.g. 01/16
+      df = new SimpleDateFormat("MMyy");
+      String mmyyDob = df.format(date);
+      dobValues.add(mmyyDob);
     }
     return dobValues;
   }
