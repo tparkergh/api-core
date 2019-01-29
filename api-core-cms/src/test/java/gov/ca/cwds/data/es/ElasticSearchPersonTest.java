@@ -163,8 +163,10 @@ public class ElasticSearchPersonTest extends OscarTheGrouch<Client> {
   public void getSearchableDateOfBirth() throws Exception {
     target.setDateOfBirth("1990-09-09");
     String[] expectedDateOfBirths =
-      {"99", "90990", "991990", "91990", "0909", "0990", "1990", "09990", "091990", "090990",
-        "9990", "09091990"};
+      {"09091990", "091990", "1990", "0909",
+        "090990", "991990", "9990", "91990",
+        "99", "09990", "90990", "0990",
+        "0991990", "9091990"};
     String[] actualSearchableDateOfBirth = target.getSearchableDateOfBirth();
     assertThat(Arrays.equals(expectedDateOfBirths, actualSearchableDateOfBirth), is(true));
   }
