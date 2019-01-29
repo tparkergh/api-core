@@ -11,6 +11,7 @@ import java.util.Date;
 import java.util.EnumSet;
 import java.util.HashSet;
 import java.util.LinkedHashMap;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -1179,7 +1180,7 @@ public class ElasticSearchPerson implements ApiTypedIdentifier<String> {
   }
 
   private Set<String> getDobValues(String dateOfBirth) {
-    Set<String> dobValues = new HashSet<>();
+    Set<String> dobValues = new LinkedHashSet<>();
     Date date = DomainChef.uncookDateString(dateOfBirth);
 
     // With zeros, e.g. 01/09/1995
@@ -1242,6 +1243,16 @@ public class ElasticSearchPerson implements ApiTypedIdentifier<String> {
       df = new SimpleDateFormat("MMyy");
       String mmyyDob = df.format(date);
       dobValues.add(mmyyDob);
+
+      // Day without zeros, e.g. 01/9/2016
+      df = new SimpleDateFormat("MMdyyyy");
+      String mmdyyyyDob = df.format(date);
+      dobValues.add(mmdyyyyDob);
+
+      // Month without zeros, e.g. 1/09/2016
+      df = new SimpleDateFormat("Mddyyyy");
+      String mddyyyyDob = df.format(date);
+      dobValues.add(mddyyyyDob);
     }
     return dobValues;
   }
