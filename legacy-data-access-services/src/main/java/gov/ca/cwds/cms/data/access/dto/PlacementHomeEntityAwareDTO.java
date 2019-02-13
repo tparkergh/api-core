@@ -24,6 +24,7 @@ public class PlacementHomeEntityAwareDTO extends BaseEntityAwareDTO<PlacementHom
 
   private Set<? extends CWSIdentifier> homeLanguages = new HashSet<>();
 
+  @SuppressWarnings("squid:S1452")
   public Set<? extends CWSIdentifier> getHomeLanguages() {
     return homeLanguages;
   }

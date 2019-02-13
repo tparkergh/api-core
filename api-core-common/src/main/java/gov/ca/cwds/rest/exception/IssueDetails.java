@@ -33,7 +33,7 @@ public class IssueDetails implements Serializable {
   private String stackTrace;
   private String causeStackTrace;
   private String property;
-  private Object invalidValue;
+  private transient Object invalidValue;
 
   public IssueType getType() {
     return type;

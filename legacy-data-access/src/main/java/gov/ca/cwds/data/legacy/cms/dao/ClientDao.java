@@ -9,6 +9,7 @@ import gov.ca.cwds.data.stream.QueryCreator;
 import gov.ca.cwds.data.stream.ScalarResultsStreamer;
 import gov.ca.cwds.inject.CmsSessionFactory;
 import gov.ca.cwds.util.Require;
+
 import java.time.LocalDate;
 import java.util.Collection;
 import java.util.Collections;
@@ -16,6 +17,7 @@ import java.util.List;
 import java.util.function.Consumer;
 import java.util.stream.Stream;
 import javax.persistence.NoResultException;
+
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.query.Query;
@@ -29,6 +31,10 @@ public class ClientDao extends BaseDaoImpl<Client> {
 
   private static final Logger LOG = LoggerFactory.getLogger(ClientDao.class);
 
+  private static final String CLIENTS_IDS_PARAM = "clientIds";
+  private static final String STAFF_ID_PARAM = "staffId";
+  private static final String NOW_PARAM = "now";
+
   @Inject
   public ClientDao(@CmsSessionFactory SessionFactory sessionFactory) {
     super(sessionFactory);
@@ -36,7 +42,7 @@ public class ClientDao extends BaseDaoImpl<Client> {
 
   /**
    * @param facilityId facility primary key
-   * @param childId child primary key
+   * @param childId    child primary key
    * @return child by facility id number and child id.
    */
   public Client findByFacilityIdAndChildId(String facilityId, String childId) {
@@ -52,7 +58,7 @@ public class ClientDao extends BaseDaoImpl<Client> {
 
   /**
    * @param licenseNumber license number
-   * @param childId child primary key
+   * @param childId       child primary key
    * @return child by license number and child id.
    */
   public Client findByLicNumAndChildId(String licenseNumber, String childId) {
@@ -101,36 +107,36 @@ public class ClientDao extends BaseDaoImpl<Client> {
    * Gets access type by assignment
    *
    * @param clientId client identifier
-   * @param staffId staff person id
+   * @param staffId  staff person id
    * @return access type enum: {NONE, R, RW}
    */
   public AccessType getAccessTypeByAssignment(String clientId, String staffId) {
     return AccessType.valueOf(
       grabSession()
         .createNamedQuery(this.getEntityClass().getSimpleName() + ".getAccessTypeByAssignment")
-        .setParameterList("clientIds", Collections.singletonList(clientId))
-        .setParameter("staffId", staffId)
-        .setParameter("now", LocalDate.now())
+        .setParameterList(CLIENTS_IDS_PARAM, Collections.singletonList(clientId))
+        .setParameter(STAFF_ID_PARAM, staffId)
+        .setParameter(NOW_PARAM, LocalDate.now())
         .uniqueResult().toString());
   }
 
   @SuppressWarnings("unchecked")
   public Collection<String> filterClientIdsByAssignment(Collection<String> clientIds,
-    String staffId) {
+                                                        String staffId) {
     if (clientIds.isEmpty()) {
       return clientIds;
     }
     return grabSession()
       .createNamedQuery(this.getEntityClass().getSimpleName() + ".filterClientIdsByAssignment")
-      .setParameterList("clientIds", clientIds)
-      .setParameter("staffId", staffId)
-      .setParameter("now", LocalDate.now()).list();
+      .setParameterList(CLIENTS_IDS_PARAM, clientIds)
+      .setParameter(STAFF_ID_PARAM, staffId)
+      .setParameter(NOW_PARAM, LocalDate.now()).list();
   }
 
   /**
    * Gets client access type by supervisor Id
    *
-   * @param clientId client identifier
+   * @param clientId          client identifier
    * @param supervisorStaffId supervisor staff person id
    * @return access type enum: {NONE, R, RW}
    */
@@ -138,25 +144,26 @@ public class ClientDao extends BaseDaoImpl<Client> {
     return AccessType.valueOf(
       grabSession()
         .createNamedQuery(this.getEntityClass().getSimpleName() + ".getAccessTypeBySupervisor")
-        .setParameterList("clientIds", Collections.singletonList(clientId))
-        .setParameter("staffId", supervisorStaffId)
-        .setParameter("now", LocalDate.now())
+        .setParameterList(CLIENTS_IDS_PARAM, Collections.singletonList(clientId))
+        .setParameter(STAFF_ID_PARAM, supervisorStaffId)
+        .setParameter(NOW_PARAM, LocalDate.now())
         .uniqueResult().toString());
   }
 
   /**
    * Method returns Client county base on algorithm from IBM DocTool Rule R - 10672
+   *
    * @param clientId 10 character Client Id
    * @return ClientCounty facade entity with client county information
    */
   public ClientCounty getClientCounty(String clientId) {
     Require.requireNotNullAndNotEmpty(clientId);
     List<ClientCounty> clientCounties = currentSession()
-        .getNamedNativeQuery(ClientCounty.QUERY_CLIENT_COUNTY)
-        .setResultSetMapping(ClientCounty.MAPPING_CLIENT_COUNTY)
-        .setParameter("clientId", clientId)
-        .setMaxResults(1)
-        .getResultList();
+      .getNamedNativeQuery(ClientCounty.QUERY_CLIENT_COUNTY)
+      .setResultSetMapping(ClientCounty.MAPPING_CLIENT_COUNTY)
+      .setParameter("clientId", clientId)
+      .setMaxResults(1)
+      .getResultList();
     return clientCounties.isEmpty() ? new ClientCounty("4. NO COUNTY", 0, null, null, "") : clientCounties.get(0);
   }
 

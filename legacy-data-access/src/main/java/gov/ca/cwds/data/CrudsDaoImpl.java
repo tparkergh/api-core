@@ -2,6 +2,7 @@ package gov.ca.cwds.data;
 
 import java.io.Serializable;
 import java.text.MessageFormat;
+import java.util.Arrays;
 
 import javax.persistence.EntityExistsException;
 import javax.persistence.EntityNotFoundException;
@@ -20,21 +21,30 @@ import io.dropwizard.hibernate.AbstractDAO;
 /**
  * An implementation of {@link CrudsDao}. Class is final and is expected that other {@link Dao} will
  * contain this implementation and delegate.
- * 
- * @author CWDS API Team
  *
  * @param <T> The {@link PersistentObject} to perform CRUDS operations on
+ * @author CWDS API Team
  */
 public class CrudsDaoImpl<T extends PersistentObject> extends AbstractDAO<T>
-    implements CrudsDao<T> {
+  implements CrudsDao<T> {
 
   private static final Logger LOGGER = LoggerFactory.getLogger(CrudsDaoImpl.class);
 
   private SessionFactory sessionFactory;
 
   /**
+   * Default constructor.
+   *
+   * @param sessionFactory Hibernate session factory
+   */
+  public CrudsDaoImpl(SessionFactory sessionFactory) {
+    super(sessionFactory);
+    this.sessionFactory = sessionFactory;
+  }
+
+  /**
    * Grab a session! If a current session is available, return it, else open a new session.
-   * 
+   *
    * @return usable session
    */
   public Session grabSession() {
@@ -43,6 +53,7 @@ public class CrudsDaoImpl<T extends PersistentObject> extends AbstractDAO<T>
       session = sessionFactory.getCurrentSession();
     } catch (HibernateException e) {
       session = sessionFactory.openSession();
+      LOGGER.info("Current session is unavailable, opening a new session", e);
     }
 
     return session;
@@ -50,20 +61,24 @@ public class CrudsDaoImpl<T extends PersistentObject> extends AbstractDAO<T>
 
   /**
    * Join the current transaction or begin a new one, as needed.
-   * 
+   *
    * @param session active session
    * @return active or new transaction
    */
   public Transaction joinTransaction(Session session) {
+    TransactionStatus[] transactionStatuses = {
+      TransactionStatus.COMMITTING,
+      TransactionStatus.COMMITTED,
+      TransactionStatus.FAILED_COMMIT,
+      TransactionStatus.MARKED_ROLLBACK,
+      TransactionStatus.ROLLED_BACK,
+      TransactionStatus.ROLLING_BACK
+    };
+
     Transaction txn = session.getTransaction();
     txn = txn != null ? txn : session.beginTransaction();
 
-    if (!txn.getRollbackOnly() && !txn.isActive() && txn.getStatus() != TransactionStatus.COMMITTING
-        && txn.getStatus() != TransactionStatus.COMMITTED
-        && txn.getStatus() != TransactionStatus.FAILED_COMMIT
-        && txn.getStatus() != TransactionStatus.MARKED_ROLLBACK
-        && txn.getStatus() != TransactionStatus.ROLLED_BACK
-        && txn.getStatus() != TransactionStatus.ROLLING_BACK) {
+    if (!txn.getRollbackOnly() && !txn.isActive() && !Arrays.asList(transactionStatuses).contains(txn.getStatus())) {
       LOGGER.debug("Begin **NEW** transaction");
       txn.begin();
       CaresStackUtils.logStack();
@@ -74,21 +89,11 @@ public class CrudsDaoImpl<T extends PersistentObject> extends AbstractDAO<T>
 
   /**
    * Find the default schema for the current datasource.
-   * 
+   *
    * @return default schema for this datasource
    */
   public String getCurrentSchema() {
     return (String) getSessionFactory().getProperties().get("hibernate.default_schema");
-  }
-
-  /**
-   * Default constructor.
-   * 
-   * @param sessionFactory Hibernate session factory
-   */
-  public CrudsDaoImpl(SessionFactory sessionFactory) {
-    super(sessionFactory);
-    this.sessionFactory = sessionFactory;
   }
 
   /**
@@ -101,7 +106,7 @@ public class CrudsDaoImpl<T extends PersistentObject> extends AbstractDAO<T>
 
   /**
    * {@inheritDoc}
-   * 
+   *
    * @see gov.ca.cwds.data.CrudsDao#find(java.io.Serializable)
    */
   @Override
@@ -112,7 +117,7 @@ public class CrudsDaoImpl<T extends PersistentObject> extends AbstractDAO<T>
 
   /**
    * {@inheritDoc}
-   * 
+   *
    * @see CrudsDao#delete(java.io.Serializable)
    */
   @Override
@@ -127,7 +132,7 @@ public class CrudsDaoImpl<T extends PersistentObject> extends AbstractDAO<T>
 
   /**
    * {@inheritDoc}
-   * 
+   *
    * @see CrudsDao#create(gov.ca.cwds.data.persistence.PersistentObject)
    */
   @Override
@@ -146,7 +151,7 @@ public class CrudsDaoImpl<T extends PersistentObject> extends AbstractDAO<T>
 
   /**
    * {@inheritDoc}
-   * 
+   *
    * @see CrudsDao#update(gov.ca.cwds.data.persistence.PersistentObject)
    */
   @Override
@@ -155,7 +160,7 @@ public class CrudsDaoImpl<T extends PersistentObject> extends AbstractDAO<T>
     final T databaseObject = find(object.getPrimaryKey());
     if (databaseObject == null) {
       final String msg =
-          MessageFormat.format("Unable to find entity with id={0}", object.getPrimaryKey());
+        MessageFormat.format("Unable to find entity with id={0}", object.getPrimaryKey());
       LOGGER.error(msg);
       throw new EntityNotFoundException(msg);
     }

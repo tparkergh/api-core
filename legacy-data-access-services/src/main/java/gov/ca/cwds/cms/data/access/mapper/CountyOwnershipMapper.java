@@ -22,8 +22,6 @@ import gov.ca.cwds.data.legacy.cms.entity.CountyOwnership;
 @FunctionalInterface
 public interface CountyOwnershipMapper {
 
-  CountyOwnershipMapper INSTANCE = Mappers.getMapper(CountyOwnershipMapper.class);
-
   //@formatter:off
   @Mapping(target = "entityId", source = "entityId")
   @Mapping(target = "entityCd", source = "discriminator")

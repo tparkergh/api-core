@@ -53,6 +53,7 @@ public class SCPEntityAwareDTO extends BaseEntityAwareDTO<SubstituteCareProvider
     this.ethnicityList = ethnicityList;
   }
 
+  @SuppressWarnings("squid:S1452")
   public List<? extends CWSIdentifier> getOtherStatesOfLiving() {
     return otherStatesOfLiving;
   }

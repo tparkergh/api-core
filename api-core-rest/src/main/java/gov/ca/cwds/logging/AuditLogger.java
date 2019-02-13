@@ -5,6 +5,7 @@ package gov.ca.cwds.logging;
  * 
  * @author CWDS API Team
  */
+@FunctionalInterface
 public interface AuditLogger {
 
   /**
