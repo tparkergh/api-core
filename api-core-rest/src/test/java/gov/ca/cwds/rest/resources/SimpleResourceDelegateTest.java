@@ -256,12 +256,4 @@ public class SimpleResourceDelegateTest {
     assertThat(actual, is(equalTo(expected)));
   }
 
-  @Test(expected = ServiceException.class)
-  public void handleException_Args$Exception() throws Exception {
-    Exception e = null;
-    Response actual = target.handleException(e);
-    Response expected = Response.status(Response.Status.SERVICE_UNAVAILABLE).entity(null).build();
-    // assertThat(actual, is(equalTo(expected)));
-  }
-
 }

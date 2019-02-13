@@ -25,6 +25,7 @@ import java.util.Arrays;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mapstruct.factory.Mappers;
 import org.mockito.Mock;
 import org.powermock.api.mockito.PowerMockito;
 import org.powermock.core.classloader.annotations.PrepareForTest;
@@ -52,7 +53,7 @@ public class R07045Test {
     scpService.setBusinessValidationService(mock(BusinessValidationService.class));
     scpService.setSubstituteCareProviderUcDao(mock(SubstituteCareProviderUCDao.class));
     scpService.setPlacementHomeInformationDao(mock(PlacementHomeInformationDao.class));
-    scpService.setCountyOwnershipMapper(CountyOwnershipMapper.INSTANCE);
+    scpService.setCountyOwnershipMapper(Mappers.getMapper(CountyOwnershipMapper.class));
     scpService.setCountyOwnershipDao(mock(CountyOwnershipDao.class));
     scpService.setScpSsaName3Dao(mock(SsaName3Dao.class));
   }

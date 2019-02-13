@@ -12,7 +12,6 @@ import org.mapstruct.factory.Mappers;
 @Mapper(imports = LocalDateTime.class)
 @FunctionalInterface
 public interface ExternalInterfaceMapper {
-  ExternalInterfaceMapper INSTANCE = Mappers.getMapper(ExternalInterfaceMapper.class);
 
   @Mapping(target = "seqNo", constant = "-1")// TODO: 8/17/2017
   @Mapping(target = "submtlTs", expression = "java(LocalDateTime.now())")// TODO: 8/17/2017

@@ -3,16 +3,10 @@ package gov.ca.cwds.rest.resources;
 import java.io.Serializable;
 import java.lang.annotation.Annotation;
 
-import javax.persistence.EntityExistsException;
-import javax.persistence.EntityNotFoundException;
 import javax.validation.ConstraintViolationException;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import javax.ws.rs.core.Response;
-
-import org.apache.commons.lang3.NotImplementedException;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import com.google.inject.Inject;
 
@@ -46,11 +40,6 @@ import gov.ca.cwds.rest.services.ServiceException;
  */
 public class SimpleResourceDelegate<K extends Serializable, Q extends Request, P extends gov.ca.cwds.rest.api.Response, S extends ApiSimpleResourceService<K, Q, P>>
     implements ApiSimpleResourceDelegate<K, Q, P, S> {
-
-  /**
-   * Logger for this class.
-   */
-  private static final Logger LOGGER = LoggerFactory.getLogger(SimpleResourceDelegate.class);
 
   /**
    * The wrapped CRUD service.
@@ -154,83 +143,6 @@ public class SimpleResourceDelegate<K extends Serializable, Q extends Request, P
    */
   public final Object[] getTypeParams() {
     return this.getClass().getTypeParameters();
-  }
-
-  /**
-   * <p>
-   * Handle API request by delegating to service method,
-   * {@link ApiSimpleResourceService#handle(Request)} and wrapping resulting API
-   * {@link gov.ca.cwds.rest.api.Response} with a Java standard web service response.
-   * </p>
-   *
-   * <p>
-   * Web Service Response, not a CWDS API Response.
-   * </p>
-   *
-   * <p>
-   * HTTP Response Codes
-   * </p>
-   *
-   * The default method implementation may return the following HTTP response codes:
-   * <ul>
-   * <li>{@link javax.ws.rs.core.Response.Status#OK}</li>
-   * <li>{@link javax.ws.rs.core.Response.Status#NOT_FOUND}</li>
-   * <li>{@link javax.ws.rs.core.Response.Status#CONFLICT}</li>
-   * <li>{@link javax.ws.rs.core.Response.Status#INTERNAL_SERVER_ERROR}</li>
-   * <li>{@link javax.ws.rs.core.Response.Status#EXPECTATION_FAILED}</li>
-   * <li>{@link javax.ws.rs.core.Response.Status#NOT_IMPLEMENTED}</li>
-   * <li>{@link javax.ws.rs.core.Response.Status#SERVICE_UNAVAILABLE}</li>
-   * </ul>
-   *
-   * @param e {@link ServiceException} to inspect
-   * @return web service {@link Response}
-   * @see ApiSimpleResourceService#handle(Request)
-   * @see ApiSimpleResourceService#find(Serializable)
-   * @deprecated Moved to ServiceExceptionMapper
-   */
-  @Deprecated
-  protected Response handleException(Exception e) throws ServiceException {
-    Response ret;
-
-    // ALREADY DONE? #136701343: Tech debt: exception handling in service layer.
-    // Gold plating. Waiting for further requirements.
-    if (e != null) {
-      if (e.getCause() != null) {
-        if (e.getCause() instanceof EntityNotFoundException) {
-          throw new ServiceException("EntityNotFoundException", e.getCause());
-        } else if (e.getCause() instanceof EntityExistsException) {
-          throw new ServiceException("EntityExistsException", e.getCause());
-        } else if (e.getCause() instanceof NullPointerException) {
-          throw new ServiceException("NullPointerException", e.getCause());
-        } else if (e.getCause() instanceof ClassNotFoundException) {
-          LOGGER.error("Class not found! {}", e.getMessage(), e);
-          throw new ServiceException("ClassNotFoundException", e.getCause());
-        } else if (e.getCause() instanceof NotImplementedException) {
-          LOGGER.error("Not implemented", e);
-          throw new ServiceException("NotImplementedException", e.getCause());
-        } else {
-          LOGGER.error("Unable to handle request", e);
-          throw new ServiceException("Unable to handle request", e.getCause());
-        }
-      } else if (e instanceof ServiceException) {
-        final ServiceException svcEx = (ServiceException) e;
-        LOGGER.error("ServiceException without attached cause: {}", svcEx.getMessage(), e);
-        throw new ServiceException("ServiceException without attached cause", e);
-      } else if (e instanceof IllegalArgumentException) {
-        final IllegalArgumentException lae = (IllegalArgumentException) e;
-        LOGGER.error("Argument cannot be null: {}", lae.getMessage(), e);
-        throw new ServiceException("Argument cannot be null", e);
-      } else if (e instanceof ConstraintViolationException) {
-        final ConstraintViolationException cve = (ConstraintViolationException) e;
-        LOGGER.error("ConstraintViolationException: {}", cve.getMessage(), e);
-        throw new ServiceException("ConstraintViolationException: " + cve.getMessage(), e);
-      } else {
-        LOGGER.error("Unhandled error condition: {}", e.getMessage(), e);
-        throw new ServiceException("Unhandled error condition", e);
-      }
-    } else {
-      throw new ServiceException("No exception to handle");
-    }
   }
 
   /**
