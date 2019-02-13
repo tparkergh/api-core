@@ -99,11 +99,14 @@ public abstract class AbstractDataAccessServicesModule extends AbstractModule {
    * Configure singleton mapper instances.
    */
   protected void configureMappers() {
-    bind(CountyOwnershipMapper.class).to(Mappers.getMapper(CountyOwnershipMapper.class).getClass())
-        .asEagerSingleton();
-    bind(ExternalInterfaceMapper.class).to(Mappers.getMapper(ExternalInterfaceMapper.class).getClass())
-        .asEagerSingleton();
-    bind(ClientMapper.class).to(Mappers.getMapper(ClientMapper.class).getClass()).asEagerSingleton();
+    bind(CountyOwnershipMapper.class).to(
+      Mappers.getMapper(CountyOwnershipMapper.class).getClass())
+      .asEagerSingleton();
+    bind(ExternalInterfaceMapper.class).to(
+      Mappers.getMapper(ExternalInterfaceMapper.class).getClass())
+      .asEagerSingleton();
+    bind(ClientMapper.class).to(
+      Mappers.getMapper(ClientMapper.class).getClass()).asEagerSingleton();
   }
 
 }
