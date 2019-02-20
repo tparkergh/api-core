@@ -26,21 +26,6 @@ public class PerryClientTest {
   }
 
   @Test
-  @Ignore
-  public void validateToken_Args__PerryShiroToken() throws Exception {
-    PerryClient target = new PerryClient();
-    String perryUrl = "http://localhost:8082/perry";
-    target.setPerryUrl(perryUrl);
-
-    PerryShiroToken token = mock(PerryShiroToken.class);
-    when(token.getToken()).thenReturn("38e7djdslshhdkd");
-
-    String actual = target.validateToken(token);
-    String expected = null;
-    assertThat(actual, is(equalTo(expected)));
-  }
-
-  @Test
   public void setPerryUrl_Args__String() throws Exception {
     PerryClient target = new PerryClient();
     String perryUrl = "http://localhost:8082/perry";

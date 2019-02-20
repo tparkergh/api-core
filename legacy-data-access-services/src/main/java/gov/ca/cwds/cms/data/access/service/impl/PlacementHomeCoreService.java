@@ -248,17 +248,6 @@ public class PlacementHomeCoreService
       otherChildrenInPlacementHomeDao.create(otherChildInPlacementHome);
     }
 
-    private void createChildRelationshipsToScp(OtherChildInHomeEntityAwareDTO parameterObject) {
-      OtherChildrenInPlacementHome otherChildInPlacementHome = parameterObject.getEntity();
-      for (OtherPeopleScpRelationship relationship : parameterObject.getRelationships()) {
-        relationship.setIdentifier(generateId());
-        relationship.setFkothKidt(otherChildInPlacementHome.getIdentifier());
-        relationship.setLstUpdId(getStaffPersonId());
-        relationship.setLstUpdTs(LocalDateTime.now());
-        otherPeopleScpRelationshipDao.create(relationship);
-      }
-    }
-
     private void createOtherAdultsInHome(PlacementHomeEntityAwareDTO parameterObject) {
       final PlacementHome placementHome = parameterObject.getEntity();
       for (OtherAdultInHomeEntityAwareDTO adultInHomeParameterObject : parameterObject
@@ -288,17 +277,6 @@ public class PlacementHomeCoreService
       otherAdultInPlacementHome.setFkplcHmT(placementHome.getIdentifier());
       otherAdultInPlacementHome.setIdentifier(generateId());
       otherAdultsInPlacementHomeDao.create(otherAdultInPlacementHome);
-    }
-
-    private void createAdultRelationshipsToScp(OtherAdultInHomeEntityAwareDTO parameterObject) {
-      final OtherAdultsInPlacementHome otherAdultInPlacementHome = parameterObject.getEntity();
-      for (OtherPeopleScpRelationship relationship : parameterObject.getRelationships()) {
-        relationship.setIdentifier(generateId());
-        relationship.setFkothAdlt(otherAdultInPlacementHome.getIdentifier());
-        relationship.setLstUpdId(getStaffPersonId());
-        relationship.setLstUpdTs(LocalDateTime.now());
-        otherPeopleScpRelationshipDao.create(relationship);
-      }
     }
 
     private void createSubstituteCareProviders(PlacementHomeEntityAwareDTO parameterObject)

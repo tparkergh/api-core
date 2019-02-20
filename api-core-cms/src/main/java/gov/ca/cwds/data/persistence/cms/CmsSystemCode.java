@@ -43,6 +43,7 @@ public class CmsSystemCode implements ApiMarker {
    * @param otherCd optional, 2 character code, such as "CA" for the State of California.
    * @param longDsc long description. Only populated occasionally.
    */
+  @SuppressWarnings("squid:S00107")
   public CmsSystemCode(int sysId, String fksMetaT, String shortDsc, String logicalId,
       String inactive, String categoryId, String otherCd, String longDsc) {
     this.sysId = sysId;

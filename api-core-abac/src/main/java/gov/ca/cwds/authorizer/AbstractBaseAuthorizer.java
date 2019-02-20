@@ -35,33 +35,35 @@ public abstract class AbstractBaseAuthorizer<T, I> extends BaseAuthorizer<T, I> 
    * Constructor.
    *
    * @param droolsAuthorizationService Authorization service
-   * @param droolsConfiguration Drools configuration
+   * @param droolsConfiguration        Drools configuration
    */
   public AbstractBaseAuthorizer(DroolsAuthorizationService droolsAuthorizationService,
-    DroolsAuthorizer droolsConfiguration) {
+                                DroolsAuthorizer droolsConfiguration) {
     this.droolsAuthorizationService = droolsAuthorizationService;
     this.droolsConfiguration = droolsConfiguration;
   }
 
   private void logAuthorization(final PerryAccount perryAccount,
-    final Set<StaffPrivilegeType> staffPrivilegeTypes, final T instance,
-    final boolean authorizationResult) {
+                                final Set<StaffPrivilegeType> staffPrivilegeTypes, final T instance,
+                                final boolean authorizationResult) {
     String instanceName =
       Optional.ofNullable(instance).map(t -> t.getClass().getSimpleName()).orElse(null);
+    String message = perryAccount.toString().replaceAll("\n", " ").replaceAll("\r", "");
     LOGGER.info(
       "Authorization: StaffPerson [{}] with staffPrivilegeTypes = {} is performing action on object [{}]. "
         + "Authorization result = [{}]. {}",
       perryAccount.getStaffId(), staffPrivilegeTypes, instanceName, authorizationResult,
-      perryAccount.toString().replaceAll("\n", " ").replaceAll("\r", ""));
+      message);
   }
 
   protected boolean authorizeInstanceOperation(final T instance, List<Object> authorizationFacts) {
     final PerryAccount perryAccount = PerrySubject.getPerryAccount();
     final Set<StaffPrivilegeType> staffPrivilegeTypes = toStaffPersonPrivilegeTypes(perryAccount);
     if (staffPrivilegeTypes.isEmpty()) {
+      String message = perryAccount.toString().replaceAll("\n", " ").replaceAll("\r", "");
       LOGGER.info(
         "Authorization: staff person has no privileges. Authorization result = [{}]. {}",
-        Boolean.FALSE, perryAccount.toString().replaceAll("\n", " ").replaceAll("\r", ""));
+        Boolean.FALSE, message);
       return false;
     }
     if (authorizationFacts == null) {

@@ -5,6 +5,8 @@ import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.context.internal.ManagedSessionContext;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Reliable session acquisition, regardless of datasource or transaction boundaries.
@@ -12,6 +14,8 @@ import org.hibernate.context.internal.ManagedSessionContext;
  * @author CWDS API Team
  */
 public class BaseAuthorizationDao {
+
+  private static final Logger LOGGER = LoggerFactory.getLogger(BaseAuthorizationDao.class);
 
   private static final ThreadLocal<Boolean> bound = new ThreadLocal<>();
 
@@ -40,6 +44,7 @@ public class BaseAuthorizationDao {
     } catch (HibernateException e) {
       session = sessionFactory.openSession();
       openedNew = true;
+      LOGGER.info("Current session is unavailable, opening a new session", e);
     }
     if (isManaged()) {
       ManagedSessionContext.bind(session);

@@ -67,60 +67,6 @@ public abstract class SimpleResourceService<K extends Serializable, Q extends Re
     return this.getClass().getTypeParameters();
   }
 
-  // /**
-  // * <p>
-  // * Handle common exceptions uniformly and throw a wrapping {@link ServiceException}.
-  // * </p>
-  // *
-  // * <p>
-  // * Handled Exception types:
-  // * </p>
-  // *
-  // * The default method implementation handles these common Exceptions:
-  // * <ul>
-  // * <li>{@link EntityNotFoundException}</li>
-  // * <li>{@link PersistenceException}</li>
-  // * <li>{@link NullPointerException}</li>
-  // * <li>{@link ClassNotFoundException}</li>
-  // * <li>{@link NotImplementedException}</li>
-  // * </ul>
-  // *
-  // * @param e Exception to handle throws ServiceException on runtime error
-  // * @throws ServiceException wraps incoming exception in a ServiceException
-  // */
-  // @CoverageIgnore
-  // private void handleException(Exception e) throws ServiceException {
-  //
-  // if (e.getCause() instanceof ConstraintViolationException) {
-  // LOGGER.error("Failed validation! {}", e.getMessage(), e);
-  // final ConstraintViolationException cve = (ConstraintViolationException) e.getCause();
-  //
-  // cve.getConstraintViolations().stream()
-  // .forEach(err -> LOGGER.error("validation error: {}, invalid value: {}", err.getMessage(),
-  // err.getInvalidValue()));
-  //
-  // throw new ServiceException("Failed validation! " + e.getMessage(), cve);
-  // } else if (e.getCause() instanceof EntityNotFoundException) {
-  // LOGGER.error("NOT FOUND! {}", e.getMessage(), e);
-  // throw new ServiceException("NOT FOUND! " + e.getMessage(), e);
-  // } else if (e.getCause() instanceof PersistenceException) {
-  // LOGGER.error("Persistence error! {}", e.getMessage(), e);
-  // throw new ServiceException("Persistence error! " + e.getMessage(), e);
-  // } else if (e.getCause() instanceof NullPointerException) {
-  // LOGGER.error("NPE! {}", e.getMessage(), e);
-  // throw new ServiceException("NPE! " + e.getMessage(), e);
-  // } else if (e.getCause() instanceof ClassNotFoundException) {
-  // LOGGER.error("Class not found! {}", e.getMessage(), e);
-  // throw new ServiceException("Class not found! " + e.getMessage(), e);
-  // } else if (e.getCause() instanceof NotImplementedException) {
-  // LOGGER.error("Not implemented", e);
-  // throw new ServiceException("Not implemented", e);
-  // }
-  //
-  // LOGGER.error("Unable to handle request", e);
-  // throw new ServiceException(e);
-  // }
-
   @CoverageIgnore
   @Override
   public P handle(@Valid @NotNull Q req) throws ServiceException {

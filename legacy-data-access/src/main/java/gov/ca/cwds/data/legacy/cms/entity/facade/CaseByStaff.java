@@ -57,6 +57,7 @@ public class CaseByStaff implements ApiMarker {
    * @param assignmentTypeCode assignment type
    * @param assignmentStartDate assignment start date
    */
+  @SuppressWarnings("squid:S00107")
   public CaseByStaff(String identifier, String caseName, String clientIdentifier,
       String clientFirstName, String clientLastName, String activeServiceComponent,
       String assignmentIdentifier, String assignmentTypeCode, LocalDate assignmentStartDate) {

@@ -18,6 +18,7 @@ public class YamlShiroBundle<T extends MinimalApiConfiguration> extends ShiroBun
     return configuration.getShiroConfiguration();
   }
 
+  @Override
   protected Filter createFilter(final T configuration) {
     ShiroConfiguration shiroConfig = narrow(configuration);
     final IniWebEnvironment shiroEnv =

@@ -80,6 +80,7 @@ public class SystemCode extends CmsPersistentObject {
    * @param foreignKeyMetaTable - - foreign key to system meta table (S_META_T)
    * @param longDescription - long description
    */
+  @SuppressWarnings("squid:S00107")
   public SystemCode(Short systemId, Short categoryId, String inactiveIndicator, String otherCd,
       String shortDescription, String logicalId, String thirdId, String foreignKeyMetaTable,
       String longDescription) {

@@ -496,14 +496,6 @@ public class ElasticSearchPersonTest extends OscarTheGrouch<Client> {
   }
 
   @Test
-  @Ignore
-  public void hashCode_Args__() throws Exception {
-    int actual = target.hashCode();
-    int expected = 0;
-    assertThat(actual, is(equalTo(expected)));
-  }
-
-  @Test
   public void equals_Args__Object() throws Exception {
     Object obj = null;
     boolean actual = target.equals(obj);

@@ -662,7 +662,7 @@ public class ElasticsearchDao implements Closeable {
     try {
       ret = new ApiFileAssistant().readFile(sourceFile);
     } catch (Exception e) {
-      LOGGER.warn("NO RESOURCE FOUND FOR '{}'. Try as regular file.", sourceFile);
+      LOGGER.warn("NO RESOURCE FOUND FOR '{}'. Try as regular file.", sourceFile, e);
       ret = FileUtils.readFileToString(new File(sourceFile), Charset.defaultCharset());
     }
 

@@ -75,36 +75,4 @@ public class BaseDaoImplTest {
     assertThat(actual, is(equalTo(expected)));
   }
 
-  @Test
-  @Ignore
-  public void findAllUpdatedAfter_Args__Date() throws Exception {
-    Date datetime = mock(Date.class);
-    List<TestPersistentObject> actual = target.findAllUpdatedAfter(datetime);
-    List<TestPersistentObject> expected = new ArrayList<>();
-    assertThat(actual, is(equalTo(expected)));
-  }
-
-  @Test
-  @Ignore
-  public void partitionedBucketList_Args__long__long__String__String() throws Exception {
-    long bucketNum = 0L;
-    long totalBuckets = 0L;
-    String minId = null;
-    String maxId = null;
-    List<TestPersistentObject> actual =
-        target.partitionedBucketList(bucketNum, totalBuckets, minId, maxId);
-    List<TestPersistentObject> expected = new ArrayList<>();
-    assertThat(actual, is(equalTo(expected)));
-  }
-
-  @Test
-  @Ignore
-  public void bucketList_Args__long__long() throws Exception {
-    long bucketNum = 0L;
-    long totalBuckets = 0L;
-    List<TestPersistentObject> actual = target.bucketList(bucketNum, totalBuckets);
-    List<TestPersistentObject> expected = new ArrayList<>();
-    assertThat(actual, is(equalTo(expected)));
-  }
-
 }

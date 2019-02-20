@@ -14,6 +14,10 @@ public class CaresStackUtils {
 
   private static final Logger LOGGER = LoggerFactory.getLogger(CaresStackUtils.class);
 
+  private CaresStackUtils() {
+    //Private utility class constructor.
+  }
+
   public static void logStack() {
     if (LOGGER.isDebugEnabled()) {
       try {
