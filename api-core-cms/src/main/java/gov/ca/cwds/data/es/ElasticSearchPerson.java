@@ -324,7 +324,7 @@ public class ElasticSearchPerson implements ApiTypedIdentifier<String> {
   private transient String sensitivityIndicator = DEFAULT_SENSITIVITY_INDICATOR;
 
   /**
-   * @deprecated
+   * @deprecated use client_souties
    */
   @Deprecated
   @JsonProperty("client_county")

@@ -94,6 +94,9 @@ public interface CountyOwnershipMapper {
   CountyOwnership toCountyOwnership(String entityId, String discriminator, List<CWSIdentifier> counties);
   //@formatter:on
 
+  /**
+   * Throwing runtime exception in case of impossibility of calculations.
+   */
   @SuppressWarnings("squid:S00112")
   @AfterMapping
   default void afterMapping(@MappingTarget CountyOwnership countyOwnership, String entityId,

@@ -41,6 +41,9 @@ public class ClientByStaff implements ApiMarker {
   private LocalDate birthDate;
   private LocalDate casePlanReviewDueDate;
 
+  /**
+   * Constructor with 7+ params.
+   */
   @SuppressWarnings("squid:S00107")
   public ClientByStaff(String identifier, String firstName,
     String middleName, String lastName, String nameSuffix,
