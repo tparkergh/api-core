@@ -101,7 +101,7 @@ public class CrudsDaoImplTest {
 
   @Test(expected = HibernateException.class)
   public void update_Args__Object_HibernateException() throws Exception {
-    when(sessionFactory.getCurrentSession()).thenThrow(new HibernateException("No CurrentSessionContext configured!"));
+    when(sessionFactory.getCurrentSession()).thenThrow(HibernateException.class);
     TestPersistentObject object = new TestPersistentObject("abc123");
     TestPersistentObject actual = target.update(object);
     TestPersistentObject expected = new TestPersistentObject("abc123");
