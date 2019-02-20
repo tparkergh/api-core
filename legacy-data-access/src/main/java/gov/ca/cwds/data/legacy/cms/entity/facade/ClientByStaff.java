@@ -23,6 +23,7 @@ import org.hibernate.annotations.NamedNativeQuery;
  *
  * @author CWDS TPT-2 Team
  */
+@SuppressWarnings("squid:S00107")
 public class ClientByStaff implements ApiMarker {
 
   private static final long serialVersionUID = 1L;
@@ -44,7 +45,6 @@ public class ClientByStaff implements ApiMarker {
   /**
    * Constructor with 7+ params.
    */
-  @SuppressWarnings("squid:S00107")
   public ClientByStaff(String identifier, String firstName,
     String middleName, String lastName, String nameSuffix,
     String sensitivityType, LocalDate birthDate, LocalDate casePlanReviewDueDate) {
