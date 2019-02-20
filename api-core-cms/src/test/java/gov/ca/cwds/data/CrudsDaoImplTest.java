@@ -14,6 +14,7 @@ import java.util.ArrayList;
 
 import javax.persistence.EntityNotFoundException;
 
+import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
@@ -97,5 +98,15 @@ public class CrudsDaoImplTest {
     TestPersistentObject expected = new TestPersistentObject("abc123");
     assertThat(actual, is(equalTo(expected)));
   }
+
+  @Test(expected = HibernateException.class)
+  public void update_Args__Object_HibernateException() throws Exception {
+    when(sessionFactory.getCurrentSession()).thenThrow(new HibernateException("No CurrentSessionContext configured!"));
+    TestPersistentObject object = new TestPersistentObject("abc123");
+    TestPersistentObject actual = target.update(object);
+    TestPersistentObject expected = new TestPersistentObject("abc123");
+    assertThat(actual, is(equalTo(expected)));
+  }
+
 
 }
