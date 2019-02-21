@@ -17,6 +17,7 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.hibernate.query.Query;
+import org.hibernate.resource.transaction.spi.TransactionStatus;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
@@ -73,6 +74,16 @@ public class BaseDaoImplTest {
     List<TestPersistentObject> actual = target.findAll();
     List<TestPersistentObject> expected = new ArrayList<>();
     assertThat(actual, is(equalTo(expected)));
+  }
+
+  @Test
+  public void foinTransactionTest() throws Exception {
+    when(txn.getStatus()).thenReturn(TransactionStatus.ACTIVE);
+    List<TestPersistentObject> actual = target.findAll();
+    List<TestPersistentObject> expected = new ArrayList<>();
+    assertThat(actual, is(equalTo(expected)));
+
+
   }
 
 }
