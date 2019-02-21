@@ -77,11 +77,4 @@ public class BaseDaoImplTest {
     assertThat(actual, is(equalTo(expected)));
   }
 
-  @Test
-  public void joinTransactionTest() {
-    when(txn.getStatus()).thenReturn(TransactionStatus.ACTIVE);
-    when(session.getTransaction()).thenReturn(txn);
-    assertNotNull(target.joinTransaction(session));
-  }
-
 }
