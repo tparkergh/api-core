@@ -65,6 +65,7 @@ public class CrudsDaoImpl<T extends PersistentObject> extends AbstractDAO<T>
    * @return active or new transaction
    */
   public Transaction joinTransaction(Session session) {
+
     TransactionStatus[] transactionStatuses = {
       TransactionStatus.COMMITTING,
       TransactionStatus.COMMITTED,
