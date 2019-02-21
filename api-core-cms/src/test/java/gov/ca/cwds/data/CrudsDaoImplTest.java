@@ -117,4 +117,11 @@ public class CrudsDaoImplTest {
     assertNotNull(target.joinTransaction(session));
   }
 
+  @Test
+  public void joinTransactionOldTest() {
+    when(txn.getStatus()).thenReturn(TransactionStatus.COMMITTING);
+    when(session.getTransaction()).thenReturn(txn);
+    assertNotNull(target.joinTransaction(session));
+  }
+
 }
