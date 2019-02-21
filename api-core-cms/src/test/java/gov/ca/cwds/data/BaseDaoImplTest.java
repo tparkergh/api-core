@@ -3,6 +3,7 @@ package gov.ca.cwds.data;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.notNullValue;
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertThat;
 import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.mock;
@@ -77,13 +78,10 @@ public class BaseDaoImplTest {
   }
 
   @Test
-  public void foinTransactionTest() throws Exception {
+  public void joinTransactionTest() {
     when(txn.getStatus()).thenReturn(TransactionStatus.ACTIVE);
-    List<TestPersistentObject> actual = target.findAll();
-    List<TestPersistentObject> expected = new ArrayList<>();
-    assertThat(actual, is(equalTo(expected)));
-
-
+    when(session.getTransaction()).thenReturn(txn);
+    assertNotNull(target.joinTransaction(session));
   }
 
 }
