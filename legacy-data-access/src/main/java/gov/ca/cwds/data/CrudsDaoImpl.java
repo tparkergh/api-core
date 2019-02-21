@@ -2,7 +2,6 @@ package gov.ca.cwds.data;
 
 import java.io.Serializable;
 import java.text.MessageFormat;
-import java.util.Arrays;
 
 import javax.persistence.EntityExistsException;
 import javax.persistence.EntityNotFoundException;
@@ -53,7 +52,6 @@ public class CrudsDaoImpl<T extends PersistentObject> extends AbstractDAO<T>
       session = sessionFactory.getCurrentSession();
     } catch (HibernateException e) {
       session = sessionFactory.openSession();
-      LOGGER.info("Current session is unavailable, opening a new session", e);
     }
 
     return session;
@@ -66,20 +64,15 @@ public class CrudsDaoImpl<T extends PersistentObject> extends AbstractDAO<T>
    * @return active or new transaction
    */
   public Transaction joinTransaction(Session session) {
-    TransactionStatus[] transactionStatuses = {
-      TransactionStatus.COMMITTING,
-      TransactionStatus.COMMITTED,
-      TransactionStatus.FAILED_COMMIT,
-      TransactionStatus.MARKED_ROLLBACK,
-      TransactionStatus.ROLLED_BACK,
-      TransactionStatus.ROLLING_BACK
-    };
-
     Transaction txn = session.getTransaction();
     txn = txn != null ? txn : session.beginTransaction();
 
-    if (!txn.getRollbackOnly() && !txn.isActive()
-      && !Arrays.asList(transactionStatuses).contains(txn.getStatus())) {
+    if (!txn.getRollbackOnly() && !txn.isActive() && txn.getStatus() != TransactionStatus.COMMITTING
+      && txn.getStatus() != TransactionStatus.COMMITTED
+      && txn.getStatus() != TransactionStatus.FAILED_COMMIT
+      && txn.getStatus() != TransactionStatus.MARKED_ROLLBACK
+      && txn.getStatus() != TransactionStatus.ROLLED_BACK
+      && txn.getStatus() != TransactionStatus.ROLLING_BACK) {
       LOGGER.debug("Begin **NEW** transaction");
       txn.begin();
       CaresStackUtils.logStack();
