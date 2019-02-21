@@ -56,8 +56,16 @@ public class CrudDaoImplTest extends BaseCwsCmsInMemoryPersistenceTest {
   }
 
   @Test
-  public void joinTransactionOldTest() {
+  public void joinTransactionCommitingTest() {
     when(txn.getStatus()).thenReturn(TransactionStatus.COMMITTING);
+    when(session.getTransaction()).thenReturn(txn);
+    assertNotNull(target.joinTransaction(session));
+  }
+
+  @Test
+  public void joinTransactionRollbackTest() {
+    when(txn.getStatus()).thenReturn(TransactionStatus.ACTIVE);
+    when(txn.getRollbackOnly()).thenReturn(true);
     when(session.getTransaction()).thenReturn(txn);
     assertNotNull(target.joinTransaction(session));
   }
