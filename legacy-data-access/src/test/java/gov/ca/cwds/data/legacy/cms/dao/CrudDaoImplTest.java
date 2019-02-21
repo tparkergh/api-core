@@ -2,6 +2,7 @@ package gov.ca.cwds.data.legacy.cms.dao;
 
 import gov.ca.cwds.data.CrudsDaoImpl;
 import gov.ca.cwds.data.legacy.cms.entity.Client;
+import gov.ca.cwds.data.legacy.cms.persistence.BaseCwsCmsInMemoryPersistenceTest;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
@@ -18,7 +19,7 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-public class CrudDaoImplTest {
+public class CrudDaoImplTest extends BaseCwsCmsInMemoryPersistenceTest {
 
   private SessionFactory sessionFactory;
   private Session session;
