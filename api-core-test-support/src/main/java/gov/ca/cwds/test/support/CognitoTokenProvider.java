@@ -56,7 +56,7 @@ public class CognitoTokenProvider implements TokenProvider<CognitoLoginAuthParam
       WebDriverWait wait = new WebDriverWait(driver, 15);
       String tokenUrl = loginAndGetTokenUrl(driver, wait, loginParams);
       service.stop();
-      LOG.info("Successful in getting Token URL " + tokenUrl);
+      LOG.info("Successful in getting Token URL");
       return tokenUrl.substring(tokenUrl.indexOf("token=") + 6, tokenUrl.length());
     } catch (Exception e) {
       LOG.info("Error in extracting Token", e);
@@ -65,7 +65,7 @@ public class CognitoTokenProvider implements TokenProvider<CognitoLoginAuthParam
     }
   }
 
-
+  @SuppressWarnings("all")
   private String loginAndGetTokenUrl(WebDriver driver, WebDriverWait wait,
       CognitoLoginAuthParams loginParams) {
     driver.get(loginParams.getUrl() + "swagger");
@@ -73,8 +73,8 @@ public class CognitoTokenProvider implements TokenProvider<CognitoLoginAuthParam
         .visibilityOfElementLocated(By.xpath("//input[@type='submit' and @value='LOGIN']")));
     driver.findElement(By.xpath("//input[@type='submit' and @value='LOGIN']")).click();
     wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("email")));
-    driver.findElement(By.id("email")).sendKeys(loginParams.getUser());// NOSONAR
-    driver.findElement(By.id("password")).sendKeys(loginParams.getPassword());// NOSONAR
+    driver.findElement(By.id("email")).sendKeys(loginParams.getUser());
+    driver.findElement(By.id("password")).sendKeys(loginParams.getPassword());
     wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("submit")));
     driver.findElement(By.id("submit")).click();
     wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("code")));
