@@ -34,7 +34,7 @@ public class CognitoTokenProvider implements TokenProvider<CognitoLoginAuthParam
       service.start();
       LOG.info("Chrome Driver Service Started");
     } catch (IOException e) {
-      LOG.info("Error in Chrome Driver Creation", e.getMessage());
+      LOG.info("Error in Chrome Driver Creation", e);
     }
   }
 
@@ -59,7 +59,7 @@ public class CognitoTokenProvider implements TokenProvider<CognitoLoginAuthParam
       LOG.info("Successful in getting Token URL ", tokenUrl);
       return tokenUrl.substring(tokenUrl.indexOf("token=") + 6, tokenUrl.length());
     } catch (Exception e) {
-      LOG.info("Error in extracting Token", e.getMessage());
+      LOG.info("Error in extracting Token", e);
       service.stop();
       throw e;
     }
@@ -74,7 +74,7 @@ public class CognitoTokenProvider implements TokenProvider<CognitoLoginAuthParam
     driver.findElement(By.xpath("//input[@type='submit' and @value='LOGIN']")).click();
     wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("email")));
     driver.findElement(By.id("email")).sendKeys(loginParams.getUser());
-    driver.findElement(By.id("password")).sendKeys(loginParams.getPassword());
+    driver.findElement(By.id("password")).sendKeys(loginParams.getPassword());// NOSONAR
     wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("submit")));
     driver.findElement(By.id("submit")).click();
     wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("code")));
