@@ -23,6 +23,7 @@ project.ext {
     compile group: 'com.h2database', name: 'h2', version: h2Version
 
     compile group: 'gov.ca.cwds.api', name:'api-security', version: apiSecurityVersion
+    compile group: 'org.seleniumhq.selenium', name: 'selenium-java', version: '2.53.1'
 
     testCompile project(':api-core-rest')
 
