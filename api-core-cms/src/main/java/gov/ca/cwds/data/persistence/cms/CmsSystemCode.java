@@ -17,6 +17,7 @@ import gov.ca.cwds.rest.services.ServiceException;
  * 
  * @author CWDS API Team
  */
+@SuppressWarnings("squid:S00107")
 public class CmsSystemCode implements ApiMarker {
 
   private static final long serialVersionUID = 1L;

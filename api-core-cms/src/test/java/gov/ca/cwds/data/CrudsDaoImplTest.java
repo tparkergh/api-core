@@ -3,6 +3,7 @@ package gov.ca.cwds.data;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.notNullValue;
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertThat;
 import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.mock;
@@ -14,10 +15,12 @@ import java.util.ArrayList;
 
 import javax.persistence.EntityNotFoundException;
 
+import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.hibernate.query.Query;
+import org.hibernate.resource.transaction.spi.TransactionStatus;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -96,6 +99,29 @@ public class CrudsDaoImplTest {
     TestPersistentObject actual = target.update(object);
     TestPersistentObject expected = new TestPersistentObject("abc123");
     assertThat(actual, is(equalTo(expected)));
+  }
+
+  @Test(expected = HibernateException.class)
+  public void update_Args__Object_HibernateException() throws Exception {
+    when(sessionFactory.getCurrentSession()).thenThrow(HibernateException.class);
+    TestPersistentObject object = new TestPersistentObject("abc123");
+    TestPersistentObject actual = target.update(object);
+    TestPersistentObject expected = new TestPersistentObject("abc123");
+    assertThat(actual, is(equalTo(expected)));
+  }
+
+  @Test
+  public void joinTransactionTest() {
+    when(txn.getStatus()).thenReturn(TransactionStatus.ACTIVE);
+    when(session.getTransaction()).thenReturn(txn);
+    assertNotNull(target.joinTransaction(session));
+  }
+
+  @Test
+  public void joinTransactionOldTest() {
+    when(txn.getStatus()).thenReturn(TransactionStatus.COMMITTING);
+    when(session.getTransaction()).thenReturn(txn);
+    assertNotNull(target.joinTransaction(session));
   }
 
 }

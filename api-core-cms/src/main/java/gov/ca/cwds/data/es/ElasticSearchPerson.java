@@ -19,6 +19,7 @@ import java.util.stream.Collectors;
 
 import javax.persistence.Transient;
 
+import net.sf.ehcache.util.FindBugsSuppressWarnings;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
@@ -46,6 +47,7 @@ import gov.ca.cwds.rest.services.ServiceException;
  * 
  * @author CWDS API Team
  */
+@FindBugsSuppressWarnings("SE_TRANSIENT_FIELD_NOT_RESTORED")
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class ElasticSearchPerson implements ApiTypedIdentifier<String> {
 
@@ -321,6 +323,9 @@ public class ElasticSearchPerson implements ApiTypedIdentifier<String> {
   @JsonProperty("sensitivity_indicator")
   private transient String sensitivityIndicator = DEFAULT_SENSITIVITY_INDICATOR;
 
+  /**
+   * @deprecated use client_souties
+   */
   @Deprecated
   @JsonProperty("client_county")
   private ElasticSearchSystemCode clientCounty;
@@ -456,6 +461,7 @@ public class ElasticSearchPerson implements ApiTypedIdentifier<String> {
    * @param languages languages
    * @param screenings screenings
    */
+  @SuppressWarnings("squid:S00107")
   public ElasticSearchPerson(String id, String firstName, String lastName, String middleName,
       String nameSuffix, String gender, String birthDate, String ssn, String sourceType,
       String sourceJson, String highlight, List<ElasticSearchPersonAddress> addresses,

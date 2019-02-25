@@ -6,6 +6,7 @@ import gov.ca.cwds.data.legacy.cms.dao.ClientOtherEthnicitiesTest;
 import gov.ca.cwds.data.legacy.cms.dao.ClientRelationshipDaoTest;
 import gov.ca.cwds.data.legacy.cms.dao.ClientServiceProviderDaoTest;
 import gov.ca.cwds.data.legacy.cms.dao.CreditReportHistoryDaoTest;
+import gov.ca.cwds.data.legacy.cms.dao.CrudDaoImplTest;
 import gov.ca.cwds.data.legacy.cms.dao.CsecHistoryDaoTest;
 import gov.ca.cwds.data.legacy.cms.dao.DasHistoryDaoTest;
 import gov.ca.cwds.data.legacy.cms.dao.DeliveredServiceDaoTest;
@@ -53,6 +54,7 @@ import org.powermock.modules.junit4.PowerMockRunnerDelegate;
     ClientRelationshipDaoTest.class,
     ClientServiceProviderDaoTest.class,
     CreditReportHistoryDaoTest.class,
+    CrudDaoImplTest.class,
     CsecHistoryDaoTest.class,
     DasHistoryDaoTest.class,
     DeliveredServiceDaoTest.class,

@@ -77,6 +77,7 @@ public abstract class BaseClientRelationship extends CmsPersistentObject {
    * @param sameHomeCode indicates whether the two CLIENTs live in the same home (Y)
    * @param startDate date the relationship began
    */
+  @SuppressWarnings("squid:S00107")
   public BaseClientRelationship(String absentParentCode, Short clientRelationshipType, Date endDate,
       String secondaryClientId, String primaryClientId, String id, String sameHomeCode,
       Date startDate) {

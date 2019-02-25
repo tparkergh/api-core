@@ -102,7 +102,8 @@ public class BaseAddressTest {
   @Test
   public void setMessageNumber_Args__BigDecimal() throws Exception {
     BaseAddress target = new TestOnlyBaseAddress();
-    assertNull(target.getMessageNumber());
+    Long messageNumber = null;
+    target.setMessageNumber(messageNumber);
   }
 
   @Test
@@ -146,7 +147,8 @@ public class BaseAddressTest {
   @Test
   public void setPrimaryNumber_Args__BigDecimal() throws Exception {
     BaseAddress target = new TestOnlyBaseAddress();
-    assertNull(target.getPrimaryNumber());
+    Long primaryNumber = null;
+    target.setPrimaryNumber(primaryNumber);
   }
 
   @Test

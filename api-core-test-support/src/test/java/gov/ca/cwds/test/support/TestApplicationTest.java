@@ -9,7 +9,6 @@ import javax.ws.rs.core.Response;
 
 import org.junit.BeforeClass;
 import org.junit.ClassRule;
-import org.junit.Ignore;
 import org.junit.Test;
 
 import gov.ca.cwds.DataSourceName;
@@ -44,14 +43,12 @@ public class TestApplicationTest extends BaseApiTest<TestConfiguration> {
   }
 
   @Test
-  @Ignore
   public void defaultPrincipalTest() throws IOException {
     assertEquals("Ok",
         clientTestRule.target("test").request(MediaType.APPLICATION_JSON).get(String.class));
   }
 
   @Test
-  @Ignore
   public void customPrincipalTest() throws IOException {
     final Response response =
         clientTestRule.withSecurityToken("perry-account/custom-perry-account.json")

@@ -53,7 +53,6 @@ public class CrudsDaoImpl<T extends PersistentObject> extends AbstractDAO<T>
       session = sessionFactory.getCurrentSession();
     } catch (HibernateException e) {
       session = sessionFactory.openSession();
-      LOGGER.info("Current session is unavailable, opening a new session", e);
     }
 
     return session;
@@ -66,6 +65,7 @@ public class CrudsDaoImpl<T extends PersistentObject> extends AbstractDAO<T>
    * @return active or new transaction
    */
   public Transaction joinTransaction(Session session) {
+
     TransactionStatus[] transactionStatuses = {
       TransactionStatus.COMMITTING,
       TransactionStatus.COMMITTED,

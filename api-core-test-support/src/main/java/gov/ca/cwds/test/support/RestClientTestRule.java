@@ -52,15 +52,11 @@ public class RestClientTestRule<T extends Configuration> implements TestRule {
 
     @Override
     @SuppressFBWarnings("WEAK_TRUST_MANAGER") //Used only for testing purposes
-    public void checkClientTrusted(X509Certificate[] certs, String authType) {
-      //Do nothing. Used only for testing purposes
-    }
+    public void checkClientTrusted(X509Certificate[] certs, String authType) {}
 
     @Override
     @SuppressFBWarnings("WEAK_TRUST_MANAGER") //Used only for testing purposes
-    public void checkServerTrusted(X509Certificate[] certs, String authType) {
-      //Do nothing. Used only for testing purposes
-    }
+    public void checkServerTrusted(X509Certificate[] certs, String authType) {}
   }};
 
   private Client client;

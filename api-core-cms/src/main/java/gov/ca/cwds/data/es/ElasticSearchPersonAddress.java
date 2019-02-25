@@ -52,10 +52,6 @@ public class ElasticSearchPersonAddress extends ApiObjectIdentity
   @JsonProperty("state_name")
   private String stateName;
 
-  // Bug #141508231: county not in Intake API swagger.yml. Intake JSON parsing error.
-  // @JsonInclude(JsonInclude.Include.NON_EMPTY)
-  // private String county;
-
   @JsonInclude(JsonInclude.Include.NON_EMPTY)
   @JsonProperty("county")
   private ElasticSearchSystemCode county;

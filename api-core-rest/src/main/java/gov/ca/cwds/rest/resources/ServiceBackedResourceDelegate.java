@@ -2,8 +2,6 @@ package gov.ca.cwds.rest.resources;
 
 import java.io.Serializable;
 import java.lang.annotation.Annotation;
-import java.util.HashSet;
-import java.util.Set;
 
 import javax.persistence.EntityNotFoundException;
 import javax.ws.rs.core.Response;
@@ -16,8 +14,6 @@ import com.google.common.collect.ImmutableMap;
 import com.google.inject.Inject;
 
 import gov.ca.cwds.rest.api.Request;
-import gov.ca.cwds.rest.api.domain.error.ErrorMessage;
-import gov.ca.cwds.rest.api.domain.error.ErrorMessage.ErrorType;
 import gov.ca.cwds.rest.services.CrudsService;
 import gov.ca.cwds.rest.services.ServiceException;
 
@@ -95,22 +91,6 @@ public final class ServiceBackedResourceDelegate implements ResourceDelegate {
       responseStatus = Response.Status.CREATED;
     }
     return Response.status(responseStatus).entity(entity).build();
-  }
-
-  @Deprecated
-  private Set<ErrorMessage> buildErrorMessages(ServiceException e, ErrorType errorType) {
-    Set<ErrorMessage> errorMessages = new HashSet<>();
-    String[] messages = e.getMessage().split("&&");
-    if (messages.length > 1) {
-      for (int i = 0; i < messages.length; i++) {
-        ErrorMessage message = new ErrorMessage(errorType, messages[i], "");
-        errorMessages.add(message);
-      }
-    } else {
-      ErrorMessage message = new ErrorMessage(errorType, messages[0], "");
-      errorMessages.add(message);
-    }
-    return errorMessages;
   }
 
   /**

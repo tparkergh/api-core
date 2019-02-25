@@ -7,6 +7,10 @@ import java.time.LocalDateTime;
 
 public class H2Function {
 
+  private H2Function() {
+    //Private constructor. Do nothing.
+  }
+
   public static void createTimestampAlias(final Connection connection) throws SQLException {
     try (Statement statement = connection.createStatement()) {
       statement.execute("CREATE ALIAS TIMESTAMP "

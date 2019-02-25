@@ -12,6 +12,7 @@ class YamlIniWebEnvironment extends IniWebEnvironment {
     this.yamlShiroConfiguration = yamlShiroConfiguration;
   }
 
+  @Override
   protected void configure() {
     applyYamlPatch(getIni());
     super.configure();

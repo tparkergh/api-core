@@ -3,8 +3,11 @@ package gov.ca.cwds.data.cms;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.notNullValue;
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertThat;
 
+import org.hibernate.Session;
+import org.hibernate.Transaction;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -44,6 +47,13 @@ public class SystemCodeDaoTest extends OscarTheGrouch<SystemCode> {
     final SystemCode actual = target.findBySystemCodeId(1234);
     final SystemCode expected = null;
     assertThat(actual, is(equalTo(expected)));
+  }
+
+  @Test
+  public void checkTransaction() throws Exception {
+    final Session session = target.grabSession();
+    Transaction actual = target.joinTransaction(session);
+    assertNotNull(actual);
   }
 
 }
