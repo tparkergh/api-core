@@ -34,6 +34,7 @@ public final class StaffPrivilegeUtil {
    * @param perryAccount PerryAccount
    * @return set of StaffPrivilegeType
    */
+  @SuppressWarnings("squid:S135")
   public static Set<StaffPrivilegeType> toStaffPersonPrivilegeTypes(
       final PerryAccount perryAccount) {
     final Set<String> privileges = perryAccount.getPrivileges();

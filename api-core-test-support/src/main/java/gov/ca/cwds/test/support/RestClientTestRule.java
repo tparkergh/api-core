@@ -14,6 +14,7 @@ import javax.net.ssl.X509TrustManager;
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.WebTarget;
 
+import gov.ca.cwds.rest.services.ServiceException;
 import org.apache.commons.lang3.StringUtils;
 import org.glassfish.jersey.client.ClientProperties;
 import org.glassfish.jersey.client.JerseyClientBuilder;
@@ -47,7 +48,7 @@ public class RestClientTestRule<T extends Configuration> implements TestRule {
     @Override
     @SuppressFBWarnings("WEAK_TRUST_MANAGER") //Used only for testing purposes
     public X509Certificate[] getAcceptedIssuers() {
-      return null;
+      return new X509Certificate[0];
     }
 
     @Override
@@ -74,7 +75,7 @@ public class RestClientTestRule<T extends Configuration> implements TestRule {
       return generateToken(DEFAULT_IDENTITY_JSON);
     } catch (Exception e) {
       LOG.error("Cannot generate token", e);
-      throw new RuntimeException(e);
+      throw new ServiceException(e);
     }
   }
 

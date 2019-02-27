@@ -4,6 +4,8 @@ import com.google.inject.Inject;
 import gov.ca.cwds.authorizer.drools.DroolsAuthorizationService;
 import gov.ca.cwds.authorizer.drools.configuration.SubstituteCareProviderAuthorizationDroolsConfiguration;
 import gov.ca.cwds.data.legacy.cms.entity.SubstituteCareProvider;
+
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -21,6 +23,6 @@ public class SubstituteCareProviderCreateAuthorizer extends
 
   @Override
   protected List<Object> prepareFacts(SubstituteCareProvider instance) {
-    return null;
+    return new ArrayList<>();
   }
 }
