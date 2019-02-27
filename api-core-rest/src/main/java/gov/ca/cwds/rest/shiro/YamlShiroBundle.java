@@ -11,6 +11,7 @@ import org.apache.shiro.web.servlet.AbstractShiroFilter;
 import org.secnod.dropwizard.shiro.ShiroBundle;
 import org.secnod.dropwizard.shiro.ShiroConfiguration;
 
+@SuppressWarnings("squid:MaximumInheritanceDepth")
 public class YamlShiroBundle<T extends MinimalApiConfiguration> extends ShiroBundle<T> {
 
   @Override

@@ -33,7 +33,6 @@ import gov.ca.cwds.data.legacy.cms.dao.EmergencyContactDetailDao;
 import gov.ca.cwds.data.legacy.cms.dao.ExternalInterfaceDao;
 import gov.ca.cwds.data.legacy.cms.dao.OtherAdultsInPlacementHomeDao;
 import gov.ca.cwds.data.legacy.cms.dao.OtherChildrenInPlacementHomeDao;
-import gov.ca.cwds.data.legacy.cms.dao.OtherPeopleScpRelationshipDao;
 import gov.ca.cwds.data.legacy.cms.dao.OutOfStateCheckDao;
 import gov.ca.cwds.data.legacy.cms.dao.PlacementFacilityTypeHistoryDao;
 import gov.ca.cwds.data.legacy.cms.dao.PlacementHomeDao;
@@ -48,7 +47,6 @@ import gov.ca.cwds.data.legacy.cms.entity.EmergencyContactDetail;
 import gov.ca.cwds.data.legacy.cms.entity.ExternalInterface;
 import gov.ca.cwds.data.legacy.cms.entity.OtherAdultsInPlacementHome;
 import gov.ca.cwds.data.legacy.cms.entity.OtherChildrenInPlacementHome;
-import gov.ca.cwds.data.legacy.cms.entity.OtherPeopleScpRelationship;
 import gov.ca.cwds.data.legacy.cms.entity.OutOfStateCheck;
 import gov.ca.cwds.data.legacy.cms.entity.PlacementFacilityTypeHistory;
 import gov.ca.cwds.data.legacy.cms.entity.PlacementHome;
@@ -104,8 +102,6 @@ public class PlacementHomeCoreService
 
   private OtherChildrenInPlacementHomeDao otherChildrenInPlacementHomeDao;
 
-  private OtherPeopleScpRelationshipDao otherPeopleScpRelationshipDao;
-
   private OtherAdultsInPlacementHomeDao otherAdultsInPlacementHomeDao;
 
   private OutOfStateCheckDao outOfStateCheckDao;
@@ -128,7 +124,6 @@ public class PlacementHomeCoreService
     placementHomeProfileDao = xaDaoFacade.getDao(PlacementHomeProfileDao.class);
     placementFacilityTypeHistoryDao = xaDaoFacade.getDao(PlacementFacilityTypeHistoryDao.class);
     otherChildrenInPlacementHomeDao = xaDaoFacade.getDao(OtherChildrenInPlacementHomeDao.class);
-    otherPeopleScpRelationshipDao = xaDaoFacade.getDao(OtherPeopleScpRelationshipDao.class);
     otherAdultsInPlacementHomeDao = xaDaoFacade.getDao(OtherAdultsInPlacementHomeDao.class);
     outOfStateCheckDao = xaDaoFacade.getDao(OutOfStateCheckDao.class);
     backgroundCheckDao = xaDaoFacade.getDao(BackgroundCheckDao.class);

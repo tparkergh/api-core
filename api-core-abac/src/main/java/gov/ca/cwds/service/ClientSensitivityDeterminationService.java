@@ -3,6 +3,9 @@ package gov.ca.cwds.service;
 import com.google.inject.Inject;
 import gov.ca.cwds.data.dao.cms.SensitivityDeterminationDao;
 import gov.ca.cwds.data.legacy.cms.entity.enums.Sensitivity;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
@@ -14,6 +17,8 @@ import javax.persistence.NoResultException;
  * @author CWDS API Team
  */
 public class ClientSensitivityDeterminationService {
+
+  private static final Logger LOGGER = LoggerFactory.getLogger(ClientSensitivityDeterminationService.class);
 
   private SensitivityDeterminationDao sensitivityDeterminationDao;
 
@@ -33,6 +38,7 @@ public class ClientSensitivityDeterminationService {
     try {
       return sensitivityDeterminationDao.getSensitivity(clientId);
     } catch (NoResultException e) {
+      LOGGER.debug(e.getMessage(), e);
       return null;
     }
   }
@@ -47,6 +53,7 @@ public class ClientSensitivityDeterminationService {
     try {
       return sensitivityDeterminationDao.getSensitivityMap(clientIds);
     } catch (NoResultException e) {
+      LOGGER.debug(e.getMessage(), e);
       return new HashMap<>();
     }
   }

@@ -53,6 +53,7 @@ public class CrudsDaoImpl<T extends PersistentObject> extends AbstractDAO<T>
       session = sessionFactory.getCurrentSession();
     } catch (HibernateException e) {
       session = sessionFactory.openSession();
+      LOGGER.debug(e.getMessage(), e);
     }
 
     return session;

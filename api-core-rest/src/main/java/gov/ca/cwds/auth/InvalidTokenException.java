@@ -1,6 +1,6 @@
 package gov.ca.cwds.auth;
 
-@SuppressWarnings({"serial", "squid:MaximumInheritanceDepth"})
+@SuppressWarnings({"squid:MaximumInheritanceDepth", "serial"})
 public class InvalidTokenException extends ApiAuthenticationException {
 
   /**

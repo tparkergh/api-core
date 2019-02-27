@@ -18,6 +18,7 @@ import javax.persistence.SynchronizationType;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.metamodel.EntityType;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import org.hibernate.Cache;
 import org.hibernate.HibernateException;
 import org.hibernate.Metamodel;
@@ -49,6 +50,7 @@ import org.slf4j.LoggerFactory;
  * @author CWDS API Team
  * @see AutocloseSessionFactory
  */
+@SuppressFBWarnings("SE_TRANSIENT_FIELD_NOT_RESTORED")
 public class SharedSessionFactory implements SessionFactory {
 
   private static final long serialVersionUID = 1L;

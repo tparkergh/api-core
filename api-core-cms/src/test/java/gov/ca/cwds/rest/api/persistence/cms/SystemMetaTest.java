@@ -46,10 +46,8 @@ public class SystemMetaTest implements PersistentTestTemplate {
   }
 
   @Override
-  @Test
-  @Ignore
   public void testEqualsHashCodeWorks() {
-    EqualsVerifier.forClass(SystemMeta.class).suppress(Warning.NONFINAL_FIELDS).verify();
+    // Not Implemented
   }
 
 }

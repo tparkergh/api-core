@@ -19,6 +19,7 @@ public class TestPrincipalUtils {
     SecurityUtils.setSecurityManager(securityManager(account));
   }
 
+  @SuppressWarnings("squid:MaximumInheritanceDepth")
   private static DefaultSecurityManager securityManager(PerryAccount account) {
     return new DefaultSecurityManager() {
       @Override
