@@ -6,9 +6,6 @@ import javax.persistence.Embeddable;
 import javax.persistence.EmbeddedId;
 import javax.persistence.IdClass;
 
-import org.apache.commons.lang3.builder.EqualsBuilder;
-import org.apache.commons.lang3.builder.HashCodeBuilder;
-
 import gov.ca.cwds.data.persistence.cms.VarargPrimaryKey;
 
 /**
@@ -102,12 +99,9 @@ import gov.ca.cwds.data.persistence.cms.VarargPrimaryKey;
  * @see VarargPrimaryKey
  */
 @Embeddable
-public class EmbeddableCompositeKey2 implements Serializable {
+public class EmbeddableCompositeKey2 extends CompositeKey implements Serializable {
 
   private static final long serialVersionUID = 1L;
-
-  private String id1 = "";
-  private String id2 = "";
 
   /**
    * Default constructor.
@@ -123,67 +117,7 @@ public class EmbeddableCompositeKey2 implements Serializable {
    * @param id2 generic id 2
    */
   public EmbeddableCompositeKey2(String id1, String id2) {
-    this.id1 = id1;
-    this.id2 = id2;
-  }
-
-  /**
-   * {@inheritDoc}
-   * 
-   * @see java.lang.Object#toString()
-   */
-  @Override
-  public String toString() {
-    return "embed_key2__{" + id1.trim() + "_" + id2.trim() + "}";
-  }
-
-  /**
-   * {@inheritDoc}
-   * 
-   * @see java.lang.Object#hashCode()
-   */
-  @Override
-  public final int hashCode() {
-    return HashCodeBuilder.reflectionHashCode(this, false);
-  }
-
-  /**
-   * {@inheritDoc}
-   * 
-   * @see java.lang.Object#equals(java.lang.Object)
-   */
-  @Override
-  public final boolean equals(Object obj) {
-    // Reduce cognitive complexity and improve accuracy for a slight performance hit.
-    return EqualsBuilder.reflectionEquals(this, obj, false);
-  }
-
-  /**
-   * @return arbitrary id column, {@link #id1}.
-   */
-  public String getId1() {
-    return id1;
-  }
-
-  /**
-   * @param id1 arbitrary id column, {@link #id1}.
-   */
-  public void setId1(String id1) {
-    this.id1 = id1;
-  }
-
-  /**
-   * @return arbitrary id column, {@link #id2}.
-   */
-  public String getId2() {
-    return id2;
-  }
-
-  /**
-   * @param id2 arbitrary id column, {@link #id2}.
-   */
-  public void setId2(String id2) {
-    this.id2 = id2;
+    super(id1, id2);
   }
 
 }
