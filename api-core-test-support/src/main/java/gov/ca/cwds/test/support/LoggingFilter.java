@@ -68,7 +68,7 @@ public class LoggingFilter implements ClientRequestFilter, ClientResponseFilter 
             new ByteArrayInputStream(baos.toString().getBytes(StandardCharsets.UTF_8));
         clientResponseContext.setEntityStream(restoredStream);
       } catch (IOException e) {
-        // nothing to do
+        LOG.debug(e.getMessage(), e);
       }
       return baos.toString();
     }

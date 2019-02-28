@@ -9,8 +9,6 @@ import gov.ca.cwds.cms.data.access.service.impl.IdGenerator;
 import gov.ca.cwds.cms.data.access.service.lifecycle.DataAccessBundle;
 import gov.ca.cwds.data.legacy.cms.dao.TribalMembershipVerificationDao;
 import gov.ca.cwds.data.legacy.cms.entity.TribalMembershipVerification;
-import gov.ca.cwds.security.utils.PrincipalUtils;
-import java.time.LocalDateTime;
 
 /**
  * Life Cycle for create Tribal membership verification.
@@ -40,17 +38,6 @@ public class CreateLifeCycle extends CreateUpdateLifeCycle {
 
     awareDto.getEntity().setThirdId(IdGenerator.generateId());
 
-    TribalMembershipVerification childTribal = new TribalMembershipVerification();
-    childTribal.setFkFromTribalMembershipVerification(awareDto.getEntity().getThirdId());
-    childTribal.setFkSentToTribalOrganization(awareDto.getEntity().getFkSentToTribalOrganization());
-    childTribal.setIndianEnrollmentStatus(awareDto.getEntity().getIndianEnrollmentStatus());
-    childTribal.setIndianTribeType(awareDto.getEntity().getIndianTribeType());
-    childTribal.setStatusDate(awareDto.getEntity().getStatusDate());
-    childTribal.setThirdId(IdGenerator.generateId());
-    childTribal.setClientId(awareDto.getChildId());
-    childTribal.setLastUpdateTime(LocalDateTime.now());
-    childTribal.setLastUpdateId(PrincipalUtils.getStaffPersonId());
-
-    awareDto.setChildTribalForDuplicate(childTribal);
+    buildChildTribalForDuplicate(awareDto);
   }
 }

@@ -4,6 +4,8 @@ import com.google.inject.Inject;
 import gov.ca.cwds.authorizer.drools.DroolsAuthorizationService;
 import gov.ca.cwds.authorizer.drools.configuration.PlacementHomeReadAuthDroolsConfig;
 import gov.ca.cwds.data.legacy.cms.entity.PlacementHome;
+
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -25,6 +27,6 @@ public class PlacementHomeResultReadAuthorizer extends
 
   @Override
   protected List<Object> prepareFacts(PlacementHome instance) {
-    return null;
+    return new ArrayList<>();
   }
 }

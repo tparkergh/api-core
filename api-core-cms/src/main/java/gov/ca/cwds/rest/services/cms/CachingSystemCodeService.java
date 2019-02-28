@@ -7,6 +7,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -35,6 +36,7 @@ import gov.ca.cwds.rest.validation.SystemCodeIdLovLValidation;
  * 
  * @author CWDS API Team
  */
+@SuppressFBWarnings("SE_TRANSIENT_FIELD_NOT_RESTORED")
 public class CachingSystemCodeService extends SystemCodeService implements SystemCodeCache {
 
   private static final long serialVersionUID = 1468150983558929580L;

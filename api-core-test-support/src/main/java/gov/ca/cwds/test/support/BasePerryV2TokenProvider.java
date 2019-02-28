@@ -29,7 +29,6 @@ public abstract class BasePerryV2TokenProvider<T extends AuthParams> implements 
   private static final Logger LOG = LoggerFactory.getLogger(BasePerryV2TokenProvider.class);
 
   private static final String PATH_PERRY_AUTHN_LOGIN = "/perry/authn/login";
-  private static final String PATH_PERRY_AUTHN_VALIDATE = "/perry/authn/validate";
   private static final String PATH_PERRY_AUTHN_TOKEN = "/perry/authn/token";
   private static final String CALLBACK = "callback";
   private static final String ACCESS_CODE = "accessCode";
@@ -79,16 +78,6 @@ public abstract class BasePerryV2TokenProvider<T extends AuthParams> implements 
         .post(entity);
     LOG.info("PostLoginForm with result [{}]", response.getStatusInfo());
     return response.getCookies();
-  }
-
-  private boolean isTokenValid(String token) {
-    final Response response = client.target(perryUrl)
-        .path(PATH_PERRY_AUTHN_VALIDATE)
-        .queryParam(TOKEN_PARAM_NAME, token)
-        .property(ClientProperties.FOLLOW_REDIRECTS, Boolean.FALSE)
-        .request()
-        .get();
-    return response.getStatus() == 200;
   }
 
   private String getAccessCodeFromPerry(Map<String, NewCookie> cookies) {

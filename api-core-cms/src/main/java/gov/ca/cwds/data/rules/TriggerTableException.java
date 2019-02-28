@@ -12,7 +12,7 @@ import gov.ca.cwds.data.DaoException;
  * 
  * @author CWDS API Team
  */
-@SuppressWarnings("serial")
+@SuppressWarnings({"serial", "squid:MaximumInheritanceDepth"})
 public class TriggerTableException extends DaoException {
 
   /**

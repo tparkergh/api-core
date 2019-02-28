@@ -121,7 +121,6 @@ public final class CmsKeyIdGeneratorTest {
 
   // The Java key generator is making incorrect dates!!
   @Test
-  @Ignore
   public void testIsGeneratedDateRealistic() {
     final Calendar cal = Calendar.getInstance();
     cal.add(Calendar.DAY_OF_MONTH, 1);
@@ -196,50 +195,6 @@ public final class CmsKeyIdGeneratorTest {
   // ===================
   // DECOMPOSE KEY:
   // ===================
-  @Test
-  @Ignore
-  public void testDecomposeGoodKey() {
-    // Good key, decomposes correctly.
-    KeyDetail kd = new KeyDetail();
-    // CmsKeyIdGenerator.decomposeKey("1qxx0OC0X5", kd);
-    // assertTrue("Staff ID empty", kd.staffId != null && "0X5".equals(kd.staffId));
-  }
-
-  @Test
-  @Ignore
-  public void testDecomposeKeyLong() {
-    // Wrong staff id size: too long.
-    KeyDetail kd = new KeyDetail();
-    // CmsKeyIdGenerator.decomposeKey("wro000000000000ng", kd);
-    // assertTrue("Staff ID not empty", kd.staffId == null || "".equals(kd.staffId));
-  }
-
-  @Test
-  @Ignore
-  public void testDecomposeKeyShort() {
-    // Wrong staff id size: too short.
-    KeyDetail kd = new KeyDetail();
-    // CmsKeyIdGenerator.decomposeKey("w", kd);
-    // assertTrue("Staff ID not empty", kd.staffId == null || "".equals(kd.staffId));
-  }
-
-  @Test
-  @Ignore
-  public void testDecomposeKeyEmpty() {
-    // Empty staff id.
-    KeyDetail kd = new KeyDetail();
-    // CmsKeyIdGenerator.decomposeKey("", kd);
-    // assertTrue("Staff ID not empty", kd.staffId == null || "".equals(kd.staffId));
-  }
-
-  @Test
-  @Ignore
-  public void testDecomposeKeyNull() {
-    // Null staff id.
-    KeyDetail kd = new KeyDetail();
-    // CmsKeyIdGenerator.decomposeKey(null, kd);
-    // assertTrue("Staff ID not empty", kd.staffId == null || "".equals(kd.staffId));
-  }
 
   @Test
   public void type() throws Exception {
@@ -381,18 +336,17 @@ public final class CmsKeyIdGeneratorTest {
 
     long waitMillis = 300;
     LOGGER.info("\n\n****** Wait {}, verify that keys have NOT EXPIRED ... ******", waitMillis);
-    Thread.sleep(waitMillis);
+    Thread.sleep(waitMillis); // NOSONAR
     iterateExpiringMap(keepKey, lastKey, staffIds, now, false, false);
 
     waitMillis = 1800;
     LOGGER.info("\n\n****** Wait {}, verify that keys have EXPIRED ... ******", waitMillis);
     LOGGER.info("\n\n****** BEFORE iterating: lastKey.size(): {} ******", lastKey.size());
-    Thread.sleep(waitMillis);
+    Thread.sleep(waitMillis); // NOSONAR
     iterateExpiringMap(keepKey, lastKey, staffIds, now, false, true);
   }
 
   @Test
-  @Ignore
   public void generateBunchOfKeysFile() throws Exception {
     String sID;
     final Date start = new Date();

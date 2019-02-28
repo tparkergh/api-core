@@ -17,42 +17,42 @@ public class JWTTokenProvider implements TokenProvider<JsonIdentityAuthParams> {
   public String doGetToken(JsonIdentityAuthParams config) {
     JwtConfiguration configuration = null;
 
-    try {
-      configuration = getJwtConfiguration();
-    } catch (IOException e) {
-      throw new IllegalArgumentException(e);
-    }
-
+    configuration = getJwtConfiguration();
     JwtService jwtService = new JwtService(configuration);
     return jwtService.generate("id", "subject", config.getIdentityJson());
   }
 
   @SuppressFBWarnings("PATH_TRAVERSAL_IN") //Path cannot be controlled by the user
-  private JwtConfiguration getJwtConfiguration() throws IOException {
+  private JwtConfiguration getJwtConfiguration() {
     Properties properties = new Properties();
-    properties.load(new FileInputStream("config/shiro.ini"));
 
-    JwtConfiguration configuration = new JwtConfiguration();
-    //JWT
-    configuration.setTimeout(30);
-    configuration.setIssuer(properties.getProperty("perryRealm.tokenIssuer"));
-    configuration.setKeyStore(new JwtConfiguration.KeyStoreConfiguration());
-    //KeyStore
-    configuration.getKeyStore()
+    try(FileInputStream shiroIni = new FileInputStream("config/shiro.ini")){
+      properties.load(shiroIni);
+
+      JwtConfiguration configuration = new JwtConfiguration();
+      //JWT
+      configuration.setTimeout(30);
+      configuration.setIssuer(properties.getProperty("perryRealm.tokenIssuer"));
+      configuration.setKeyStore(new JwtConfiguration.KeyStoreConfiguration());
+      //KeyStore
+      configuration.getKeyStore()
         .setPath(new File(properties.getProperty("perryRealm.keyStorePath")).getPath());
-    configuration.getKeyStore().setPassword(properties.getProperty("perryRealm.keyStorePassword"));
-    //Sign/Validate Key
-    configuration.getKeyStore().setAlias(properties.getProperty("perryRealm.keyStoreAlias"));
-    configuration.getKeyStore()
+      configuration.getKeyStore().setPassword(properties.getProperty("perryRealm.keyStorePassword"));
+      //Sign/Validate Key
+      configuration.getKeyStore().setAlias(properties.getProperty("perryRealm.keyStoreAlias"));
+      configuration.getKeyStore()
         .setKeyPassword(properties.getProperty("perryRealm.keyStoreKeyPassword"));
-    //Enc Key
-    configuration
+      //Enc Key
+      configuration
         .setEncryptionEnabled(Boolean.parseBoolean(properties.getProperty("perryRealm.useEncryption")));
-    configuration.getKeyStore()
+      configuration.getKeyStore()
         .setEncKeyPassword(properties.getProperty("perryRealm.encKeyPassword"));
-    configuration.getKeyStore().setEncAlias(properties.getProperty("perryRealm.encKeyAlias"));
-    configuration.setEncryptionMethod(properties.getProperty("perryRealm.encryptionMethod"));
-    return configuration;
+      configuration.getKeyStore().setEncAlias(properties.getProperty("perryRealm.encKeyAlias"));
+      configuration.setEncryptionMethod(properties.getProperty("perryRealm.encryptionMethod"));
+      return configuration;
+    } catch (IOException e) {
+      throw new IllegalArgumentException(e);
+    }
   }
 
 }

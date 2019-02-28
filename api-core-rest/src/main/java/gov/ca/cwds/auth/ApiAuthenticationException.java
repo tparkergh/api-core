@@ -2,7 +2,7 @@ package gov.ca.cwds.auth;
 
 import org.apache.shiro.authc.AuthenticationException;
 
-@SuppressWarnings("serial")
+@SuppressWarnings({"serial", "squid:MaximumInheritanceDepth"})
 public class ApiAuthenticationException extends AuthenticationException {
 
   public ApiAuthenticationException() {

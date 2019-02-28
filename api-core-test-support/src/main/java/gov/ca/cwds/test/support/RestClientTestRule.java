@@ -14,6 +14,7 @@ import javax.net.ssl.X509TrustManager;
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.WebTarget;
 
+import gov.ca.cwds.rest.services.ServiceException;
 import org.apache.commons.lang3.StringUtils;
 import org.glassfish.jersey.client.ClientProperties;
 import org.glassfish.jersey.client.JerseyClientBuilder;
@@ -45,18 +46,22 @@ public class RestClientTestRule<T extends Configuration> implements TestRule {
 
   private static final TrustManager[] TRUST_ALL_CERTS = new TrustManager[] {new X509TrustManager() {
     @Override
-    @SuppressFBWarnings("WEAK_TRUST_MANAGER") //Used only for testing purposes
+    @SuppressFBWarnings("WEAK_TRUST_MANAGER")
     public X509Certificate[] getAcceptedIssuers() {
-      return null;
+      return new X509Certificate[0]; //Used only for testing purposes
     }
 
     @Override
-    @SuppressFBWarnings("WEAK_TRUST_MANAGER") //Used only for testing purposes
-    public void checkClientTrusted(X509Certificate[] certs, String authType) {}
+    @SuppressFBWarnings("WEAK_TRUST_MANAGER")
+    public void checkClientTrusted(X509Certificate[] certs, String authType) {
+      //Used only for testing purposes
+    }
 
     @Override
-    @SuppressFBWarnings("WEAK_TRUST_MANAGER") //Used only for testing purposes
-    public void checkServerTrusted(X509Certificate[] certs, String authType) {}
+    @SuppressFBWarnings("WEAK_TRUST_MANAGER")
+    public void checkServerTrusted(X509Certificate[] certs, String authType) {
+      //Used only for testing purposes
+    }
   }};
 
   private Client client;
@@ -74,7 +79,7 @@ public class RestClientTestRule<T extends Configuration> implements TestRule {
       return generateToken(DEFAULT_IDENTITY_JSON);
     } catch (Exception e) {
       LOG.error("Cannot generate token", e);
-      throw new RuntimeException(e);
+      throw new ServiceException(e);
     }
   }
 
