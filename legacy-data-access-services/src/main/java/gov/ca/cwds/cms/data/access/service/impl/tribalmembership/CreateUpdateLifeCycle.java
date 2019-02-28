@@ -5,6 +5,7 @@ import gov.ca.cwds.cms.data.access.dto.TribalMembershipVerificationAwareDto;
 import gov.ca.cwds.cms.data.access.service.BusinessValidationService;
 import gov.ca.cwds.cms.data.access.service.DataAccessServicesException;
 import gov.ca.cwds.cms.data.access.service.impl.ClientCoreService;
+import gov.ca.cwds.cms.data.access.service.impl.IdGenerator;
 import gov.ca.cwds.cms.data.access.service.lifecycle.DataAccessBundle;
 import gov.ca.cwds.cms.data.access.service.lifecycle.DefaultDataAccessLifeCycle;
 import gov.ca.cwds.cms.data.access.service.rules.TribalMembershipVerificationConfiguration;
@@ -13,6 +14,8 @@ import gov.ca.cwds.data.legacy.cms.entity.Client;
 import gov.ca.cwds.data.legacy.cms.entity.TribalMembershipVerification;
 import gov.ca.cwds.security.realm.PerryAccount;
 import gov.ca.cwds.security.utils.PrincipalUtils;
+
+import java.time.LocalDateTime;
 import java.util.List;
 import javax.inject.Inject;
 import org.apache.commons.collections4.CollectionUtils;
@@ -144,5 +147,20 @@ public abstract class CreateUpdateLifeCycle
     ClientEntityAwareDTO clientEntityAwareDTO = new ClientEntityAwareDTO();
     clientEntityAwareDTO.setEntity(client);
     clientCoreService.update(clientEntityAwareDTO);
+  }
+
+  protected void buildChildTribalForDuplicate(TribalMembershipVerificationAwareDto awareDto){
+    TribalMembershipVerification childTribal = new TribalMembershipVerification();
+    childTribal.setFkFromTribalMembershipVerification(awareDto.getEntity().getThirdId());
+    childTribal.setFkSentToTribalOrganization(awareDto.getEntity().getFkSentToTribalOrganization());
+    childTribal.setIndianEnrollmentStatus(awareDto.getEntity().getIndianEnrollmentStatus());
+    childTribal.setIndianTribeType(awareDto.getEntity().getIndianTribeType());
+    childTribal.setStatusDate(awareDto.getEntity().getStatusDate());
+    childTribal.setThirdId(IdGenerator.generateId());
+    childTribal.setClientId(awareDto.getChildId());
+    childTribal.setLastUpdateTime(LocalDateTime.now());
+    childTribal.setLastUpdateId(PrincipalUtils.getStaffPersonId());
+
+    awareDto.setChildTribalForDuplicate(childTribal);
   }
 }
