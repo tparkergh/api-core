@@ -936,12 +936,7 @@ public abstract class BaseClient extends CmsPersistentObject
     }
 
     if (this.secondaryLanguageType != null && this.secondaryLanguageType != 0) {
-      ret.add(new ApiLanguageAware() {
-        @Override
-        public Integer getLanguageSysId() {
-          return secondaryLanguageType.intValue();
-        }
-      });
+      ret.add(() -> secondaryLanguageType.intValue());
     }
 
     return ret.toArray(new ApiLanguageAware[ret.size()]);
