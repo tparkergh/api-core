@@ -68,9 +68,7 @@ node ('tpt2-slave'){
 
       }
    stage('SonarQube analysis'){
-		withSonarQubeEnv('Core-SonarQube') {
-			buildInfo = rtGradle.run buildFile: 'build.gradle', switches: '--info', tasks: 'sonarqube'
-        }
+		 lint(rtGradle)
     }
  } catch (Exception e)    {
  	   errorcode = e
