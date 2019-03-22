@@ -480,6 +480,7 @@ public class ElasticSearchPerson implements ApiTypedIdentifier<String> {
       this.nameSuffix = trim(nameSuffix);
     }
 
+    this.gender = "unknown";
     if (StringUtils.isNotBlank(gender)) {
       final String comp = gender.trim().toLowerCase();
       if ("m".equals(comp)) {
