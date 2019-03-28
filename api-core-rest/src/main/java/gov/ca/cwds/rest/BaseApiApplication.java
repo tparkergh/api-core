@@ -58,7 +58,19 @@ public abstract class BaseApiApplication<T extends MinimalApiConfiguration> exte
 
   private static Injector injector;
 
-  private final ShiroBundle<T> shiroBundle = new YamlShiroBundle<>();
+  private final ShiroBundle<T> shiroBundle = initializeShiroBundle();
+
+
+  /**
+   *
+   * Extending classes may provide a specific ShiroBundle implementation
+   *
+   * @return The ShiroBundle implementation to use
+   */
+  public ShiroBundle<T> initializeShiroBundle() {
+    return new YamlShiroBundle<>();
+  }
+
 
   /**
    * Extending classes must provide the Guice module for their application.
