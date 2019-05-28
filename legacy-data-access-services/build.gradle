@@ -21,7 +21,7 @@ dependencies {
     testCompile group: 'com.h2database', name: 'h2', version: h2Version
     testCompile group: 'org.dbunit', name: 'dbunit', version: '2.5.4'
     testCompile group: 'org.liquibase', name: 'liquibase-core', version: '3.5.3'
-    testCompile group: 'gov.ca.cwds.cals', name: 'cws-cms-data-model', version: dataModelVersion, changing: true
+    testCompile group: 'gov.ca.cwds', name: 'cws-cms-data-model', version: dataModelVersion, changing: true
 }
 
 publishing {
