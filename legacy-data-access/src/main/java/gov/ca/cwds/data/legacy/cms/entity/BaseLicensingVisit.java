@@ -31,7 +31,6 @@ public abstract class BaseLicensingVisit implements PersistentObject {
     private String lstUpdId;
     private Timestamp lstUpdTs;
     private LocalDate visitDate;
-    private String visitNote;
     private VisitType visitType;
     private String fkcntyCst;
     private String cntySpfcd;
@@ -74,16 +73,6 @@ public abstract class BaseLicensingVisit implements PersistentObject {
 
     public void setVisitDate(LocalDate visitDate) {
         this.visitDate = visitDate;
-    }
-
-    @Basic
-    @Column(name = "VISIT_NOTE", nullable = false, length = 254)
-    public String getVisitNote() {
-        return visitNote;
-    }
-
-    public void setVisitNote(String visitNote) {
-        this.visitNote = visitNote;
     }
 
     @NotFound(action = NotFoundAction.IGNORE)
