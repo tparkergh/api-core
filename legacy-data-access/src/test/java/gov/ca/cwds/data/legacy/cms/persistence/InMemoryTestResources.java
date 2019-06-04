@@ -11,6 +11,7 @@ import liquibase.database.jvm.JdbcConnection;
 import liquibase.exception.DatabaseException;
 import liquibase.exception.LiquibaseException;
 import liquibase.resource.ClassLoaderResourceAccessor;
+import org.apache.commons.lang3.StringUtils;
 import org.dbunit.JdbcDatabaseTester;
 import org.dbunit.dataset.filter.DefaultColumnFilter;
 import org.hibernate.SessionFactory;
