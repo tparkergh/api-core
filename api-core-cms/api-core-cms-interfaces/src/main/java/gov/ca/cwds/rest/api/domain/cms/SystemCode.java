@@ -68,6 +68,9 @@ public class SystemCode extends ReportingDomain implements Response {
   @JsonProperty("long_description")
   private String longDescription;
 
+  public SystemCode() {
+  }
+
   /**
    * Construct from all fields.
    * 
@@ -102,16 +105,40 @@ public class SystemCode extends ReportingDomain implements Response {
     this.longDescription = longDescription;
   }
 
-  public SystemCode(gov.ca.cwds.data.persistence.cms.SystemCode persistedSystemCode) {
-    this.systemId = persistedSystemCode.getSystemId();
-    this.categoryId = persistedSystemCode.getCategoryId();
-    this.inactiveIndicator = persistedSystemCode.getInactiveIndicator();
-    this.otherCd = persistedSystemCode.getOtherCd();
-    this.shortDescription = persistedSystemCode.getShortDescription();
-    this.logicalId = persistedSystemCode.getLogicalId();
-    this.thirdId = persistedSystemCode.getThirdId();
-    this.foreignKeyMetaTable = persistedSystemCode.getForeignKeyMetaTable();
-    this.longDescription = persistedSystemCode.getLongDescription();
+  public void setSystemId(Short systemId) {
+    this.systemId = systemId;
+  }
+
+  public void setCategoryId(Short categoryId) {
+    this.categoryId = categoryId;
+  }
+
+  public void setInactiveIndicator(String inactiveIndicator) {
+    this.inactiveIndicator = inactiveIndicator;
+  }
+
+  public void setOtherCd(String otherCd) {
+    this.otherCd = otherCd;
+  }
+
+  public void setShortDescription(String shortDescription) {
+    this.shortDescription = shortDescription;
+  }
+
+  public void setLogicalId(String logicalId) {
+    this.logicalId = logicalId;
+  }
+
+  public void setThirdId(String thirdId) {
+    this.thirdId = thirdId;
+  }
+
+  public void setForeignKeyMetaTable(String foreignKeyMetaTable) {
+    this.foreignKeyMetaTable = foreignKeyMetaTable;
+  }
+
+  public void setLongDescription(String longDescription) {
+    this.longDescription = longDescription;
   }
 
   /**
@@ -175,11 +202,6 @@ public class SystemCode extends ReportingDomain implements Response {
    */
   public String getLongDescription() {
     return longDescription;
-  }
-
-  public gov.ca.cwds.data.persistence.cms.SystemCode createPersistenceSystemCode() {
-    return new gov.ca.cwds.data.persistence.cms.SystemCode(systemId, categoryId, inactiveIndicator,
-        otherCd, shortDescription, logicalId, thirdId, foreignKeyMetaTable, longDescription);
   }
 
   public SystemCodeDescriptor getSystemCodeDescriptor() {

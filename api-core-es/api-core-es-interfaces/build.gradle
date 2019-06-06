@@ -1,0 +1,33 @@
+dependencies {
+    compile project(':api-core-common')
+    compile project(':api-core-cms:api-core-cms-interfaces')
+
+    compile group: "com.fasterxml.jackson.core", name: "jackson-databind", version: jacksonDatabindVersion
+    compile group: "org.apache.commons", name: "commons-lang3", version: commonsLangVersion
+
+    compile group: 'commons-io', name: 'commons-io', version: commonsIOVersion
+
+    // ES 5.x:
+    compile group: 'org.elasticsearch', name: 'elasticsearch', version: elasticsearchVersion
+
+    testCompile group: 'org.hamcrest', name: 'hamcrest-junit', version: hamcrestVersion
+    testCompile group: 'nl.jqno.equalsverifier', name: 'equalsverifier', version: equalsverifierVersion
+    testCompile group: 'org.mockito', name: 'mockito-core', version: mockitoVersion
+    testCompile group: "io.dropwizard", name: "dropwizard-testing", version: dropwizardVersion
+}
+
+publishing {
+    publications {
+        library(MavenPublication) {
+            from components.java
+            groupId commonGroupId
+            artifactId project.name
+        }
+    }
+    repositories {
+        mavenLocal()
+        maven {
+            url artifactoryRepo
+        }
+    }
+}

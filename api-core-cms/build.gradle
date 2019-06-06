@@ -1,5 +1,7 @@
 dependencies {
     compile project(':api-core-common')
+    compile project(':api-core-es:api-core-es-interfaces')
+    compile project(':api-core-cms:api-core-cms-interfaces')
     compile project(':legacy-data-access')
     
 	// MAIN:
@@ -41,7 +43,7 @@ dependencies {
         exclude group: 'junit', module: 'junit'
     }
     
-    testCompile group: 'nl.jqno.equalsverifier', name: 'equalsverifier', version: '2.1.6'
+    testCompile group: 'nl.jqno.equalsverifier', name: 'equalsverifier', version: equalsverifierVersion
     testCompile 'org.ow2.asm:asm-all:5.2'
     testCompile group: 'org.mockito', name: 'mockito-core', version: mockitoVersion
     testCompile group: 'org.hamcrest', name: 'hamcrest-junit', version: hamcrestVersion

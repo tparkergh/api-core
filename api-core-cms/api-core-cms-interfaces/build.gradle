@@ -1,0 +1,26 @@
+dependencies {
+    compile project(':api-core-common')
+
+    compile group: "com.fasterxml.jackson.core", name: "jackson-databind", version: jacksonDatabindVersion
+    compile group: 'io.swagger', name: 'swagger-jersey2-jaxrs', version: swaggerVersion
+    compile group: 'io.swagger', name: 'swagger-annotations', version: swaggerVersion
+
+    testCompile group: 'org.hamcrest', name: 'hamcrest-junit', version: hamcrestVersion
+    testCompile group: "io.dropwizard", name: "dropwizard-testing", version: dropwizardVersion
+}
+
+publishing {
+    publications {
+        library(MavenPublication) {
+            from components.java
+            groupId commonGroupId
+            artifactId project.name
+        }
+    }
+    repositories {
+        mavenLocal()
+        maven {
+            url artifactoryRepo
+        }
+    }
+}

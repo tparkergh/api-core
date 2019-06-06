@@ -25,19 +25,6 @@ public class SystemMetaTest {
   private String userTableName = "Government Entity";
 
   @Test
-  public void persistentObjectConstructorTest() throws Exception {
-    gov.ca.cwds.data.persistence.cms.SystemMeta persistent =
-        new gov.ca.cwds.data.persistence.cms.SystemMeta(logicalTableDsdName, userTableName,
-            shortDescriptionName);
-
-
-    SystemMeta totest = new SystemMeta(persistent);
-    assertThat(totest.getLogicalTableDsdName(), is(equalTo(persistent.getLogicalTableDsdName())));
-    assertThat(totest.getShortDescriptionName(), is(equalTo(persistent.getShortDescriptionName())));
-    assertThat(totest.getUserTableName(), is(equalTo(persistent.getUserTableName())));
-  }
-
-  @Test
   public void jsonCreatorConstructorTest() throws Exception {
     SystemMeta domain = new SystemMeta(logicalTableDsdName, userTableName, shortDescriptionName);
 

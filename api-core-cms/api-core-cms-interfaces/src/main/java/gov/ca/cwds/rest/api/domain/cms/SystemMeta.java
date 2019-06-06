@@ -50,6 +50,8 @@ public class SystemMeta extends ReportingDomain implements Response {
   @ApiModelProperty(required = true, readOnly = false, value = "", example = "Government Entity")
   private String shortDescriptionName;
 
+  public SystemMeta() {
+  }
 
   /**
    * Construct from all fields.
@@ -68,14 +70,17 @@ public class SystemMeta extends ReportingDomain implements Response {
     this.shortDescriptionName = shortDescriptionName;
   }
 
-
-  @SuppressWarnings("javadoc")
-  public SystemMeta(gov.ca.cwds.data.persistence.cms.SystemMeta persistedSystemMeta) {
-    this.logicalTableDsdName = persistedSystemMeta.getLogicalTableDsdName();
-    this.userTableName = persistedSystemMeta.getUserTableName();
-    this.shortDescriptionName = persistedSystemMeta.getShortDescriptionName();
+  public void setLogicalTableDsdName(String logicalTableDsdName) {
+    this.logicalTableDsdName = logicalTableDsdName;
   }
 
+  public void setUserTableName(String userTableName) {
+    this.userTableName = userTableName;
+  }
+
+  public void setShortDescriptionName(String shortDescriptionName) {
+    this.shortDescriptionName = shortDescriptionName;
+  }
 
   /**
    * @return the logicalTableDsdName
@@ -96,11 +101,6 @@ public class SystemMeta extends ReportingDomain implements Response {
    */
   public String getShortDescriptionName() {
     return shortDescriptionName;
-  }
-
-  public gov.ca.cwds.data.persistence.cms.SystemMeta createPersistenceSystemMeta() {
-    return new gov.ca.cwds.data.persistence.cms.SystemMeta(logicalTableDsdName, userTableName,
-        shortDescriptionName);
   }
 
   /*

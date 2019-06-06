@@ -4,14 +4,13 @@ import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.not;
 import static org.hamcrest.CoreMatchers.notNullValue;
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertThat;
+import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.mock;
 
-import gov.ca.cwds.common.OscarTheGrouch;
 import gov.ca.cwds.data.es.ElasticSearchPerson.ESColumn;
 import gov.ca.cwds.data.es.ElasticSearchPerson.ESOptionalCollection;
-import gov.ca.cwds.data.legacy.cms.entity.Client;
-import gov.ca.cwds.rest.validation.TestSystemCodeCache;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -21,19 +20,14 @@ import java.util.Map;
 import org.apache.commons.io.IOUtils;
 import org.elasticsearch.search.SearchHit;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 
-public class ElasticSearchPersonTest extends OscarTheGrouch<Client> {
+public class ElasticSearchPersonTest {
 
-  private static final TestSystemCodeCache systemCodeCache = new TestSystemCodeCache();
+  private ElasticSearchPerson target;
 
-  ElasticSearchPerson target;
-
-  @Override
   @Before
   public void setup() throws Exception {
-    super.setup();
     target = new ElasticSearchPerson();
   }
 
@@ -42,15 +36,74 @@ public class ElasticSearchPersonTest extends OscarTheGrouch<Client> {
     assertThat(ElasticSearchPerson.class, notNullValue());
   }
 
+    @Test
+  public void shouldTrimValues_whenCreated() {
+    ElasticSearchPerson person = createElasticSearchPerson();
+    assertEquals("first name", person.getFirstName());
+    assertEquals("last name", person.getLastName());
+    assertEquals("middle name", person.getMiddleName());
+    assertEquals("name suffix", person.getNameSuffix());
+    assertEquals("date of birth", person.getDateOfBirth());
+    assertEquals("ssn", person.getSsn());
+    assertEquals("highlight fields", person.getHighlightFields());
+  }
+
   @Test
   public void instantiation() throws Exception {
     assertThat(target, notNullValue());
   }
 
   @Test
+  public void shouldNotTrimValues_whenCreated() {
+    ElasticSearchPerson person = createElasticSearchPerson();
+    assertEquals(" id ", person.getId());
+    assertEquals(" source type ", person.getSourceType());
+    assertEquals(" source json ", person.getSourceJson());
+  }
+
+  @Test
+  public void shouldGenderBeUnknown_whenCreatedWithNotRecognizedGender() {
+    ElasticSearchPerson person = createElasticSearchPerson("some gender");
+    assertEquals("unknown", person.getGender());
+  }
+
+  @Test
+  public void shouldGenderBeMale_whenCreatedWithMGender() {
+    ElasticSearchPerson person = createElasticSearchPerson(" M");
+    assertEquals("male", person.getGender());
+  }
+
+  @Test
+  public void shouldGenderBeFemale_whenCreatedWithFGender() {
+    ElasticSearchPerson person = createElasticSearchPerson("F ");
+    assertEquals("female", person.getGender());
+  }
+
+  @Test
+  public void shouldGenderBeIntersex_whenCreatedWithIGender() {
+    ElasticSearchPerson person = createElasticSearchPerson(" I ");
+    assertEquals("intersex", person.getGender());
+  }
+
+  @Test
+  public void shouldDoNotOverrideCollections_whenCreatedWithNullCollection() {
+    ElasticSearchPerson person = createElasticSearchPerson();
+    assertTrue(person.getAddresses().isEmpty());
+    assertTrue(person.getPhones().isEmpty());
+    assertTrue(person.getLanguages().isEmpty());
+    assertTrue(person.getScreenings().isEmpty());
+  }
+
+  private ElasticSearchPerson createElasticSearchPerson(String gender) {
+    return new ElasticSearchPerson(" id ", " first name ", " last name ", " middle name ",
+      " name suffix ", gender, " date of birth ", " ssn ", " source type ", " source json ", " highlight fields ",
+      null, null, null, null);
+  }
+
+    @Test
   public void readPerson_Args__String() throws Exception {
     final String json =
-        IOUtils.toString(getClass().getResourceAsStream("/fixtures/data/es/es_person.json"));
+        IOUtils.toString(ElasticSearchPersonTest.class.getResourceAsStream("/fixtures/data/es/es_person.json"));
     final ElasticSearchPerson actual = ElasticSearchPerson.readPerson(json);
     assertThat(actual, is(notNullValue())); // if it loads, then it's 80% right.
   }
@@ -506,7 +559,7 @@ public class ElasticSearchPersonTest extends OscarTheGrouch<Client> {
   @Test
   public void readPerson_A$String() throws Exception {
     final String json =
-        IOUtils.toString(getClass().getResourceAsStream("/fixtures/data/es/es_person.json"));
+        IOUtils.toString(ElasticSearchPersonTest.class.getResourceAsStream("/fixtures/data/es/es_person.json"));
     Object actual = ElasticSearchPerson.readPerson(json);
     assertThat(actual, is(notNullValue()));
   }
@@ -534,12 +587,6 @@ public class ElasticSearchPersonTest extends OscarTheGrouch<Client> {
     String actual = ElasticSearchPerson.trim(s);
     String expected = null;
     assertThat(actual, is(equalTo(expected)));
-  }
-
-  @Test
-  public void getSystemCodes_A$() throws Exception {
-    gov.ca.cwds.rest.api.domain.cms.SystemCodeCache actual = ElasticSearchPerson.getSystemCodes();
-    assertThat(actual, is(notNullValue()));
   }
 
   @Test
@@ -1084,4 +1131,7 @@ public class ElasticSearchPersonTest extends OscarTheGrouch<Client> {
     target.setCleintRace(clientRace);
   }
 
+  private ElasticSearchPerson createElasticSearchPerson() {
+    return createElasticSearchPerson(" gender ");
+  }
 }

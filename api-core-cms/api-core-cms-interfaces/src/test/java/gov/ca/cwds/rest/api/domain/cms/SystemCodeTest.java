@@ -31,25 +31,6 @@ public class SystemCodeTest {
   private String logicalId = "AB  ";
 
   @Test
-  public void persistentObjectConstructorTest() throws Exception {
-    gov.ca.cwds.data.persistence.cms.SystemCode persistent =
-        new gov.ca.cwds.data.persistence.cms.SystemCode(systemId, categoryId, inactiveIndicator,
-            otherCd, shortDescription, logicalId, thirdId, foreignKeyMetaTable, longDescription);
-
-
-    SystemCode totest = new SystemCode(persistent);
-    assertThat(totest.getCategoryId(), is(equalTo(persistent.getCategoryId())));
-    assertThat(totest.getForeignKeyMetaTable(), is(equalTo(persistent.getForeignKeyMetaTable())));
-    assertThat(totest.getInactiveIndicator(), is(equalTo(persistent.getInactiveIndicator())));
-    assertThat(totest.getLongDescription(), is(equalTo(persistent.getLongDescription())));
-    assertThat(totest.getOtherCd(), is(equalTo(persistent.getOtherCd())));
-    assertThat(totest.getShortDescription(), is(equalTo(persistent.getShortDescription())));
-    assertThat(totest.getSystemId(), is(equalTo(persistent.getSystemId())));
-    assertThat(totest.getThirdId(), is(equalTo(persistent.getThirdId())));
-    assertThat(totest.getLogicalId(), is(equalTo(persistent.getLogicalId())));
-  }
-
-  @Test
   public void jsonCreatorConstructorTest() throws Exception {
     SystemCode domain = new SystemCode(systemId, categoryId, inactiveIndicator, otherCd,
         shortDescription, logicalId, thirdId, foreignKeyMetaTable, longDescription);

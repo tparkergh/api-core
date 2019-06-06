@@ -7,4 +7,6 @@ include 'legacy-data-access'
 include 'legacy-data-access-services'
 include 'drools-engine'
 include 'api-core-test-support'
+include 'api-core-es:api-core-es-interfaces'
+include 'api-core-cms:api-core-cms-interfaces'
 

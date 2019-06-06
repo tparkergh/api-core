@@ -1,0 +1,11 @@
+{
+  "system_id": 471,
+  "category_id": 0,
+  "inactive_indicator": "N",
+  "other_cd": "  ",
+  "short_description": "Albania",
+  "logical_id": "AB  ",
+  "third_id": "0000000000",
+  "foreign_key_meta_table": "CNTRY_C ",
+  "long_description": "     "
+}

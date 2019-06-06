@@ -22,12 +22,14 @@ allprojects {
         swaggerVersion = "1.5.9"
         dropwizardSwaggerVersion = "1.0.0-1"
         elasticsearchVersion = "5.5.0"
+        jacksonDatabindVersion = "2.8.7"
         log4jVersion = "2.8.2"
         logbackVersion = "1.2.1"
         slf4jVersion = "1.7.25"
         commonsIOVersion = "2.6"
         commonsBeanutilsVersion = "1.8.3"
         commonsCollectionsVersion = "4.1"
+        commonsLangVersion = "3.5"
         guavaVersion = "22.0"
         guiceVersion = "4.0"
         glassfishJerseyCoreVersion = "2.25.1"
@@ -37,6 +39,7 @@ allprojects {
         dataModelVersion = '3.9.10'
         droolsVersion = "7.1.0.Final"
         mapstructVersion = '1.1.0.Final'
+        equalsverifierVersion = "2.1.6"
         junitVersion = '4.12'
         mockitoVersion = "2.8.9"
         hamcrestVersion = "2.0.0.0"
