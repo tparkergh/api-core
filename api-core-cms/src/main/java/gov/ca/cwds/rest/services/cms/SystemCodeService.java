@@ -1,5 +1,8 @@
 package gov.ca.cwds.rest.services.cms;
 
+import gov.ca.cwds.rest.mapping.Mapper;
+import gov.ca.cwds.rest.mapping.SystemCodeMapper;
+import gov.ca.cwds.rest.mapping.SystemMetaMapper;
 import java.io.Serializable;
 import java.util.Set;
 
@@ -26,6 +29,9 @@ import gov.ca.cwds.rest.services.CrudsService;
  * @author CWDS API Team
  */
 public class SystemCodeService implements CrudsService {
+
+  private final Mapper<gov.ca.cwds.data.persistence.cms.SystemCode, SystemCode> systemCodeMapper = new SystemCodeMapper();
+  private final Mapper<SystemMeta, gov.ca.cwds.rest.api.domain.cms.SystemMeta> systemMetaMapper = new SystemMetaMapper();
 
   private SystemCodeDao systemCodeDao;
   private SystemMetaDao systemMetaDao;
@@ -71,7 +77,7 @@ public class SystemCodeService implements CrudsService {
     gov.ca.cwds.data.persistence.cms.SystemCode systemCode =
         systemCodeDao.findBySystemCodeId((Number) systemCodeId);
     if (systemCode != null) {
-      response = new SystemCode(systemCode);
+      response = systemCodeMapper.map(systemCode);
     }
     return response;
   }
@@ -96,7 +102,7 @@ public class SystemCodeService implements CrudsService {
       ImmutableSet.Builder<SystemCode> builder = ImmutableSet.builder();
       for (gov.ca.cwds.data.persistence.cms.SystemCode systemCode : systemCodes) {
         if (systemCode != null) {
-          builder.add(new gov.ca.cwds.rest.api.domain.cms.SystemCode(systemCode));
+          builder.add(systemCodeMapper.map(systemCode));
         }
       }
       Set<SystemCode> sysCodes = builder.build();
@@ -121,7 +127,7 @@ public class SystemCodeService implements CrudsService {
 
       for (SystemMeta s : sysMeta) {
         if (s != null) {
-          builder.add(new gov.ca.cwds.rest.api.domain.cms.SystemMeta(s));
+          builder.add(systemMetaMapper.map(s));
         }
       }
 

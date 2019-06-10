@@ -22,7 +22,6 @@ import org.slf4j.LoggerFactory;
  * </p>
  * 
  * @author CWDS API Team
- * @see ElasticsearchDao
  */
 public enum ElasticSearchQuery {
 

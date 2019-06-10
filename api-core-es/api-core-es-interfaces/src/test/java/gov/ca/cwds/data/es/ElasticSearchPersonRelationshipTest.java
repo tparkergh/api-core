@@ -1,15 +1,15 @@
 package gov.ca.cwds.data.es;
 
+import static io.dropwizard.testing.FixtureHelpers.fixture;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.notNullValue;
 import static org.junit.Assert.assertThat;
 import static org.mockito.Mockito.mock;
 
+import io.dropwizard.testing.FixtureHelpers;
 import org.junit.Before;
 import org.junit.Test;
-
-import gov.ca.cwds.common.ApiFileAssistant;
 
 public class ElasticSearchPersonRelationshipTest {
 
@@ -148,8 +148,8 @@ public class ElasticSearchPersonRelationshipTest {
 
   @Test
   public void deserialize() throws Exception {
-    final ElasticSearchPerson person = ElasticSearchPerson.MAPPER.readValue(
-        new ApiFileAssistant().readFile("/fixtures/data/es/multiple_relations.json"),
+    final ElasticSearchPerson person = ElasticSearchPerson.MAPPER.readValue(fixture(
+        "fixtures/data/es/multiple_relations.json"),
         ElasticSearchPerson.class);
     assertThat(person, notNullValue());
   }

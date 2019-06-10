@@ -17,9 +17,6 @@ import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import javax.persistence.Transient;
-
-import net.sf.ehcache.util.FindBugsSuppressWarnings;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
@@ -47,7 +44,6 @@ import gov.ca.cwds.rest.services.ServiceException;
  * 
  * @author CWDS API Team
  */
-@FindBugsSuppressWarnings("SE_TRANSIENT_FIELD_NOT_RESTORED")
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class ElasticSearchPerson implements ApiTypedIdentifier<String> {
 
@@ -386,7 +382,6 @@ public class ElasticSearchPerson implements ApiTypedIdentifier<String> {
   @JsonInclude(JsonInclude.Include.NON_NULL)
   private List<ElasticSearchSafetyAlert> safetyAlerts = new ArrayList<>();
 
-  @Transient
   private transient Map<String, String> highlights = new LinkedHashMap<>();
 
   /**

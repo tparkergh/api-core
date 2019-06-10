@@ -230,10 +230,15 @@ public class CachingSystemCodeServiceTest {
     Set<gov.ca.cwds.data.persistence.cms.SystemMeta> persistenceSystemMetas = new HashSet<>();
 
     for (SystemMeta syetmMeta : systemMetas) {
-      persistenceSystemMetas.add(syetmMeta.createPersistenceSystemMeta());
+      persistenceSystemMetas.add(createPersistenceSystemMeta(syetmMeta));
     }
 
     return persistenceSystemMetas.toArray(new gov.ca.cwds.data.persistence.cms.SystemMeta[0]);
+  }
+
+  private static gov.ca.cwds.data.persistence.cms.SystemMeta createPersistenceSystemMeta(SystemMeta systemMeta) {
+    return new gov.ca.cwds.data.persistence.cms.SystemMeta(systemMeta.getLogicalTableDsdName(), systemMeta.getUserTableName(),
+      systemMeta.getShortDescriptionName());
   }
 
   private static gov.ca.cwds.data.persistence.cms.SystemCode[] createPersistenceSystemCodes(
@@ -243,7 +248,7 @@ public class CachingSystemCodeServiceTest {
     Set<gov.ca.cwds.data.persistence.cms.SystemCode> persistenceSystemCodes = new HashSet<>();
 
     for (SystemCode systemCode : systemCodes) {
-      persistenceSystemCodes.add(systemCode.createPersistenceSystemCode());
+      persistenceSystemCodes.add(createPersistenceSystemCode(systemCode));
     }
 
     return persistenceSystemCodes.toArray(new gov.ca.cwds.data.persistence.cms.SystemCode[0]);
@@ -257,11 +262,16 @@ public class CachingSystemCodeServiceTest {
 
     for (SystemCode systemCode : systemCodes) {
       if (systemCodeId.equals(systemCode.getSystemId())) {
-        persistenceSystemCode = systemCode.createPersistenceSystemCode();
+        persistenceSystemCode = createPersistenceSystemCode(systemCode);
         break;
       }
     }
 
     return persistenceSystemCode;
+  }
+
+  private static gov.ca.cwds.data.persistence.cms.SystemCode createPersistenceSystemCode(SystemCode systemCode) {
+    return new gov.ca.cwds.data.persistence.cms.SystemCode(systemCode.getSystemId(), systemCode.getCategoryId(), systemCode.getInactiveIndicator(),
+      systemCode.getOtherCd(), systemCode.getShortDescription(), systemCode.getLogicalId(), systemCode.getThirdId(), systemCode.getForeignKeyMetaTable(), systemCode.getLongDescription());
   }
 }
