@@ -51,6 +51,8 @@ public class XADataSourceFactory extends DataSourceFactory {
     Optional.ofNullable(getXaProperties()).ifPresent(props::putAll);
 
     ds.setXaProperties(props);
+    ds.setMinPoolSize(0);
+    ds.setMaxPoolSize(50);
 
     // Init on start ManagedDataSource.start
     return ds;
