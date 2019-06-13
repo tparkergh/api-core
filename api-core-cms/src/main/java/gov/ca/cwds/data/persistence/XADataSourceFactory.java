@@ -16,6 +16,14 @@ import io.dropwizard.db.ManagedDataSource;
  */
 public class XADataSourceFactory extends DataSourceFactory {
 
+  public static final int MIN_POOL_SIZE = 2;
+  public static final int MAX_POOL_SIZE = 20;
+  public static final int BORROW_CONNECTION_TIMEOUT = 30;
+  public static final int MAINTENANCE_INTERVAL = 60;
+  public static final int MAX_IDLE_TIME = 30;
+  public static final int MAX_LIFE_TIME = 1800;
+  public static final int REAP_TIMEOUT = 300;
+
   @NotNull
   private String xaDataSourceClassName;
 
@@ -51,11 +59,15 @@ public class XADataSourceFactory extends DataSourceFactory {
     Optional.ofNullable(getXaProperties()).ifPresent(props::putAll);
 
     ds.setXaProperties(props);
-    ds.setMinPoolSize(0);
-    ds.setMaxPoolSize(50);
+    ds.setMinPoolSize(MIN_POOL_SIZE);
+    ds.setMaxPoolSize(MAX_POOL_SIZE);
+    ds.setBorrowConnectionTimeout(BORROW_CONNECTION_TIMEOUT);
+    ds.setMaintenanceInterval(MAINTENANCE_INTERVAL);
+    ds.setMaxIdleTime(MAX_IDLE_TIME);
+    ds.setMaxLifetime(MAX_LIFE_TIME);
+    ds.setReapTimeout(REAP_TIMEOUT);
 
     // Init on start ManagedDataSource.start
     return ds;
   }
-
 }
