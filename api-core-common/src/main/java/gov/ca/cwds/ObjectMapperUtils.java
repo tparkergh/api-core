@@ -64,9 +64,7 @@ public class ObjectMapperUtils {
     final DateFormat fmt = new SimpleDateFormat("yyyy-MM-dd");
     fmt.setTimeZone(tz);
     objectMapper.setDateFormat(fmt);
-    objectMapper.getSerializationConfig().with(fmt);
     objectMapper.setTimeZone(tz);
-    objectMapper.getSerializationConfig().with(tz);
     objectMapper.registerModule(new JodaModule());
   }
 
