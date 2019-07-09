@@ -19,7 +19,7 @@ import org.powermock.modules.junit4.PowerMockRunnerDelegate;
 @RunWith(PowerMockRunner.class)
 @PowerMockRunnerDelegate(Suite.class)
 @PrepareForTest({PrincipalUtils.class})
-@PowerMockIgnore({"javax.xml.*", "org.xml.*", "org.w3c.*"})
+@PowerMockIgnore({"javax.xml.*", "org.xml.*", "org.w3c.*", "com.sun.org.apache.xerces.*"})
 @Suite.SuiteClasses({
   SafetyAlertServiceTest.class,
   CsecHistoryServiceTest.class,

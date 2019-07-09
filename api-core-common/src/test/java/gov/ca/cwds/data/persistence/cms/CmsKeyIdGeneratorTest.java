@@ -10,10 +10,6 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.mock;
-
-import gov.ca.cwds.data.legacy.cms.CmsPersistentObject;
-import gov.ca.cwds.data.persistence.cms.CmsKeyIdGenerator.KeyDetail;
-import gov.ca.cwds.rest.services.ServiceException;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
@@ -36,10 +32,10 @@ import java.util.stream.IntStream;
 import org.apache.commons.collections4.map.PassiveExpiringMap;
 import org.apache.commons.lang3.StringUtils;
 import org.junit.Assert;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import gov.ca.cwds.rest.services.ServiceException;
 
 /**
  * This JNI native library runs correctly on Linux Jenkins when libLZW.so and libstdc++.so.6 are
@@ -101,7 +97,7 @@ public final class CmsKeyIdGeneratorTest {
 
   private static final Logger LOGGER = LoggerFactory.getLogger(CmsKeyIdGeneratorTest.class);
 
-  private static final int GOOD_KEY_LEN = CmsPersistentObject.CMS_ID_LEN;
+  private static final int GOOD_KEY_LEN = 10;
   private static final Pattern RGX_LEGACY_KEY =
     Pattern.compile("([a-z0-9]{10})", Pattern.CASE_INSENSITIVE);
   private static final Pattern RGX_LEGACY_TIMESTAMP =
