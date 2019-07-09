@@ -1,5 +1,6 @@
 package gov.ca.cwds.data.es;
 
+import org.apache.commons.lang3.StringUtils;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
@@ -96,4 +97,9 @@ public class ElasticSearchLegacyDescriptor extends ApiObjectIdentity {
     this.legacyTableDescription = legacyTableDescription;
   }
 
+  @JsonProperty("legacy_ui_id_flat")
+  public String getLegacyUiIdFlat() {
+    return StringUtils.isNotBlank(getLegacyUiId()) ? getLegacyUiId().trim().replaceAll("[^0-9]", "")
+        : null;
+  }
 }
