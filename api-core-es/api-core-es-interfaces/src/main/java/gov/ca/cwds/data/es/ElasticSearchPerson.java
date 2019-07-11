@@ -16,7 +16,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
-
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
@@ -25,14 +24,12 @@ import org.elasticsearch.search.SearchHit;
 import org.elasticsearch.search.fetch.subphase.highlight.HighlightField;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-
 import gov.ca.cwds.ObjectMapperUtils;
 import gov.ca.cwds.data.ApiTypedIdentifier;
 import gov.ca.cwds.rest.api.domain.DomainChef;
@@ -1518,5 +1515,49 @@ public class ElasticSearchPerson implements ApiTypedIdentifier<String> {
    */
   public void setCleintRace(ElasticSearchRaceAndEthnicity clientRace) {
     this.clientRace = clientRace;
+  }
+  
+  /**
+   * Getter for first name ngram.
+   * 
+   * @return first name ngram
+   */
+  @JsonProperty("first_name_ngram")
+  @JsonInclude(JsonInclude.Include.ALWAYS)
+  public String getFirstNameNgram() {
+    return this.getFirstName();
+  }
+
+  /**
+   * Getter for middle name ngram.
+   * 
+   * @return middle name ngram
+   */
+  @JsonProperty("middle_name_ngram")
+  @JsonInclude(JsonInclude.Include.ALWAYS)
+  public String getMiddleNameNgram() {
+    return this.getMiddleName();
+  }
+
+  /**
+   * Getter for last name ngram.
+   * 
+   * @return last name ngram
+   */
+  @JsonProperty("last_name_ngram")
+  @JsonInclude(JsonInclude.Include.ALWAYS)
+  public String getLastNameNgram() {
+    return this.getLastName();
+  }
+
+  /**
+   * Getter for name suffix ngram.
+   * 
+   * @return name suffix ngram
+   */
+  @JsonProperty("name_suffix_ngram")
+  @JsonInclude(JsonInclude.Include.ALWAYS)
+  public String getNameSuffixNgram() {
+    return this.getNameSuffix();
   }
 }
