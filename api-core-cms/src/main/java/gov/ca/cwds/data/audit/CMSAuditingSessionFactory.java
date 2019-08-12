@@ -40,7 +40,7 @@ public class CMSAuditingSessionFactory extends SessionFactoryDelegatingImpl impl
     final DB2Connection db2Connection = (DB2Connection) connection;
     final String racfid = PerrySubject.getPerryAccount().getUser();
     // racfid will be available as CURRENT CLIENT_USERID
-    // racfid will be availabe as "Client user ID" in Audit record layout for EXECUTE events
+    // racfid will be available as "Client user ID" in Audit record layout for EXECUTE events
     // see:
     // https://www.ibm.com/support/knowledgecenter/en/SSEPGG_9.5.0/com.ibm.db2.luw.admin.sec.doc/doc/r0051526.html
     db2Connection.setDB2ClientUser(racfid);
