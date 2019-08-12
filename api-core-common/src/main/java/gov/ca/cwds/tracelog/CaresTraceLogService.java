@@ -9,6 +9,6 @@ public interface CaresTraceLogService {
 
   void logSearchQuery(String userId, String term, String value);
 
-  void logViewedRecord(String userId, String id, String type);
+  void logRecordAccess(String userId, String id, CaresTraceLogAction action);
 
 }
