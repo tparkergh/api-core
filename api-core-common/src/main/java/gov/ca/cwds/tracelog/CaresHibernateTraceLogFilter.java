@@ -14,8 +14,7 @@ public class CaresHibernateTraceLogFilter implements CaresTraceLogFilter {
   }
 
   @Override
-  public boolean traceAccess(String user, Object entity, Serializable id,
-      CaresTraceLogAction action) {
+  public boolean traceAccess(String user, Object entity, Serializable id) {
     boolean ret = false;
 
     if (entity != null) {

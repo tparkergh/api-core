@@ -15,9 +15,8 @@ public interface CaresTraceLogFilter {
    * @param user user id
    * @param entity record entity
    * @param id record id
-   * @param action user action
    * @return true = trace this action
    */
-  boolean traceAccess(String user, Object entity, Serializable id, CaresTraceLogAction action);
+  boolean traceAccess(String user, Object entity, Serializable id);
 
 }
