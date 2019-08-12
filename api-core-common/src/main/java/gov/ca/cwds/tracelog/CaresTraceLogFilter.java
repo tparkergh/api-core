@@ -13,10 +13,11 @@ public interface CaresTraceLogFilter {
    * Trace user access to persisted records. Especially important for sealed and sensitive records.
    * 
    * @param user user id
+   * @param entity record entity
    * @param id record id
    * @param action user action
    * @return true = trace this action
    */
-  boolean traceAccess(String user, Serializable id, CaresTraceLogAction action);
+  boolean traceAccess(String user, Object entity, Serializable id, CaresTraceLogAction action);
 
 }
