@@ -11,18 +11,17 @@ public interface CaresTraceLogService {
    * Log search query terms.
    * 
    * @param userId user conducting the search
-   * @param term search term
-   * @param value term value
+   * @param json search query
    */
-  void logSearchQuery(String userId, String term, String value);
+  void logSearchQuery(String userId, String json);
 
   /**
    * Log access to a records, such as a Client.
    * 
    * @param userId user accessing the record
+   * @param entity record object
    * @param id primary key
-   * @param type record type
    */
-  void logRecordAccess(String userId, String id, String type);
+  void logRecordAccess(String userId, Object entity, String id);
 
 }

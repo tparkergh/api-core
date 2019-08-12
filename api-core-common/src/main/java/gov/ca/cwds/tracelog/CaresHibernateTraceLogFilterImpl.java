@@ -5,11 +5,11 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 
-public class CaresHibernateTraceLogFilter implements CaresTraceLogFilter {
+public class CaresHibernateTraceLogFilterImpl implements CaresTraceLogFilter {
 
   private final Set<Class<?>> watchClasses;
 
-  public CaresHibernateTraceLogFilter(Collection<Class<?>> klasses) {
+  public CaresHibernateTraceLogFilterImpl(Collection<Class<?>> klasses) {
     watchClasses = new HashSet<>(klasses);
   }
 
