@@ -5,8 +5,6 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang3.StringUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import com.jayway.jsonpath.DocumentContext;
 import com.jayway.jsonpath.JsonPath;
@@ -17,8 +15,6 @@ import com.jayway.jsonpath.JsonPath;
  * @author CWDS API Team
  */
 public class CaresESQueryParser {
-
-  private static final Logger LOGGER = LoggerFactory.getLogger(CaresESQueryParser.class);
 
   public enum CaresJsonField {
 
