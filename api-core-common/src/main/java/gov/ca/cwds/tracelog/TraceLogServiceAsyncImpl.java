@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Queue;
 import java.util.Timer;
+import java.util.TimerTask;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
 import com.google.inject.Inject;
@@ -15,7 +16,7 @@ import gov.ca.cwds.data.std.ApiObjectIdentity;
 
 public class TraceLogServiceAsyncImpl implements TraceLogService {
 
-  protected static abstract class TraceLogEntry extends ApiObjectIdentity {
+  public static abstract class TraceLogEntry extends ApiObjectIdentity {
 
     private static final long serialVersionUID = 1L;
 
@@ -36,7 +37,7 @@ public class TraceLogServiceAsyncImpl implements TraceLogService {
 
   }
 
-  protected static final class TraceLogQueryEntry extends TraceLogEntry {
+  public static final class TraceLogQueryEntry extends TraceLogEntry {
 
     private static final long serialVersionUID = 1L;
 
@@ -59,7 +60,7 @@ public class TraceLogServiceAsyncImpl implements TraceLogService {
 
   }
 
-  protected static final class TraceLogAccessEntry extends TraceLogEntry {
+  public static final class TraceLogAccessEntry extends TraceLogEntry {
 
     private static final long serialVersionUID = 1L;
 
@@ -82,13 +83,32 @@ public class TraceLogServiceAsyncImpl implements TraceLogService {
 
   }
 
+  public static final class TraceLogTimerTask extends TimerTask {
+
+    private final TraceLogSearchQueryDao queryDao;
+    private final TraceLogRecordAccessDao accessDao;
+
+    public TraceLogTimerTask(TraceLogSearchQueryDao queryDao, TraceLogRecordAccessDao accessDao) {
+      this.queryDao = queryDao;
+      this.accessDao = accessDao;
+    }
+
+    @Override
+    public void run() {
+
+    }
+
+  }
+
   private final TraceLogSearchQueryDao queryDao;
 
   private final TraceLogRecordAccessDao accessDao;
 
-  protected Queue<TraceLogAccessEntry> accessQueue = new ConcurrentLinkedQueue<>();
+  protected final Queue<TraceLogAccessEntry> accessQueue = new ConcurrentLinkedQueue<>();
 
-  protected Timer accessTimer;
+  protected final Queue<TraceLogAccessEntry> searchQueue = new ConcurrentLinkedQueue<>();
+
+  protected Timer timer;
 
   /**
    * Trace access to tables under watch, not every table in legacy.
@@ -96,8 +116,8 @@ public class TraceLogServiceAsyncImpl implements TraceLogService {
   private final List<TraceLogFilter> filters;
 
   @Inject
-  public TraceLogServiceAsyncImpl(TraceLogSearchQueryDao queryDao, TraceLogRecordAccessDao accessDao,
-      Collection<TraceLogFilter> filters) {
+  public TraceLogServiceAsyncImpl(TraceLogSearchQueryDao queryDao,
+      TraceLogRecordAccessDao accessDao, Collection<TraceLogFilter> filters) {
     this.queryDao = queryDao;
     this.accessDao = accessDao;
     this.filters = new ArrayList<TraceLogFilter>(filters);
