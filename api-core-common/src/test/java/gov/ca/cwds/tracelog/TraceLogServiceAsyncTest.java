@@ -2,6 +2,7 @@ package gov.ca.cwds.tracelog;
 
 import static org.hamcrest.CoreMatchers.notNullValue;
 import static org.junit.Assert.assertThat;
+import static org.junit.Assert.assertTrue;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -38,6 +39,15 @@ public class TraceLogServiceAsyncTest {
   public void logSearchQuery() throws Exception {
     target.logSearchQuery("DVADER", CaresSearchQueryParserTest.JSON_TEST_1);
     Thread.sleep(200L);
+    assertTrue("SEARCH QUEUE NOT EMPTY!", target.searchQueue.isEmpty());
+  }
+
+  @Test
+  public void logRecordAccess() throws Exception {
+    final TestEntity entity = new TestEntity("1234567890", "DVADER");
+    target.logRecordAccess("DVADER", entity, entity.getId());
+    Thread.sleep(200L);
+    assertTrue("ACCESS QUEUE NOT EMPTY!", target.accessQueue.isEmpty());
   }
 
 }

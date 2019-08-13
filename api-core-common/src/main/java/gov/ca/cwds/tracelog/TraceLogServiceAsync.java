@@ -65,8 +65,8 @@ public class TraceLogServiceAsync implements TraceLogService {
 
     @Override
     public String toString() {
-      return "TraceLogSearchEntry [term=" + term + ", value=" + value + ", getUserId()="
-          + getUserId() + ", getMoment()=" + getMoment() + "]";
+      return "TraceLogSearchEntry [term=" + term + ", value=" + value + ", user=" + getUserId()
+          + ", when=" + getMoment() + "]";
     }
 
   }
@@ -94,8 +94,8 @@ public class TraceLogServiceAsync implements TraceLogService {
 
     @Override
     public String toString() {
-      return "TraceLogAccessEntry [id=" + id + ", type=" + type + ", getUserId()=" + getUserId()
-          + ", getMoment()=" + getMoment() + "]";
+      return "TraceLogAccessEntry [id=" + id + ", type=" + type + ", user=" + getUserId()
+          + ", when=" + getMoment() + "]";
     }
 
   }
@@ -118,16 +118,16 @@ public class TraceLogServiceAsync implements TraceLogService {
 
     @Override
     public void run() {
-      LOGGER.info("RUN TRACE LOG TASK!");
+      LOGGER.trace("Flush trace log queues");
       TraceLogSearchEntry se;
       while (!searchQueue.isEmpty() && (se = searchQueue.poll()) != null) {
-        LOGGER.info("search query: {}", se);
+        LOGGER.debug("search query: {}", se);
         queryDao.logSearchQuery(se.getUserId(), se.getMoment(), se.getTerm(), se.getValue());
       }
 
       TraceLogAccessEntry ae;
       while (!accessQueue.isEmpty() && (ae = accessQueue.poll()) != null) {
-        LOGGER.info("record access: {}", ae);
+        LOGGER.debug("record access: {}", ae);
         accessDao.logRecordAccess(ae.getUserId(), ae.getMoment(), ae.getId());
       }
     }
