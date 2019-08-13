@@ -7,6 +7,6 @@ package gov.ca.cwds.tracelog;
  */
 public interface TraceLogSearchQueryDao {
 
-  void saveSearchQuery(String userId, String term, String value);
+  void logSearchQuery(String userId, String term, String value);
 
 }
