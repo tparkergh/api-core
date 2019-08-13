@@ -1,10 +1,7 @@
 package gov.ca.cwds.tracelog;
 
-import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Date;
 import java.util.List;
-import java.util.Map;
 import java.util.Queue;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -116,20 +113,27 @@ public class TraceLogServiceAsync implements TraceLogService {
       this.searchQueue = searchQueue;
     }
 
-    @Override
-    public void run() {
-      LOGGER.trace("Flush trace log queues");
+    protected void traceSearch() {
       TraceLogSearchEntry se;
       while (!searchQueue.isEmpty() && (se = searchQueue.poll()) != null) {
         LOGGER.debug("search query: {}", se);
         queryDao.logSearchQuery(se.getUserId(), se.getMoment(), se.getTerm(), se.getValue());
       }
+    }
 
+    protected void traceAccess() {
       TraceLogAccessEntry ae;
       while (!accessQueue.isEmpty() && (ae = accessQueue.poll()) != null) {
         LOGGER.debug("record access: {}", ae);
         accessDao.logRecordAccess(ae.getUserId(), ae.getMoment(), ae.getId());
       }
+    }
+
+    @Override
+    public void run() {
+      LOGGER.trace("Flush trace log queues");
+      traceSearch();
+      traceAccess();
     }
 
   }
@@ -147,8 +151,8 @@ public class TraceLogServiceAsync implements TraceLogService {
 
   @Inject
   public TraceLogServiceAsync(TraceLogSearchQueryDao queryDao, TraceLogRecordAccessDao accessDao,
-      Collection<TraceLogFilter> filters, long delay) {
-    this.filters = new ArrayList<TraceLogFilter>(filters);
+      List<TraceLogFilter> filters, long delay) {
+    this.filters = filters;
     this.timer = new Timer("tracelog");
     timer.schedule(new TraceLogTimerTask(queryDao, accessDao, accessQueue, searchQueue), delay,
         delay);
@@ -156,10 +160,13 @@ public class TraceLogServiceAsync implements TraceLogService {
 
   @Override
   public void logSearchQuery(String userId, String json) {
-    for (Map.Entry<CaresSearchQueryParser.CaresJsonField, String> e : new CaresSearchQueryParser()
-        .parse(json).entrySet()) {
-      searchQueue.add(new TraceLogSearchEntry(userId, e.getKey().getName(), e.getValue()));
-    }
+    new CaresSearchQueryParser().parse(json).entrySet().stream().forEach(
+        e -> searchQueue.add(new TraceLogSearchEntry(userId, e.getKey().getName(), e.getValue())));
+    // for (Map.Entry<CaresSearchQueryParser.CaresJsonField, String> e : new
+    // CaresSearchQueryParser()
+    // .parse(json).entrySet()) {
+    // searchQueue.add(new TraceLogSearchEntry(userId, e.getKey().getName(), e.getValue()));
+    // }
   }
 
   @Override

@@ -23,8 +23,7 @@ public class HibernateTraceLogFilter implements TraceLogFilter {
     boolean ret = false;
 
     if (entity != null) {
-      final Class<?> klass = entity.getClass();
-      ret = watchClasses.stream().anyMatch(c -> klass.isInstance(c));
+      ret = watchClasses.stream().anyMatch(c -> c.isInstance(entity));
     }
 
     return ret;
