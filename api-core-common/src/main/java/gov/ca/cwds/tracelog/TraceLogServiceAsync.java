@@ -10,11 +10,16 @@ import java.util.Timer;
 import java.util.TimerTask;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.google.inject.Inject;
 
 import gov.ca.cwds.data.std.ApiObjectIdentity;
 
-public class TraceLogServiceAsyncImpl implements TraceLogService {
+public class TraceLogServiceAsync implements TraceLogService {
+
+  private static final Logger LOGGER = LoggerFactory.getLogger(TraceLogServiceAsync.class);
 
   public static abstract class TraceLogEntry extends ApiObjectIdentity {
 
@@ -58,6 +63,12 @@ public class TraceLogServiceAsyncImpl implements TraceLogService {
       return value;
     }
 
+    @Override
+    public String toString() {
+      return "TraceLogSearchEntry [term=" + term + ", value=" + value + ", getUserId()="
+          + getUserId() + ", getMoment()=" + getMoment() + "]";
+    }
+
   }
 
   public static final class TraceLogAccessEntry extends TraceLogEntry {
@@ -81,6 +92,12 @@ public class TraceLogServiceAsyncImpl implements TraceLogService {
       return type;
     }
 
+    @Override
+    public String toString() {
+      return "TraceLogAccessEntry [id=" + id + ", type=" + type + ", getUserId()=" + getUserId()
+          + ", getMoment()=" + getMoment() + "]";
+    }
+
   }
 
   public static final class TraceLogTimerTask extends TimerTask {
@@ -101,13 +118,16 @@ public class TraceLogServiceAsyncImpl implements TraceLogService {
 
     @Override
     public void run() {
+      LOGGER.info("RUN TRACE LOG TASK!");
       TraceLogSearchEntry se;
       while (!searchQueue.isEmpty() && (se = searchQueue.poll()) != null) {
+        LOGGER.info("search query: {}", se);
         queryDao.logSearchQuery(se.getUserId(), se.getMoment(), se.getTerm(), se.getValue());
       }
 
       TraceLogAccessEntry ae;
-      while (!searchQueue.isEmpty() && (ae = accessQueue.poll()) != null) {
+      while (!accessQueue.isEmpty() && (ae = accessQueue.poll()) != null) {
+        LOGGER.info("record access: {}", ae);
         accessDao.logRecordAccess(ae.getUserId(), ae.getMoment(), ae.getId());
       }
     }
@@ -126,8 +146,8 @@ public class TraceLogServiceAsyncImpl implements TraceLogService {
   private final List<TraceLogFilter> filters;
 
   @Inject
-  public TraceLogServiceAsyncImpl(TraceLogSearchQueryDao queryDao,
-      TraceLogRecordAccessDao accessDao, Collection<TraceLogFilter> filters, long delay) {
+  public TraceLogServiceAsync(TraceLogSearchQueryDao queryDao, TraceLogRecordAccessDao accessDao,
+      Collection<TraceLogFilter> filters, long delay) {
     this.filters = new ArrayList<TraceLogFilter>(filters);
     this.timer = new Timer("tracelog");
     timer.schedule(new TraceLogTimerTask(queryDao, accessDao, accessQueue, searchQueue), delay,
