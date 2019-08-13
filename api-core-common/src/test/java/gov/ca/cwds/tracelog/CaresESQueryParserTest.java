@@ -45,6 +45,26 @@ public class CaresESQueryParserTest {
   }
 
   @Test
+  public void parse_1() throws Exception {
+    final String json = JSON_TEST_1;
+
+    final Map<CaresJsonField, String> actual = target.parse(json);
+    final Map<CaresJsonField, String> expected = new EnumMap<>(CaresJsonField.class);
+    expected.put(CaresJsonField.CLIENT_ID, "1406607661170082074");
+    assertThat(actual, is(equalTo(expected)));
+  }
+
+  @Test
+  public void parse_2() throws Exception {
+    final String json = JSON_TEST_2;
+
+    final Map<CaresJsonField, String> actual = target.parse(json);
+    final Map<CaresJsonField, String> expected = new EnumMap<>(CaresJsonField.class);
+    expected.put(CaresJsonField.CLIENT_ID, "1406607661170082074");
+    assertThat(actual, is(equalTo(expected)));
+  }
+
+  @Test
   public void parse_3() throws Exception {
     final String json = JSON_TEST_3;
 
