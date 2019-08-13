@@ -164,8 +164,11 @@ public class TraceLogServiceAsync implements TraceLogService {
 
   @Override
   public void logRecordAccess(String userId, Object entity, String id) {
+    final String className = entity.getClass().getName();
     if (filters.stream().anyMatch(f -> f.traceAccess(userId, entity, id))) {
-      accessQueue.add(new TraceLogAccessEntry(userId, id, entity.getClass().getName()));
+      accessQueue.add(new TraceLogAccessEntry(userId, id, className));
+    } else {
+      LOGGER.debug("Untraced entity: {}", className);
     }
   }
 

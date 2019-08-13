@@ -43,8 +43,16 @@ public class TraceLogServiceAsyncTest {
   }
 
   @Test
-  public void logRecordAccess() throws Exception {
+  public void logRecordAccess_Traced() throws Exception {
     final TestEntity entity = new TestEntity("1234567890", "DVADER");
+    target.logRecordAccess("DVADER", entity, entity.getId());
+    Thread.sleep(200L);
+    assertTrue("ACCESS QUEUE NOT EMPTY!", target.accessQueue.isEmpty());
+  }
+
+  @Test
+  public void logRecordAccess_NotTraced() throws Exception {
+    final TestEntity2 entity = new TestEntity2("1234567890", "DVADER");
     target.logRecordAccess("DVADER", entity, entity.getId());
     Thread.sleep(200L);
     assertTrue("ACCESS QUEUE NOT EMPTY!", target.accessQueue.isEmpty());
