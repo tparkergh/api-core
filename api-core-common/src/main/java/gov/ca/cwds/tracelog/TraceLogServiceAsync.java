@@ -162,11 +162,6 @@ public class TraceLogServiceAsync implements TraceLogService {
   public void logSearchQuery(String userId, String json) {
     new CaresSearchQueryParser().parse(json).entrySet().stream().forEach(
         e -> searchQueue.add(new TraceLogSearchEntry(userId, e.getKey().getName(), e.getValue())));
-    // for (Map.Entry<CaresSearchQueryParser.CaresJsonField, String> e : new
-    // CaresSearchQueryParser()
-    // .parse(json).entrySet()) {
-    // searchQueue.add(new TraceLogSearchEntry(userId, e.getKey().getName(), e.getValue()));
-    // }
   }
 
   @Override
