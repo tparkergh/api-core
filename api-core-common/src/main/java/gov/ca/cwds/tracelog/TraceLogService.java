@@ -5,7 +5,7 @@ package gov.ca.cwds.tracelog;
  * 
  * @author CWDS API Team
  */
-public interface CaresTraceLogService {
+public interface TraceLogService {
 
   /**
    * Log search query terms.

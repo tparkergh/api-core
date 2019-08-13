@@ -7,7 +7,7 @@ import java.io.Serializable;
  * 
  * @author CWDS API Team
  */
-public interface CaresTraceLogFilter {
+public interface TraceLogFilter {
 
   /**
    * Trace user access to persisted records. Especially important for sealed and sensitive records.

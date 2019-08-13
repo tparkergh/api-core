@@ -14,7 +14,7 @@ import com.jayway.jsonpath.JsonPath;
  * 
  * @author CWDS API Team
  */
-public class CaresESQueryParser {
+public class CaresSearchQueryParser {
 
   public enum CaresJsonField {
 
@@ -70,7 +70,7 @@ public class CaresESQueryParser {
 
   }
 
-  public CaresESQueryParser() {}
+  public CaresSearchQueryParser() {}
 
   public Map<CaresJsonField, String> parse(String json) {
     final Map<CaresJsonField, String> ret = new EnumMap<>(CaresJsonField.class);
