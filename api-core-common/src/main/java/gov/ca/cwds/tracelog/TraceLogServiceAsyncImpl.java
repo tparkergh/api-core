@@ -37,14 +37,14 @@ public class TraceLogServiceAsyncImpl implements TraceLogService {
 
   }
 
-  public static final class TraceLogQueryEntry extends TraceLogEntry {
+  public static final class TraceLogSearchEntry extends TraceLogEntry {
 
     private static final long serialVersionUID = 1L;
 
     private final String term;
     private final String value;
 
-    public TraceLogQueryEntry(String userId, String term, String value) {
+    public TraceLogSearchEntry(String userId, String term, String value) {
       super(userId);
       this.term = term;
       this.value = value;
@@ -85,17 +85,31 @@ public class TraceLogServiceAsyncImpl implements TraceLogService {
 
   public static final class TraceLogTimerTask extends TimerTask {
 
+    private final Queue<TraceLogAccessEntry> accessQueue;
+    private final Queue<TraceLogSearchEntry> searchQueue;
+
     private final TraceLogSearchQueryDao queryDao;
     private final TraceLogRecordAccessDao accessDao;
 
-    public TraceLogTimerTask(TraceLogSearchQueryDao queryDao, TraceLogRecordAccessDao accessDao) {
+    public TraceLogTimerTask(TraceLogSearchQueryDao queryDao, TraceLogRecordAccessDao accessDao,
+        Queue<TraceLogAccessEntry> accessQueue, Queue<TraceLogSearchEntry> searchQueue) {
       this.queryDao = queryDao;
       this.accessDao = accessDao;
+      this.accessQueue = accessQueue;
+      this.searchQueue = searchQueue;
     }
 
     @Override
     public void run() {
+      TraceLogSearchEntry se;
+      while (!searchQueue.isEmpty() && (se = searchQueue.poll()) != null) {
+        queryDao.logSearchQuery(se.getUserId(), se.getMoment(), se.getTerm(), se.getValue());
+      }
 
+      TraceLogAccessEntry ae;
+      while (!searchQueue.isEmpty() && (ae = accessQueue.poll()) != null) {
+        accessDao.logRecordAccess(ae.getUserId(), ae.getMoment(), ae.getId());
+      }
     }
 
   }
@@ -106,7 +120,7 @@ public class TraceLogServiceAsyncImpl implements TraceLogService {
 
   protected final Queue<TraceLogAccessEntry> accessQueue = new ConcurrentLinkedQueue<>();
 
-  protected final Queue<TraceLogAccessEntry> searchQueue = new ConcurrentLinkedQueue<>();
+  protected final Queue<TraceLogSearchEntry> searchQueue = new ConcurrentLinkedQueue<>();
 
   protected Timer timer;
 
@@ -117,24 +131,27 @@ public class TraceLogServiceAsyncImpl implements TraceLogService {
 
   @Inject
   public TraceLogServiceAsyncImpl(TraceLogSearchQueryDao queryDao,
-      TraceLogRecordAccessDao accessDao, Collection<TraceLogFilter> filters) {
+      TraceLogRecordAccessDao accessDao, Collection<TraceLogFilter> filters, long delay) {
     this.queryDao = queryDao;
     this.accessDao = accessDao;
     this.filters = new ArrayList<TraceLogFilter>(filters);
+    this.timer = new Timer("tracelog");
+    timer.schedule(new TraceLogTimerTask(queryDao, accessDao, accessQueue, searchQueue), delay,
+        delay);
   }
 
   @Override
   public void logSearchQuery(String userId, String json) {
     for (Map.Entry<CaresSearchQueryParser.CaresJsonField, String> e : new CaresSearchQueryParser()
         .parse(json).entrySet()) {
-      queryDao.logSearchQuery(userId, e.getKey().getName(), e.getValue());
+      searchQueue.add(new TraceLogSearchEntry(userId, e.getKey().getName(), e.getValue()));
     }
   }
 
   @Override
   public void logRecordAccess(String userId, Object entity, String id) {
     if (filters.stream().anyMatch(f -> f.traceAccess(userId, entity, id))) {
-      accessDao.logRecordAccess(userId, entity, id);
+      accessQueue.add(new TraceLogAccessEntry(userId, id, entity.getClass().getName()));
     }
   }
 

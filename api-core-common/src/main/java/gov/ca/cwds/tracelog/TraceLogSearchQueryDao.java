@@ -1,5 +1,7 @@
 package gov.ca.cwds.tracelog;
 
+import java.util.Date;
+
 /**
  * Persist user search query terms.
  * 
@@ -7,6 +9,6 @@ package gov.ca.cwds.tracelog;
  */
 public interface TraceLogSearchQueryDao {
 
-  void logSearchQuery(String userId, String term, String value);
+  void logSearchQuery(String userId, Date moment, String term, String value);
 
 }
