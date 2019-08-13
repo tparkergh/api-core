@@ -114,10 +114,6 @@ public class TraceLogServiceAsyncImpl implements TraceLogService {
 
   }
 
-  private final TraceLogSearchQueryDao queryDao;
-
-  private final TraceLogRecordAccessDao accessDao;
-
   protected final Queue<TraceLogAccessEntry> accessQueue = new ConcurrentLinkedQueue<>();
 
   protected final Queue<TraceLogSearchEntry> searchQueue = new ConcurrentLinkedQueue<>();
@@ -132,8 +128,6 @@ public class TraceLogServiceAsyncImpl implements TraceLogService {
   @Inject
   public TraceLogServiceAsyncImpl(TraceLogSearchQueryDao queryDao,
       TraceLogRecordAccessDao accessDao, Collection<TraceLogFilter> filters, long delay) {
-    this.queryDao = queryDao;
-    this.accessDao = accessDao;
     this.filters = new ArrayList<TraceLogFilter>(filters);
     this.timer = new Timer("tracelog");
     timer.schedule(new TraceLogTimerTask(queryDao, accessDao, accessQueue, searchQueue), delay,
