@@ -21,6 +21,7 @@ import com.google.inject.Inject;
 import gov.ca.cwds.data.persistence.AccessLimitationAware;
 import gov.ca.cwds.data.persistence.PersistentObject;
 import gov.ca.cwds.tracelog.SimpleTraceLogService;
+import gov.ca.cwds.tracelog.TraceLogRequestContext;
 import gov.ca.cwds.tracelog.TraceLogService;
 
 /**
@@ -96,7 +97,7 @@ public class ApiHibernateInterceptor extends EmptyInterceptor {
   }
 
   /**
-   * Log access to
+   * Log access to database records.
    * 
    * @param entity Hibernate entity instance
    * @param id primary key
@@ -104,6 +105,10 @@ public class ApiHibernateInterceptor extends EmptyInterceptor {
    */
   protected void logAccess(Object entity, Serializable id, String action) {
     LOGGER.debug("{} -> id={}, entityClass={}", action, id, entity.getClass().getName());
+    final String userId = TraceLogRequestContext.instance().getUserId();
+    if (id != null) {
+      traceLogService.logRecordAccess(userId, entity, id.toString());
+    }
   }
 
   @Override
