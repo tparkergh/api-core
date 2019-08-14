@@ -27,7 +27,7 @@ public class CaresStackUtils {
                 && !e.getClassName().startsWith("gov.ca.cwds.rest.filters")
                 && !e.getClassName().contains("$$"))
             .forEach(e -> LOGGER.info("\t{}", e));
-      } catch (Exception e) {
+      } catch (Throwable e) {
         LOGGER.error("ERROR LOGGING EXCEPTION: {}", e.getMessage(), e);
         throw e;
       }
