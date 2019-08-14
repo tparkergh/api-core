@@ -4,7 +4,8 @@ import org.apache.commons.lang3.StringUtils;
 import org.slf4j.MDC;
 
 /**
- * Simplistic request context reads the current user id from the SLF4J MDC.
+ * Simplistic request context reads the current user id from the SLF4J MDC or returns "anonymous" if
+ * no user is found.
  * 
  * @author CWDS API Team
  */
@@ -26,7 +27,7 @@ public class SimpleTraceLogRequestContext implements TraceLogRequestContext {
   @Override
   public String getUserId() {
     final String userId = MDC.get("userId");
-    return StringUtils.isNotBlank(userId) ? userId : "system";
+    return StringUtils.isNotBlank(userId) ? userId : "anonymous";
   }
 
 }
