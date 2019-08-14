@@ -20,13 +20,13 @@ public class TraceLogServiceAsyncTest {
   private static final String USER_ID = "DVADER";
 
   private TraceLogSearchQueryDao searchDao;
-  private TestTraceLogRecordAccessDao accessDao;
+  private SimpleTraceLogRecordAccessDao accessDao;
   private TraceLogServiceAsync target;
 
   @Before
   public void setup() throws Exception {
     searchDao = mock(TraceLogSearchQueryDao.class);
-    accessDao = mock(TestTraceLogRecordAccessDao.class);
+    accessDao = mock(SimpleTraceLogRecordAccessDao.class);
 
     final List<Class<?>> classes = new ArrayList<>();
     classes.add(TestEntity.class);
@@ -64,7 +64,7 @@ public class TraceLogServiceAsyncTest {
     Thread.sleep(200L);
 
     verify(accessDao, times(1)).logRecordAccess(any(String.class), any(Date.class),
-        any(String.class));
+        any(String.class), any(String.class));
     assertTrue("ACCESS QUEUE NOT EMPTY!", target.accessQueue.isEmpty());
   }
 
@@ -75,7 +75,7 @@ public class TraceLogServiceAsyncTest {
     Thread.sleep(200L);
 
     verify(accessDao, times(0)).logRecordAccess(any(String.class), any(Date.class),
-        any(String.class));
+        any(String.class), any(String.class));
     assertTrue("ACCESS QUEUE NOT EMPTY!", target.accessQueue.isEmpty());
   }
 

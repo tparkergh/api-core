@@ -125,7 +125,7 @@ public class TraceLogServiceAsync implements TraceLogService {
       TraceLogAccessEntry ae;
       while (!accessQueue.isEmpty() && (ae = accessQueue.poll()) != null) {
         LOGGER.debug("record access: {}", ae);
-        accessDao.logRecordAccess(ae.getUserId(), ae.getMoment(), ae.getId());
+        accessDao.logRecordAccess(ae.getUserId(), ae.getMoment(), ae.getId(), ae.getType());
       }
     }
 

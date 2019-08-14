@@ -9,6 +9,6 @@ import java.util.Date;
  */
 public interface TraceLogRecordAccessDao {
 
-  void logRecordAccess(String userId, Date moment, String id);
+  void logRecordAccess(String userId, Date moment, String id, String entityType);
 
 }
