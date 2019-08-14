@@ -11,7 +11,7 @@ public class SimpleTraceLogRecordAccessDao implements TraceLogRecordAccessDao {
 
   @Override
   public void logRecordAccess(String userId, Date moment, String id, String entityType) {
-    LOGGER.info("record access: user: {}, when: {}, id: {}, entity: {}", userId, moment, id,
+    LOGGER.info("TRACE LOG: access: user: {}, when: {}, id: {}, entity: {}", userId, moment, id,
         entityType);
   }
 
