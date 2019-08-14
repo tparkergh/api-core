@@ -16,8 +16,11 @@ import org.hibernate.type.Type;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.google.inject.Inject;
+
 import gov.ca.cwds.data.persistence.AccessLimitationAware;
 import gov.ca.cwds.data.persistence.PersistentObject;
+import gov.ca.cwds.tracelog.SimpleTraceLogService;
 import gov.ca.cwds.tracelog.TraceLogService;
 
 /**
@@ -71,9 +74,10 @@ public class ApiHibernateInterceptor extends EmptyInterceptor {
 
   public ApiHibernateInterceptor() {
     super();
-    traceLogService = null;
+    traceLogService = new SimpleTraceLogService();
   }
 
+  @Inject
   public ApiHibernateInterceptor(TraceLogService traceLogService) {
     super();
     this.traceLogService = traceLogService;

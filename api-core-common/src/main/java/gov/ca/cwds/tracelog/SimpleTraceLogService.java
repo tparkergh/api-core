@@ -7,6 +7,10 @@ public class SimpleTraceLogService implements TraceLogService {
 
   private static final Logger LOGGER = LoggerFactory.getLogger(SimpleTraceLogService.class);
 
+  public SimpleTraceLogService() {
+
+  }
+
   @Override
   public void logSearchQuery(String userId, String json) {
     LOGGER.debug("TRACE LOG: search query: user: {}, json: {}", userId, json);
