@@ -6,7 +6,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 /**
- * Log access to record types under watch.
+ * Log access to record types under watch and ignore other entity classes.
  * 
  * @author CWDS API Team
  */
