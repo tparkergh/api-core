@@ -170,7 +170,7 @@ public class TraceLogServiceAsync implements TraceLogService {
     if (filters.stream().anyMatch(f -> f.traceAccess(userId, entity, id))) {
       accessQueue.add(new TraceLogAccessEntry(userId, id, className));
     } else {
-      LOGGER.debug("Untraced entity: {}", className);
+      LOGGER.trace("Untraced entity: {}", className);
     }
   }
 
