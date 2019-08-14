@@ -3,27 +3,30 @@ package gov.ca.cwds.tracelog;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.MDC;
 
+/**
+ * Simplistic request context reads the current user id from the SLF4J MDC.
+ * 
+ * @author CWDS API Team
+ */
 public class SimpleTraceLogRequestContext implements TraceLogRequestContext {
 
-  private final String userId;
+  private static SimpleTraceLogRequestContext unicorn = new SimpleTraceLogRequestContext();
 
-  public SimpleTraceLogRequestContext(String userId) {
-    this.userId = userId;
-  }
+  private SimpleTraceLogRequestContext() {}
 
   /**
-   * Get registered instance of TraceLogRequestContext.
+   * Get "registered" instance of TraceLogRequestContext.
    * 
    * @return TraceLogRequestContext instance
    */
-  static TraceLogRequestContext instance() {
-    final String userId = MDC.get("userId");
-    return new SimpleTraceLogRequestContext(StringUtils.isNotBlank(userId) ? userId : "system");
+  public static TraceLogRequestContext instance() {
+    return unicorn;
   }
 
   @Override
   public String getUserId() {
-    return userId;
+    final String userId = MDC.get("userId");
+    return StringUtils.isNotBlank(userId) ? userId : "system";
   }
 
 }

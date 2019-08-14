@@ -1,5 +1,11 @@
 package gov.ca.cwds.tracelog;
 
+/**
+ * Trace log request context to find user information at runtime without additional method
+ * signatures or dependency injection.
+ * 
+ * @author CWDS API Team
+ */
 public interface TraceLogRequestContext {
 
   /**
@@ -10,7 +16,8 @@ public interface TraceLogRequestContext {
   String getUserId();
 
   /**
-   * Get registered instance of TraceLogRequestContext.
+   * Get registered instance of TraceLogRequestContext. Defaults to
+   * {@link SimpleTraceLogRequestContext}.
    * 
    * @return TraceLogRequestContext instance
    */
