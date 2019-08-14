@@ -15,7 +15,7 @@ public class CaresStackUtils {
   private static final Logger LOGGER = LoggerFactory.getLogger(CaresStackUtils.class);
 
   private CaresStackUtils() {
-    //Private utility class constructor.
+    // Private utility class constructor.
   }
 
   public static void logStack() {
@@ -28,6 +28,7 @@ public class CaresStackUtils {
                 && !e.getClassName().contains("$$"))
             .forEach(e -> LOGGER.info("\t{}", e));
       } catch (Exception e) {
+        LOGGER.error("ERROR LOGGING EXCEPTION: {}", e.getMessage(), e);
         throw e;
       }
     }
