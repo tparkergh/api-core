@@ -8,8 +8,8 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import org.junit.Before;
@@ -52,7 +52,7 @@ public class TraceLogServiceAsyncTest {
     target.logSearchQuery(USER_ID, CaresSearchQueryParserTest.JSON_TEST_1);
     Thread.sleep(200L);
 
-    verify(searchDao, times(7)).logSearchQuery(any(String.class), any(Date.class),
+    verify(searchDao, times(7)).logSearchQuery(any(String.class), any(LocalDateTime.class),
         any(String.class), any(String.class));
     assertTrue("SEARCH QUEUE NOT EMPTY!", target.searchQueue.isEmpty());
   }
@@ -63,7 +63,7 @@ public class TraceLogServiceAsyncTest {
     target.logRecordAccess(USER_ID, entity, entity.getId());
     Thread.sleep(200L);
 
-    verify(accessDao, times(1)).logRecordAccess(any(String.class), any(Date.class),
+    verify(accessDao, times(1)).logRecordAccess(any(String.class), any(LocalDateTime.class),
         any(String.class), any(String.class));
     assertTrue("ACCESS QUEUE NOT EMPTY!", target.accessQueue.isEmpty());
   }
@@ -74,7 +74,7 @@ public class TraceLogServiceAsyncTest {
     target.logRecordAccess(USER_ID, entity, entity.getId());
     Thread.sleep(200L);
 
-    verify(accessDao, times(0)).logRecordAccess(any(String.class), any(Date.class),
+    verify(accessDao, times(0)).logRecordAccess(any(String.class), any(LocalDateTime.class),
         any(String.class), any(String.class));
     assertTrue("ACCESS QUEUE NOT EMPTY!", target.accessQueue.isEmpty());
   }

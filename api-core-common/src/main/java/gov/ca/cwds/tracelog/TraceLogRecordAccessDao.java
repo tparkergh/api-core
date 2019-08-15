@@ -1,6 +1,6 @@
 package gov.ca.cwds.tracelog;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 
 /**
  * Persist user record access, such as clients viewed.
@@ -9,6 +9,6 @@ import java.util.Date;
  */
 public interface TraceLogRecordAccessDao {
 
-  void logRecordAccess(String userId, Date moment, String id, String entityType);
+  void logRecordAccess(String userId, LocalDateTime moment, String id, String entityType);
 
 }

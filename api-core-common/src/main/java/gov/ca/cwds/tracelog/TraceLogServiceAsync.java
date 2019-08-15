@@ -1,6 +1,6 @@
 package gov.ca.cwds.tracelog;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Queue;
 import java.util.Timer;
@@ -23,7 +23,7 @@ public class TraceLogServiceAsync implements TraceLogService {
     private static final long serialVersionUID = 1L;
 
     private final String userId;
-    private final Date moment = new Date();
+    private final LocalDateTime moment = LocalDateTime.now();
 
     public TraceLogEntry(String userId) {
       this.userId = userId;
@@ -33,7 +33,7 @@ public class TraceLogServiceAsync implements TraceLogService {
       return userId;
     }
 
-    public Date getMoment() {
+    public LocalDateTime getMoment() {
       return moment;
     }
 

@@ -1,6 +1,6 @@
 package gov.ca.cwds.tracelog;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 
 import com.google.inject.Inject;
 
@@ -18,7 +18,7 @@ public class DelegateTraceLogSearchQueryDao implements TraceLogSearchQueryDao {
   }
 
   @Override
-  public void logSearchQuery(String userId, Date moment, String term, String value) {
+  public void logSearchQuery(String userId, LocalDateTime moment, String term, String value) {
     dao.logSearchQuery(userId, moment, term, value);
   }
 
