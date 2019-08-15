@@ -57,12 +57,9 @@ import org.mockito.stubbing.Answer;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import gov.ca.cwds.ObjectMapperUtils;
-import gov.ca.cwds.data.cms.SystemCodeDao;
-import gov.ca.cwds.data.cms.SystemMetaDao;
 import gov.ca.cwds.data.legacy.cms.entity.Client;
 import gov.ca.cwds.data.legacy.cms.entity.ClientOtherEthnicity;
 import gov.ca.cwds.data.persistence.PersistentObject;
-import gov.ca.cwds.rest.api.domain.cms.SystemCodeCache;
 
 /**
  * The Prince of Trash, <a href="https://en.wikipedia.org/wiki/Oscar_the_Grouch">Oscar the
@@ -87,7 +84,7 @@ public abstract class OscarTheGrouch<T extends PersistentObject> {
       DateTimeFormatter.ofPattern("yyyy-MM-dd-HH.mm.ss.SSSSSS");
 
   private static Validator validator;
-  private static SystemCodeCache systemCodeCache;
+  // private static SystemCodeCache systemCodeCache;
 
   public SessionFactoryImplementor sessionFactoryImplementor;
   public org.hibernate.SessionFactory sessionFactory;
@@ -105,8 +102,8 @@ public abstract class OscarTheGrouch<T extends PersistentObject> {
   public Settings settings;
   PreparedStatement prepStmt;
 
-  public SystemCodeDao systemCodeDao;
-  public SystemMetaDao systemMetaDao;
+  // public SystemCodeDao systemCodeDao;
+  // public SystemMetaDao systemMetaDao;
 
   public Query query;
 
@@ -231,8 +228,8 @@ public abstract class OscarTheGrouch<T extends PersistentObject> {
     when(con.prepareStatement(any(String.class))).thenReturn(prepStmt);
     when(prepStmt.executeUpdate()).thenReturn(10);
 
-    systemCodeDao = mock(SystemCodeDao.class);
-    systemMetaDao = mock(SystemMetaDao.class);
+    // systemCodeDao = mock(SystemCodeDao.class);
+    // systemMetaDao = mock(SystemMetaDao.class);
 
     final Query q = Mockito.mock(Query.class);
     when(sessionFactory.getCurrentSession()).thenReturn(session);
