@@ -4,9 +4,9 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Queue;
 import java.util.Timer;
-import java.util.TimerTask;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -21,7 +21,7 @@ import gov.ca.cwds.tracelog.elastic.CaresSearchQueryParser;
 
 public class TraceLogServiceAsync implements TraceLogService {
 
-  private static final Logger LOGGER = LoggerFactory.getLogger(TraceLogServiceAsync.class);
+  static final Logger LOGGER = LoggerFactory.getLogger(TraceLogServiceAsync.class);
 
   public static abstract class TraceLogEntry extends ApiObjectIdentity {
 
@@ -102,47 +102,6 @@ public class TraceLogServiceAsync implements TraceLogService {
 
   }
 
-  public static final class TraceLogTimerTask extends TimerTask {
-
-    private final Queue<TraceLogAccessEntry> accessQueue;
-    private final Queue<TraceLogSearchEntry> searchQueue;
-
-    private final TraceLogSearchQueryDao queryDao;
-    private final TraceLogRecordAccessDao accessDao;
-
-    public TraceLogTimerTask(TraceLogSearchQueryDao queryDao, TraceLogRecordAccessDao accessDao,
-        Queue<TraceLogAccessEntry> accessQueue, Queue<TraceLogSearchEntry> searchQueue) {
-      this.queryDao = queryDao;
-      this.accessDao = accessDao;
-      this.accessQueue = accessQueue;
-      this.searchQueue = searchQueue;
-    }
-
-    protected void traceSearch() {
-      TraceLogSearchEntry se;
-      while (!searchQueue.isEmpty() && (se = searchQueue.poll()) != null) {
-        LOGGER.debug("search query: {}", se);
-        queryDao.logSearchQuery(se.getUserId(), se.getMoment(), se.getTerm(), se.getValue());
-      }
-    }
-
-    protected void traceAccess() {
-      TraceLogAccessEntry ae;
-      while (!accessQueue.isEmpty() && (ae = accessQueue.poll()) != null) {
-        LOGGER.debug("record access: {}", ae);
-        accessDao.logRecordAccess(ae.getUserId(), ae.getMoment(), ae.getId(), ae.getType());
-      }
-    }
-
-    @Override
-    public void run() {
-      LOGGER.trace("Flush trace log queues");
-      traceSearch();
-      traceAccess();
-    }
-
-  }
-
   protected final Queue<TraceLogAccessEntry> accessQueue = new ConcurrentLinkedQueue<>();
 
   protected final Queue<TraceLogSearchEntry> searchQueue = new ConcurrentLinkedQueue<>();
@@ -159,7 +118,7 @@ public class TraceLogServiceAsync implements TraceLogService {
       List<TraceLogFilter> filters, long delay) {
     this.filters = filters;
     this.timer = new Timer("tracelog");
-    timer.schedule(new TraceLogTimerTask(queryDao, accessDao, accessQueue, searchQueue), delay,
+    timer.schedule(new TraceLogTimerTask(queryDao, accessDao, accessQueue, searchQueue), 30L,
         delay);
   }
 
@@ -171,11 +130,13 @@ public class TraceLogServiceAsync implements TraceLogService {
 
   @Override
   public void logRecordAccess(String userId, Object entity, String id) {
-    final String className = entity.getClass().getName();
-    if (filters.stream().anyMatch(f -> f.traceAccess(userId, entity, id))) {
-      accessQueue.add(new TraceLogAccessEntry(userId, id, className));
-    } else {
-      LOGGER.trace("Untraced entity: {}", className);
+    if (StringUtils.isNotBlank(userId) && !"anonymous".equals(userId)) {
+      final String className = entity.getClass().getName();
+      if (filters.stream().anyMatch(f -> f.traceAccess(userId, entity, id))) {
+        accessQueue.add(new TraceLogAccessEntry(userId, id, className));
+      } else {
+        LOGGER.trace("Untraced entity: {}", className);
+      }
     }
   }
 
