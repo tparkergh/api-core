@@ -1,8 +1,10 @@
-package gov.ca.cwds.tracelog;
+package gov.ca.cwds.tracelog.delegate;
 
 import java.time.LocalDateTime;
 
 import com.google.inject.Inject;
+
+import gov.ca.cwds.tracelog.core.TraceLogSearchQueryDao;
 
 public class DelegateTraceLogSearchQueryDao implements TraceLogSearchQueryDao {
 

@@ -9,7 +9,7 @@ import com.google.inject.Inject;
 
 import gov.ca.cwds.data.BaseDaoImpl;
 import gov.ca.cwds.inject.CmsSessionFactory;
-import gov.ca.cwds.tracelog.TraceLogSearchQueryDao;
+import gov.ca.cwds.tracelog.core.TraceLogSearchQueryDao;
 import gov.ca.cwds.tracelog.entity.TraceLogSearchQueryLog;
 
 public class TraceLogSearchQueryLogDao extends BaseDaoImpl<TraceLogSearchQueryLog>

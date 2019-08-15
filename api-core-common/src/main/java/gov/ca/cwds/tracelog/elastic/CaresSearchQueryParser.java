@@ -1,4 +1,4 @@
-package gov.ca.cwds.tracelog;
+package gov.ca.cwds.tracelog.elastic;
 
 import java.util.EnumMap;
 import java.util.List;

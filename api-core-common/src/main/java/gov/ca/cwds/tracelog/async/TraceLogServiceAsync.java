@@ -1,4 +1,4 @@
-package gov.ca.cwds.tracelog;
+package gov.ca.cwds.tracelog.async;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -13,6 +13,11 @@ import org.slf4j.LoggerFactory;
 import com.google.inject.Inject;
 
 import gov.ca.cwds.data.std.ApiObjectIdentity;
+import gov.ca.cwds.tracelog.core.TraceLogFilter;
+import gov.ca.cwds.tracelog.core.TraceLogRecordAccessDao;
+import gov.ca.cwds.tracelog.core.TraceLogSearchQueryDao;
+import gov.ca.cwds.tracelog.core.TraceLogService;
+import gov.ca.cwds.tracelog.elastic.CaresSearchQueryParser;
 
 public class TraceLogServiceAsync implements TraceLogService {
 

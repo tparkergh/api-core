@@ -1,4 +1,4 @@
-package gov.ca.cwds.tracelog;
+package gov.ca.cwds.tracelog.async;
 
 import static org.hamcrest.CoreMatchers.notNullValue;
 import static org.junit.Assert.assertThat;
@@ -15,13 +15,23 @@ import java.util.List;
 import org.junit.Before;
 import org.junit.Test;
 
+import gov.ca.cwds.tracelog.CaresSearchQueryParserTest;
+import gov.ca.cwds.tracelog.HibernateTraceLogFilter;
+import gov.ca.cwds.tracelog.TestEntity;
+import gov.ca.cwds.tracelog.TestEntity2;
+import gov.ca.cwds.tracelog.async.TraceLogServiceAsync;
+import gov.ca.cwds.tracelog.core.TraceLogFilter;
+import gov.ca.cwds.tracelog.core.TraceLogSearchQueryDao;
+import gov.ca.cwds.tracelog.elastic.CaresSearchQueryParser;
+import gov.ca.cwds.tracelog.simple.SimpleTraceLogRecordAccessDao;
+
 public class TraceLogServiceAsyncTest {
 
   private static final String USER_ID = "DVADER";
 
   private TraceLogSearchQueryDao searchDao;
   private SimpleTraceLogRecordAccessDao accessDao;
-  private TraceLogServiceAsync target;
+  protected TraceLogServiceAsync target;
 
   @Before
   public void setup() throws Exception {

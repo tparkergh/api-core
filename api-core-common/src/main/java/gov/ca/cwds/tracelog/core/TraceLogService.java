@@ -1,4 +1,4 @@
-package gov.ca.cwds.tracelog;
+package gov.ca.cwds.tracelog.core;
 
 /**
  * Persist user trace logs. See CMO-99.

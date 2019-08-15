@@ -1,9 +1,11 @@
-package gov.ca.cwds.tracelog;
+package gov.ca.cwds.tracelog.simple;
 
 import java.time.LocalDateTime;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import gov.ca.cwds.tracelog.core.TraceLogRecordAccessDao;
 
 public class SimpleTraceLogRecordAccessDao implements TraceLogRecordAccessDao {
 

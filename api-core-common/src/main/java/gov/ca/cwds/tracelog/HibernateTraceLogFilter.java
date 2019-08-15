@@ -5,6 +5,8 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 
+import gov.ca.cwds.tracelog.core.TraceLogFilter;
+
 /**
  * Log access to record types under watch and ignore other entity classes. If no watch classes are
  * set, then trace access for all entity classes.

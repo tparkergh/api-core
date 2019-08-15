@@ -20,9 +20,9 @@ import com.google.inject.Inject;
 
 import gov.ca.cwds.data.persistence.AccessLimitationAware;
 import gov.ca.cwds.data.persistence.PersistentObject;
-import gov.ca.cwds.tracelog.SimpleTraceLogService;
-import gov.ca.cwds.tracelog.TraceLogRequestContext;
-import gov.ca.cwds.tracelog.TraceLogService;
+import gov.ca.cwds.tracelog.core.TraceLogRequestContext;
+import gov.ca.cwds.tracelog.core.TraceLogService;
+import gov.ca.cwds.tracelog.simple.SimpleTraceLogService;
 
 /**
  * Hibernate interceptor that logs SQL activity and traps referential integrity (RI) errors as a

@@ -1,4 +1,6 @@
-package gov.ca.cwds.tracelog;
+package gov.ca.cwds.tracelog.core;
+
+import gov.ca.cwds.tracelog.simple.SimpleTraceLogRequestContext;
 
 /**
  * Trace log request context to find user information at runtime without additional method

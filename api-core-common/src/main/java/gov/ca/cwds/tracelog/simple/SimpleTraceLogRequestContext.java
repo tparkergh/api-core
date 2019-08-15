@@ -1,7 +1,9 @@
-package gov.ca.cwds.tracelog;
+package gov.ca.cwds.tracelog.simple;
 
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.MDC;
+
+import gov.ca.cwds.tracelog.core.TraceLogRequestContext;
 
 /**
  * Simplistic request context reads the current user id from the SLF4J MDC or returns "anonymous" if

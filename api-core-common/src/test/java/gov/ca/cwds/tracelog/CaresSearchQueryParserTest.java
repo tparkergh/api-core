@@ -11,7 +11,8 @@ import java.util.Map;
 import org.junit.Before;
 import org.junit.Test;
 
-import gov.ca.cwds.tracelog.CaresSearchQueryParser.CaresJsonField;
+import gov.ca.cwds.tracelog.elastic.CaresSearchQueryParser;
+import gov.ca.cwds.tracelog.elastic.CaresSearchQueryParser.CaresJsonField;
 
 public class CaresSearchQueryParserTest {
 
