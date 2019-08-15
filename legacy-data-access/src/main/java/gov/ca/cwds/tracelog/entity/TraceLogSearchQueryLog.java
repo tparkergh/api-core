@@ -1,6 +1,7 @@
 package gov.ca.cwds.tracelog.entity;
 
 import java.io.Serializable;
+import java.sql.Timestamp;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -31,7 +32,7 @@ public class TraceLogSearchQueryLog extends CmsPersistentObject {
 
   @NotNull
   @Column(name = "TIMESTAMP")
-  private String ts;
+  private Timestamp ts;
 
   @NotNull
   @Column(name = "TERM")
@@ -40,6 +41,14 @@ public class TraceLogSearchQueryLog extends CmsPersistentObject {
   @NotNull
   @Column(name = "VALUE")
   private String value;
+
+  public TraceLogSearchQueryLog(String user, Timestamp ts, String term, String value) {
+    super();
+    this.user = user;
+    this.ts = ts;
+    this.term = term;
+    this.value = value;
+  }
 
   @Override
   public Serializable getPrimaryKey() {
@@ -62,14 +71,6 @@ public class TraceLogSearchQueryLog extends CmsPersistentObject {
     this.user = user;
   }
 
-  public String getTs() {
-    return ts;
-  }
-
-  public void setTs(String ts) {
-    this.ts = ts;
-  }
-
   public String getTerm() {
     return term;
   }
@@ -84,6 +85,14 @@ public class TraceLogSearchQueryLog extends CmsPersistentObject {
 
   public void setValue(String value) {
     this.value = value;
+  }
+
+  public Timestamp getTs() {
+    return ts;
+  }
+
+  public void setTs(Timestamp ts) {
+    this.ts = ts;
   }
 
 }
