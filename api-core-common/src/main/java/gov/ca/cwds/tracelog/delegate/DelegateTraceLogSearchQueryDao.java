@@ -5,10 +5,12 @@ import java.time.LocalDateTime;
 import com.google.inject.Inject;
 
 import gov.ca.cwds.tracelog.core.TraceLogSearchQueryDao;
+import gov.ca.cwds.tracelog.simple.SimpleTraceLogSearchQueryDao;
 
 public class DelegateTraceLogSearchQueryDao implements TraceLogSearchQueryDao {
 
-  private TraceLogSearchQueryDao dao;
+  @Inject
+  private TraceLogSearchQueryDao dao = new SimpleTraceLogSearchQueryDao();
 
   public DelegateTraceLogSearchQueryDao() {
     // DAO not set

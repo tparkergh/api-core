@@ -73,6 +73,9 @@ public class ApiHibernateInterceptor extends EmptyInterceptor {
 
   private final TraceLogService traceLogService;
 
+  /**
+   * Ctor with basic Trace Log service.
+   */
   public ApiHibernateInterceptor() {
     super();
     traceLogService = new SimpleTraceLogService();
