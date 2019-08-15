@@ -12,11 +12,11 @@ import gov.ca.cwds.inject.CmsSessionFactory;
 import gov.ca.cwds.tracelog.core.TraceLogRecordAccessDao;
 import gov.ca.cwds.tracelog.entity.TraceLogClientViewLog;
 
-public class TraceLogClientViewLogDao extends BaseDaoImpl<TraceLogClientViewLog>
+public class TraceLogRecordAccessDaoImpl extends BaseDaoImpl<TraceLogClientViewLog>
     implements TraceLogRecordAccessDao {
 
   @Inject
-  public TraceLogClientViewLogDao(@CmsSessionFactory SessionFactory sessionFactory) {
+  public TraceLogRecordAccessDaoImpl(@CmsSessionFactory SessionFactory sessionFactory) {
     super(sessionFactory);
   }
 

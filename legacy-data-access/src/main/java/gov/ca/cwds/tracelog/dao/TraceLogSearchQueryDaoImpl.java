@@ -12,11 +12,11 @@ import gov.ca.cwds.inject.CmsSessionFactory;
 import gov.ca.cwds.tracelog.core.TraceLogSearchQueryDao;
 import gov.ca.cwds.tracelog.entity.TraceLogSearchQueryLog;
 
-public class TraceLogSearchQueryLogDao extends BaseDaoImpl<TraceLogSearchQueryLog>
+public class TraceLogSearchQueryDaoImpl extends BaseDaoImpl<TraceLogSearchQueryLog>
     implements TraceLogSearchQueryDao {
 
   @Inject
-  public TraceLogSearchQueryLogDao(@CmsSessionFactory SessionFactory sessionFactory) {
+  public TraceLogSearchQueryDaoImpl(@CmsSessionFactory SessionFactory sessionFactory) {
     super(sessionFactory);
   }
 

@@ -9,7 +9,6 @@ import gov.ca.cwds.tracelog.simple.SimpleTraceLogRecordAccessDao;
 
 public class DelegateTraceLogRecordAccessDao implements TraceLogRecordAccessDao {
 
-  @Inject
   private TraceLogRecordAccessDao dao = new SimpleTraceLogRecordAccessDao();
 
   @Override
@@ -21,6 +20,7 @@ public class DelegateTraceLogRecordAccessDao implements TraceLogRecordAccessDao 
     return dao;
   }
 
+  @Inject
   public void setDao(TraceLogRecordAccessDao dao) {
     this.dao = dao;
   }

@@ -9,21 +9,24 @@ import gov.ca.cwds.tracelog.simple.SimpleTraceLogSearchQueryDao;
 
 public class DelegateTraceLogSearchQueryDao implements TraceLogSearchQueryDao {
 
-  @Inject
   private TraceLogSearchQueryDao dao = new SimpleTraceLogSearchQueryDao();
 
   public DelegateTraceLogSearchQueryDao() {
     // DAO not set
   }
 
-  @Inject
-  public DelegateTraceLogSearchQueryDao(TraceLogSearchQueryDao dao) {
-    this.dao = dao;
-  }
-
   @Override
   public void logSearchQuery(String userId, LocalDateTime moment, String term, String value) {
     dao.logSearchQuery(userId, moment, term, value);
+  }
+
+  public TraceLogSearchQueryDao getDao() {
+    return dao;
+  }
+
+  @Inject
+  public void setDao(TraceLogSearchQueryDao dao) {
+    this.dao = dao;
   }
 
 }
