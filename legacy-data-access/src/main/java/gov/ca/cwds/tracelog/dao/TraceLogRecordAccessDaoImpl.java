@@ -11,7 +11,7 @@ import org.slf4j.LoggerFactory;
 import com.google.inject.Inject;
 
 import gov.ca.cwds.data.BaseDaoImpl;
-import gov.ca.cwds.inject.CmsSessionFactory;
+import gov.ca.cwds.inject.NsSessionFactory;
 import gov.ca.cwds.tracelog.core.TraceLogRecordAccessDao;
 import gov.ca.cwds.tracelog.entity.TraceLogClientViewLog;
 
@@ -21,7 +21,7 @@ public class TraceLogRecordAccessDaoImpl extends BaseDaoImpl<TraceLogClientViewL
   private static final Logger LOGGER = LoggerFactory.getLogger(TraceLogRecordAccessDaoImpl.class);
 
   @Inject
-  public TraceLogRecordAccessDaoImpl(@CmsSessionFactory SessionFactory sessionFactory) {
+  public TraceLogRecordAccessDaoImpl(@NsSessionFactory SessionFactory sessionFactory) {
     super(sessionFactory);
   }
 

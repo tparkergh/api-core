@@ -106,7 +106,7 @@ public class TraceLogServiceAsync implements TraceLogService {
 
   protected final Queue<TraceLogSearchEntry> searchQueue = new ConcurrentLinkedQueue<>();
 
-  protected Timer timer;
+  protected final Timer timer;
 
   /**
    * Trace access to tables under watch, not every table in legacy.

@@ -47,7 +47,7 @@ public final class TraceLogTimerTask extends TimerTask {
 
   @Override
   public void run() {
-    LOGGER.trace("Flush trace log queues");
+    LOGGER.debug("Flush trace log queues");
     traceSearch();
     traceAccess();
   }

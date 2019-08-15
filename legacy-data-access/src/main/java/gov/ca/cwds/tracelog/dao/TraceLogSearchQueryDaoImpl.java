@@ -8,7 +8,7 @@ import org.hibernate.SessionFactory;
 import com.google.inject.Inject;
 
 import gov.ca.cwds.data.BaseDaoImpl;
-import gov.ca.cwds.inject.CmsSessionFactory;
+import gov.ca.cwds.inject.NsSessionFactory;
 import gov.ca.cwds.tracelog.core.TraceLogSearchQueryDao;
 import gov.ca.cwds.tracelog.entity.TraceLogSearchQueryLog;
 
@@ -16,7 +16,7 @@ public class TraceLogSearchQueryDaoImpl extends BaseDaoImpl<TraceLogSearchQueryL
     implements TraceLogSearchQueryDao {
 
   @Inject
-  public TraceLogSearchQueryDaoImpl(@CmsSessionFactory SessionFactory sessionFactory) {
+  public TraceLogSearchQueryDaoImpl(@NsSessionFactory SessionFactory sessionFactory) {
     super(sessionFactory);
   }
 
