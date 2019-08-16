@@ -51,6 +51,10 @@ public class TraceLogRecordAccessDaoImpl extends BaseDaoImpl<TraceLogClientViewL
 
   @Override
   public void logBulkAccess(Queue<TraceLogAccessEntry> accessQueue) {
+    if (accessQueue.isEmpty()) {
+      return;
+    }
+
     TraceLogAccessEntry ae = null;
     Transaction txn = null;
     try (final Session session = getSessionFactory().openSession()) {
