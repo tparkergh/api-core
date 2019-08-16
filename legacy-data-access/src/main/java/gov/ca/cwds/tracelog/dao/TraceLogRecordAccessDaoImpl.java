@@ -64,6 +64,8 @@ public class TraceLogRecordAccessDaoImpl extends BaseDaoImpl<TraceLogClientViewL
         create(new TraceLogClientViewLog(ae.getUserId(), Timestamp.valueOf(ae.getMoment()),
             ae.getId(), ae.getType()));
       }
+      session.flush();
+      session.clear();
       txn.commit();
     } catch (Exception e) {
       LOGGER.error("ERROR SAVING BULK RECORD ACCESS!", e);

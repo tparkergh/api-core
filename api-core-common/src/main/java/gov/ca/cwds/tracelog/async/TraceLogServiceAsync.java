@@ -63,11 +63,6 @@ public class TraceLogServiceAsync implements TraceLogService {
     try {
       if (id.contains("@")) {
         ret = id.split("@")[1];
-
-        // Condition: compound keys, like Referral Client.
-        // referralId=PDw0kQcBFX,clientId=DkXY03mBFX
-        // } else if (id.contains("=")) {
-        // ret = id.split(",")[0].split("=")[1];
       }
     } catch (Exception e) {
       LOGGER.error("FAILED TO PARSE WEIRD ENTITY ID. id: {}", id, e);
