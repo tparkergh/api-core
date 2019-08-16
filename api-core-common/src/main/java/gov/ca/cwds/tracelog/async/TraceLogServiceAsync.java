@@ -50,6 +50,10 @@ public class TraceLogServiceAsync implements TraceLogService {
   /**
    * Hibernate creates some funky entity id's.
    * 
+   * <p>
+   * Well, we probably created them with vararg key generics.
+   * </p>
+   * 
    * @param id wild crazy Hibernate entity id to clean
    * @return clean entity id that actually looks like an id
    */
@@ -61,6 +65,7 @@ public class TraceLogServiceAsync implements TraceLogService {
         ret = id.split("@")[1];
 
         // Condition: compound keys, like Referral Client.
+        // referralId=PDw0kQcBFX,clientId=DkXY03mBFX
         // } else if (id.contains("=")) {
         // ret = id.split(",")[0].split("=")[1];
       }
