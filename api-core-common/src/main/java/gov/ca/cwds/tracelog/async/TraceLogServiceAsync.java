@@ -47,10 +47,26 @@ public class TraceLogServiceAsync implements TraceLogService {
         e -> searchQueue.add(new TraceLogSearchEntry(userId, e.getKey().getName(), e.getValue())));
   }
 
+  /**
+   * Hibernate creates some funky entity id's.
+   * 
+   * @param id wild crazy Hibernate entity id to clean
+   * @return clean entity id that actually looks like an id
+   */
   protected String cleanEntityId(String id) {
     String ret = StringUtils.isNotBlank(id) ? id : "new";
-    if (id.contains("@")) {
-      ret = id.split("@")[1];
+
+    try {
+      if (id.contains("@")) {
+        ret = id.split("@")[1];
+
+        // Condition: compound keys, like Referral Client.
+        // } else if (id.contains("=")) {
+        // ret = id.split(",")[0].split("=")[1];
+      }
+    } catch (Exception e) {
+      LOGGER.error("FAILED TO PARSE WEIRD ENTITY ID. id: {}", id, e);
+      // Do NOT re-throw. Don't fail a whole bundle because of a one whack id.
     }
 
     return ret;
