@@ -30,7 +30,7 @@ public class TraceLogRecordAccessDaoImpl extends BaseDaoImpl<TraceLogClientViewL
 
   @Override
   public void logRecordAccess(String userId, LocalDateTime moment, String id, String entityType) {
-    LOGGER.info("Trace Log, log access: user: {}, entity: {}, id: {}", userId, entityType, id);
+    LOGGER.info("Trace Log: record access: user: {}, entity: {}, id: {}", userId, entityType, id);
     Transaction txn = null;
     try (final Session session = getSessionFactory().openSession()) {
       txn = session.beginTransaction();

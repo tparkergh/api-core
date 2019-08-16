@@ -34,11 +34,11 @@ public class TraceLogServiceAsync implements TraceLogService {
 
   @Inject
   public TraceLogServiceAsync(TraceLogSearchQueryDao queryDao, TraceLogRecordAccessDao accessDao,
-      List<TraceLogFilter> filters, long delay) {
+      List<TraceLogFilter> filters, long startDelay, long recurringDelay) {
     this.filters = filters;
     this.timer = new Timer("tracelog");
-    timer.schedule(new TraceLogTimerTask(queryDao, accessDao, accessQueue, searchQueue), 45000L,
-        delay);
+    timer.schedule(new TraceLogTimerTask(queryDao, accessDao, accessQueue, searchQueue), startDelay,
+        recurringDelay);
   }
 
   @Override

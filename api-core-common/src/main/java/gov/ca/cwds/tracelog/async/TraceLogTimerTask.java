@@ -57,8 +57,10 @@ public final class TraceLogTimerTask extends TimerTask {
   @Override
   public void run() {
     LOGGER.debug("Trace Log: flush queues");
-    traceSearch();
+    // traceSearch();
     // traceAccess();
+
+    searchDao.logBulkAccess(searchQueue);
     accessDao.logBulkAccess(accessQueue);
   }
 

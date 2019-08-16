@@ -14,11 +14,11 @@ import java.util.Date;
 import org.junit.Before;
 import org.junit.Test;
 
-import gov.ca.cwds.common.OscarTheGrouch;
+import gov.ca.cwds.common.CaresTestHarness;
 import gov.ca.cwds.data.legacy.cms.entity.Client;
 import gov.ca.cwds.data.std.ApiPhoneAware;
 
-public class BaseAttorneyTest extends OscarTheGrouch<Client> {
+public class BaseAttorneyTest extends CaresTestHarness<Client> {
 
   private static final class TestOnlyBaseAttorney extends BaseAttorney {
   }

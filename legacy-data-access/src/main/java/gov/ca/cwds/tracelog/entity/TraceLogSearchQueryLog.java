@@ -33,11 +33,11 @@ public class TraceLogSearchQueryLog implements PersistentObject, Serializable {
   private Long id;
 
   @NotNull
-  @Column(name = "USER")
+  @Column(name = "\"user\"")
   private String user;
 
   @NotNull
-  @Column(name = "TIMESTAMP")
+  @Column(name = "\"timestamp\"")
   private Timestamp ts;
 
   @NotNull

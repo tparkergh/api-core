@@ -11,10 +11,10 @@ import org.hibernate.Transaction;
 import org.junit.Before;
 import org.junit.Test;
 
-import gov.ca.cwds.common.OscarTheGrouch;
+import gov.ca.cwds.common.CaresTestHarness;
 import gov.ca.cwds.data.persistence.cms.SystemCode;
 
-public class SystemCodeDaoTest extends OscarTheGrouch<SystemCode> {
+public class SystemCodeDaoTest extends CaresTestHarness<SystemCode> {
 
   SystemCodeDao target;
 
