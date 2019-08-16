@@ -47,10 +47,19 @@ public class TraceLogServiceAsync implements TraceLogService {
         e -> searchQueue.add(new TraceLogSearchEntry(userId, e.getKey().getName(), e.getValue())));
   }
 
+  protected String cleanClassName(Class<?> klass) {
+    String ret = klass.getName();
+    if (ret.contains("@")) {
+      ret = ret.split("@")[1];
+    }
+
+    return ret;
+  }
+
   @Override
   public void logRecordAccess(String userId, Object entity, String id) {
     if (StringUtils.isNotBlank(userId) && !"anonymous".equals(userId)) {
-      final String className = entity.getClass().getName();
+      final String className = cleanClassName(entity.getClass());
       if (filters.stream().anyMatch(f -> f.traceAccess(userId, entity, id))) {
         accessQueue.add(new TraceLogAccessEntry(userId, id, className));
       } else {
