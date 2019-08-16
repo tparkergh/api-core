@@ -37,7 +37,7 @@ public class TraceLogServiceAsync implements TraceLogService {
       List<TraceLogFilter> filters, long delay) {
     this.filters = filters;
     this.timer = new Timer("tracelog");
-    timer.schedule(new TraceLogTimerTask(queryDao, accessDao, accessQueue, searchQueue), 30L,
+    timer.schedule(new TraceLogTimerTask(queryDao, accessDao, accessQueue, searchQueue), 45000L,
         delay);
   }
 
