@@ -32,34 +32,9 @@ public final class TraceLogTimerTask extends TimerTask {
     this.searchQueue = searchQueue;
   }
 
-  /**
-   * Process and persist one search query at a time.
-   */
-  protected void traceSearch() {
-    TraceLogSearchEntry se;
-    while (!searchQueue.isEmpty() && (se = searchQueue.poll()) != null) {
-      LOGGER.debug("Trace Log: save search query: {}", se);
-      searchDao.logSearchQuery(se.getUserId(), se.getMoment(), se.getTerm(), se.getValue());
-    }
-  }
-
-  /**
-   * Process and persist one viewed record at a time.
-   */
-  protected void traceAccess() {
-    TraceLogAccessEntry ae;
-    while (!accessQueue.isEmpty() && (ae = accessQueue.poll()) != null) {
-      LOGGER.debug("Trace Log: save record access: {}", ae);
-      accessDao.logRecordAccess(ae.getUserId(), ae.getMoment(), ae.getId(), ae.getType());
-    }
-  }
-
   @Override
   public void run() {
     LOGGER.debug("Trace Log: flush queues");
-    // traceSearch();
-    // traceAccess();
-
     searchDao.logBulkAccess(searchQueue);
     accessDao.logBulkAccess(accessQueue);
   }
