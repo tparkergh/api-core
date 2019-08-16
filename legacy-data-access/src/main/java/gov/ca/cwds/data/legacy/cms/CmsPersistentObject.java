@@ -1,6 +1,7 @@
 package gov.ca.cwds.data.legacy.cms;
 
 import java.time.LocalDateTime;
+
 import javax.persistence.Column;
 import javax.persistence.MappedSuperclass;
 
@@ -14,6 +15,7 @@ import javax.persistence.MappedSuperclass;
 public abstract class CmsPersistentObject extends CmsPersistentObjectBase {
 
   private static final long serialVersionUID = -9154954939023360996L;
+
   /**
    * LAST_UPDATE_TIMESTAMP - The date and time of the most recent update of an occurrence of this
    * entity type.

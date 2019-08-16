@@ -15,13 +15,13 @@ import javax.validation.constraints.NotNull;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
-import gov.ca.cwds.data.legacy.cms.CmsPersistentObject;
+import gov.ca.cwds.data.persistence.PersistentObject;
 
 @Entity
 @Table(name = "client_view_logs")
 @JsonPropertyOrder(alphabetic = true)
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class TraceLogClientViewLog extends CmsPersistentObject {
+public class TraceLogClientViewLog implements PersistentObject, Serializable {
 
   private static final long serialVersionUID = 1L;
 
@@ -33,11 +33,11 @@ public class TraceLogClientViewLog extends CmsPersistentObject {
   private Long id;
 
   @NotNull
-  @Column(name = "USER")
+  @Column(name = "\"USER\"")
   private String user;
 
   @NotNull
-  @Column(name = "TIMESTAMP")
+  @Column(name = "\"TIMESTAMP\"")
   private Timestamp ts;
 
   @NotNull

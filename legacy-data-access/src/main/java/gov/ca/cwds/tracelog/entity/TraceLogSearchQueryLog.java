@@ -15,13 +15,13 @@ import javax.validation.constraints.NotNull;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
-import gov.ca.cwds.data.legacy.cms.CmsPersistentObject;
+import gov.ca.cwds.data.persistence.PersistentObject;
 
 @Entity
 @Table(name = "query_logs")
 @JsonPropertyOrder(alphabetic = true)
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class TraceLogSearchQueryLog extends CmsPersistentObject {
+public class TraceLogSearchQueryLog implements PersistentObject, Serializable {
 
   private static final long serialVersionUID = 1L;
 

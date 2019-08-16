@@ -29,7 +29,15 @@ public class TraceLogRecordAccessDaoImpl extends BaseDaoImpl<TraceLogClientViewL
   public void logRecordAccess(String userId, LocalDateTime moment, String id, String entityType) {
     LOGGER.info("Trace Log, log access: user: {}, entity: {}, id: {}", userId, entityType, id);
     try (final Session session = getSessionFactory().openSession()) {
+      session.beginTransaction();
       create(new TraceLogClientViewLog(userId, Timestamp.valueOf(moment), id, entityType));
+      session.getTransaction().commit();
+    } catch (Exception e) {
+      try {
+        getSessionFactory().getCurrentSession().getTransaction().rollback();
+      } catch (Exception e2) {
+        LOGGER.error("Failed to roll back", e2);
+      }
     }
   }
 
