@@ -127,7 +127,7 @@ public class ApiHibernateInterceptor extends EmptyInterceptor {
   @Override
   public boolean onFlushDirty(Object entity, Serializable id, Object[] currentState,
       Object[] previousState, String[] propertyNames, Type[] types) {
-    logAccess(entity, id, "onFlushDirty");
+    // logAccess(entity, id, "onFlushDirty");
     logLimitedAccessRecord(entity, "onFlushDirty");
     return false; // object state not changed
   }
@@ -170,7 +170,7 @@ public class ApiHibernateInterceptor extends EmptyInterceptor {
 
       if (obj instanceof PersistentObject) { // our object type
         final PersistentObject entity = (PersistentObject) obj;
-        logAccess(entity, entity.getPrimaryKey(), "preFlush");
+        // logAccess(entity, entity.getPrimaryKey(), "preFlush");
         logLimitedAccessRecord(obj, "preFlush");
         final Class<?> klazz = entity.getClass();
 
