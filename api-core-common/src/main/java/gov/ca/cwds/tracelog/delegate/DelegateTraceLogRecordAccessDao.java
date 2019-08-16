@@ -1,9 +1,11 @@
 package gov.ca.cwds.tracelog.delegate;
 
 import java.time.LocalDateTime;
+import java.util.Queue;
 
 import com.google.inject.Inject;
 
+import gov.ca.cwds.tracelog.async.TraceLogAccessEntry;
 import gov.ca.cwds.tracelog.core.TraceLogRecordAccessDao;
 import gov.ca.cwds.tracelog.simple.SimpleTraceLogRecordAccessDao;
 
@@ -23,6 +25,11 @@ public class DelegateTraceLogRecordAccessDao implements TraceLogRecordAccessDao 
 
   public void setDao(TraceLogRecordAccessDao dao) {
     this.dao = dao;
+  }
+
+  @Override
+  public void logBulkAccess(Queue<TraceLogAccessEntry> accessQueue) {
+    dao.logBulkAccess(accessQueue);
   }
 
 }

@@ -6,8 +6,6 @@ import java.util.TimerTask;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import gov.ca.cwds.tracelog.async.TraceLogServiceAsync.TraceLogAccessEntry;
-import gov.ca.cwds.tracelog.async.TraceLogServiceAsync.TraceLogSearchEntry;
 import gov.ca.cwds.tracelog.core.TraceLogRecordAccessDao;
 import gov.ca.cwds.tracelog.core.TraceLogSearchQueryDao;
 
@@ -47,9 +45,10 @@ public final class TraceLogTimerTask extends TimerTask {
 
   @Override
   public void run() {
-    LOGGER.debug("Flush trace log queues");
+    LOGGER.debug("Trace Log: flush queues");
     traceSearch();
-    traceAccess();
+    // traceAccess();
+    accessDao.logBulkAccess(accessQueue);
   }
 
 }

@@ -117,7 +117,7 @@ public class ApiHibernateInterceptor extends EmptyInterceptor {
   @Override
   public void onDelete(Object entity, Serializable id, Object[] state, String[] propertyNames,
       Type[] types) {
-    logAccess(entity, id, "onDelete");
+    logAccess(entity, id, "D");
     logLimitedAccessRecord(entity, "onDelete");
   }
 
@@ -127,7 +127,7 @@ public class ApiHibernateInterceptor extends EmptyInterceptor {
   @Override
   public boolean onFlushDirty(Object entity, Serializable id, Object[] currentState,
       Object[] previousState, String[] propertyNames, Type[] types) {
-    // logAccess(entity, id, "onFlushDirty");
+    logAccess(entity, id, "U");
     logLimitedAccessRecord(entity, "onFlushDirty");
     return false; // object state not changed
   }
@@ -138,7 +138,7 @@ public class ApiHibernateInterceptor extends EmptyInterceptor {
   @Override
   public boolean onLoad(Object entity, Serializable id, Object[] state, String[] propertyNames,
       Type[] types) {
-    logAccess(entity, id, "onLoad");
+    logAccess(entity, id, "R");
     logLimitedAccessRecord(entity, "onLoad");
     return false; // object state not changed
   }
@@ -146,7 +146,7 @@ public class ApiHibernateInterceptor extends EmptyInterceptor {
   @Override
   public boolean onSave(Object entity, Serializable id, Object[] state, String[] propertyNames,
       Type[] types) {
-    logAccess(entity, id, "onSave");
+    logAccess(entity, id, "C");
     logLimitedAccessRecord(entity, "onSave");
     return false; // object state not changed
   }
@@ -170,7 +170,6 @@ public class ApiHibernateInterceptor extends EmptyInterceptor {
 
       if (obj instanceof PersistentObject) { // our object type
         final PersistentObject entity = (PersistentObject) obj;
-        // logAccess(entity, entity.getPrimaryKey(), "preFlush");
         logLimitedAccessRecord(obj, "preFlush");
         final Class<?> klazz = entity.getClass();
 

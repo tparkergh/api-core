@@ -1,6 +1,5 @@
 package gov.ca.cwds.tracelog.async;
 
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Queue;
 import java.util.Timer;
@@ -12,7 +11,6 @@ import org.slf4j.LoggerFactory;
 
 import com.google.inject.Inject;
 
-import gov.ca.cwds.data.std.ApiObjectIdentity;
 import gov.ca.cwds.tracelog.core.TraceLogFilter;
 import gov.ca.cwds.tracelog.core.TraceLogRecordAccessDao;
 import gov.ca.cwds.tracelog.core.TraceLogSearchQueryDao;
@@ -22,85 +20,6 @@ import gov.ca.cwds.tracelog.elastic.CaresSearchQueryParser;
 public class TraceLogServiceAsync implements TraceLogService {
 
   static final Logger LOGGER = LoggerFactory.getLogger(TraceLogServiceAsync.class);
-
-  public static abstract class TraceLogEntry extends ApiObjectIdentity {
-
-    private static final long serialVersionUID = 1L;
-
-    private final String userId;
-    private final LocalDateTime moment = LocalDateTime.now();
-
-    public TraceLogEntry(String userId) {
-      this.userId = userId;
-    }
-
-    public String getUserId() {
-      return userId;
-    }
-
-    public LocalDateTime getMoment() {
-      return moment;
-    }
-
-  }
-
-  public static final class TraceLogSearchEntry extends TraceLogEntry {
-
-    private static final long serialVersionUID = 1L;
-
-    private final String term;
-    private final String value;
-
-    public TraceLogSearchEntry(String userId, String term, String value) {
-      super(userId);
-      this.term = term;
-      this.value = value;
-    }
-
-    public String getTerm() {
-      return term;
-    }
-
-    public String getValue() {
-      return value;
-    }
-
-    @Override
-    public String toString() {
-      return "TraceLogSearchEntry [term=" + term + ", value=" + value + ", user=" + getUserId()
-          + ", when=" + getMoment() + "]";
-    }
-
-  }
-
-  public static final class TraceLogAccessEntry extends TraceLogEntry {
-
-    private static final long serialVersionUID = 1L;
-
-    private final String id;
-    private final String type;
-
-    public TraceLogAccessEntry(String userId, String id, String type) {
-      super(userId);
-      this.id = id;
-      this.type = type;
-    }
-
-    public String getId() {
-      return id;
-    }
-
-    public String getType() {
-      return type;
-    }
-
-    @Override
-    public String toString() {
-      return "TraceLogAccessEntry [id=" + id + ", type=" + type + ", user=" + getUserId()
-          + ", when=" + getMoment() + "]";
-    }
-
-  }
 
   protected final Queue<TraceLogAccessEntry> accessQueue = new ConcurrentLinkedQueue<>();
 
