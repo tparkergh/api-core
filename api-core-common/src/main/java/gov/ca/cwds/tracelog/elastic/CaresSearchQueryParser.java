@@ -1,5 +1,6 @@
 package gov.ca.cwds.tracelog.elastic;
 
+import java.io.Serializable;
 import java.util.EnumMap;
 import java.util.List;
 import java.util.Map;
@@ -16,7 +17,7 @@ import com.jayway.jsonpath.JsonPath;
  */
 public class CaresSearchQueryParser {
 
-  public enum CaresJsonField {
+  public enum CaresJsonField implements Serializable {
 
     BIRTH_DATE("birth date", "$..query_string[?(@.default_field=='date_of_birth')].query"),
 
