@@ -19,6 +19,18 @@ import gov.ca.cwds.tracelog.core.TraceLogService;
 import gov.ca.cwds.tracelog.elastic.CaresSearchQueryParser;
 import gov.ca.cwds.tracelog.elastic.CaresSearchQueryParser.CaresJsonField;
 
+/**
+ * Houses the asynchronous Trace Log service.
+ * 
+ * <p>
+ * Implements asynchronous service by means of thread-safe queues for search queries and record
+ * access. Timer and timer task consume queues asynchronously and insert into Postgres Trace Log
+ * tables.
+ * </p>
+ * 
+ * @author CWDS API Team
+ * @see TraceLogService
+ */
 public class TraceLogServiceAsync implements TraceLogService {
 
   static final Logger LOGGER = LoggerFactory.getLogger(TraceLogServiceAsync.class);
@@ -30,7 +42,7 @@ public class TraceLogServiceAsync implements TraceLogService {
   protected final Timer timer;
 
   /**
-   * Trace access to tables under watch, not every table in legacy.
+   * Trace access to tables under watch, not necessarily every table in legacy.
    */
   private final List<TraceLogFilter> filters;
 
@@ -66,7 +78,7 @@ public class TraceLogServiceAsync implements TraceLogService {
 
     try {
       if (id.contains("@")) {
-        ret = id.split("@")[1];
+        ret = id.split("@")[1]; // Pull the primary key
       }
     } catch (Exception e) {
       LOGGER.error("FAILED TO PARSE WEIRD ENTITY ID. id: {}", id, e);
