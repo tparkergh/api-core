@@ -19,6 +19,9 @@ public class CaresSearchQueryParser {
 
   public enum CaresJsonField implements Serializable {
 
+    /**
+     * People Summary index:
+     */
     BIRTH_DATE("birth date", "$..query_string[?(@.default_field=='date_of_birth')].query"),
 
     BIRTH_DATE_AS_TEXT("birth date as text",

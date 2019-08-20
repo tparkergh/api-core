@@ -5,7 +5,7 @@ import java.util.Map;
 import gov.ca.cwds.tracelog.elastic.CaresSearchQueryParser.CaresJsonField;
 
 /**
- * Persist user trace logs. See CMO-99.
+ * Persist user trace logs, including search query terms and records viewed. See CMO-99.
  * 
  * @author CWDS API Team
  */
