@@ -1,9 +1,13 @@
 package gov.ca.cwds.tracelog.simple;
 
+import java.util.Map;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import gov.ca.cwds.tracelog.core.TraceLogService;
+import gov.ca.cwds.tracelog.elastic.CaresSearchQueryParser;
+import gov.ca.cwds.tracelog.elastic.CaresSearchQueryParser.CaresJsonField;
 
 public class SimpleTraceLogService implements TraceLogService {
 
@@ -14,8 +18,9 @@ public class SimpleTraceLogService implements TraceLogService {
   }
 
   @Override
-  public void logSearchQuery(String userId, String json) {
+  public Map<CaresJsonField, String> logSearchQuery(String userId, String json) {
     LOGGER.info("TRACE LOG: search query: user: {}, json: {}", userId, json);
+    return new CaresSearchQueryParser().parse(json);
   }
 
   @Override

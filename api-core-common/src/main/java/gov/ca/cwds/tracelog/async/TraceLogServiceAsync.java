@@ -1,6 +1,7 @@
 package gov.ca.cwds.tracelog.async;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Queue;
 import java.util.Timer;
 import java.util.concurrent.ConcurrentLinkedQueue;
@@ -16,6 +17,7 @@ import gov.ca.cwds.tracelog.core.TraceLogRecordAccessDao;
 import gov.ca.cwds.tracelog.core.TraceLogSearchQueryDao;
 import gov.ca.cwds.tracelog.core.TraceLogService;
 import gov.ca.cwds.tracelog.elastic.CaresSearchQueryParser;
+import gov.ca.cwds.tracelog.elastic.CaresSearchQueryParser.CaresJsonField;
 
 public class TraceLogServiceAsync implements TraceLogService {
 
@@ -42,9 +44,11 @@ public class TraceLogServiceAsync implements TraceLogService {
   }
 
   @Override
-  public void logSearchQuery(String userId, String json) {
-    new CaresSearchQueryParser().parse(json).entrySet().stream().forEach(
+  public Map<CaresJsonField, String> logSearchQuery(String userId, String json) {
+    final Map<CaresJsonField, String> ret = new CaresSearchQueryParser().parse(json);
+    ret.entrySet().stream().forEach(
         e -> searchQueue.add(new TraceLogSearchEntry(userId, e.getKey().getName(), e.getValue())));
+    return ret;
   }
 
   /**
@@ -66,7 +70,7 @@ public class TraceLogServiceAsync implements TraceLogService {
       }
     } catch (Exception e) {
       LOGGER.error("FAILED TO PARSE WEIRD ENTITY ID. id: {}", id, e);
-      // Do NOT re-throw. Don't fail a whole bundle because of a one whack id.
+      // Do NOT re-throw. Don't fail a whole bundle because of one whack id.
     }
 
     return ret;
