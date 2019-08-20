@@ -8,11 +8,13 @@ import org.slf4j.LoggerFactory;
 
 import gov.ca.cwds.tracelog.core.TraceLogRecordAccessDao;
 import gov.ca.cwds.tracelog.core.TraceLogSearchQueryDao;
+import gov.ca.cwds.tracelog.core.TraceLogService;
 
 /**
  * Supports asynchronous Trace Log service.
  * 
  * @author CWDS API Team
+ * @see TraceLogService
  */
 public final class TraceLogTimerTask extends TimerTask {
 
@@ -34,7 +36,7 @@ public final class TraceLogTimerTask extends TimerTask {
 
   @Override
   public void run() {
-    LOGGER.debug("Trace Log: flush queues");
+    LOGGER.trace("Trace Log: flush queues");
     searchDao.logBulkAccess(searchQueue);
     accessDao.logBulkAccess(accessQueue);
   }
