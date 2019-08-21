@@ -16,9 +16,9 @@ import gov.ca.cwds.data.BaseDaoImpl;
 import gov.ca.cwds.inject.NsSessionFactory;
 import gov.ca.cwds.tracelog.async.TraceLogAccessEntry;
 import gov.ca.cwds.tracelog.core.TraceLogRecordAccessDao;
-import gov.ca.cwds.tracelog.entity.TraceLogClientViewLog;
+import gov.ca.cwds.tracelog.entity.TraceLogClientViewEntry;
 
-public class TraceLogRecordAccessDaoImpl extends BaseDaoImpl<TraceLogClientViewLog>
+public class TraceLogRecordAccessDaoImpl extends BaseDaoImpl<TraceLogClientViewEntry>
     implements TraceLogRecordAccessDao {
 
   private static final Logger LOGGER = LoggerFactory.getLogger(TraceLogRecordAccessDaoImpl.class);
@@ -34,7 +34,7 @@ public class TraceLogRecordAccessDaoImpl extends BaseDaoImpl<TraceLogClientViewL
     Transaction txn = null;
     try (final Session session = getSessionFactory().openSession()) {
       txn = session.beginTransaction();
-      create(new TraceLogClientViewLog(userId, Timestamp.valueOf(moment), id, entityType));
+      create(new TraceLogClientViewEntry(userId, Timestamp.valueOf(moment), id, entityType));
       session.getTransaction().commit();
     } catch (Exception e) {
       LOGGER.error("ERROR SAVING SINGLE RECORD ACCESS!", e);
@@ -61,7 +61,7 @@ public class TraceLogRecordAccessDaoImpl extends BaseDaoImpl<TraceLogClientViewL
       txn = session.beginTransaction();
       while (!accessQueue.isEmpty() && (ae = accessQueue.poll()) != null) {
         LOGGER.debug("Trace Log: persist record access: {}", ae);
-        create(new TraceLogClientViewLog(ae.getUserId(), Timestamp.valueOf(ae.getMoment()),
+        create(new TraceLogClientViewEntry(ae.getUserId(), Timestamp.valueOf(ae.getMoment()),
             ae.getId(), ae.getType()));
       }
       session.flush();

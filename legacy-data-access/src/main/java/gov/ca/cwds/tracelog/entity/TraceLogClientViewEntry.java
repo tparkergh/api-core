@@ -18,16 +18,16 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import gov.ca.cwds.data.persistence.PersistentObject;
 
 @Entity
-@Table(name = "query_logs")
+@Table(name = "client_view_logs")
 @JsonPropertyOrder(alphabetic = true)
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class TraceLogSearchQueryLog implements PersistentObject, Serializable {
+public class TraceLogClientViewEntry implements PersistentObject, Serializable {
 
   private static final long serialVersionUID = 1L;
 
   @Id
-  @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "query_logs_id_seq")
-  @SequenceGenerator(name = "query_logs_id_seq", sequenceName = "query_logs_id_seq",
+  @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "client_view_logs_id_seq")
+  @SequenceGenerator(name = "client_view_logs_id_seq", sequenceName = "client_view_logs_id_seq",
       allocationSize = 50)
   @Column(name = "ID")
   private Long id;
@@ -41,19 +41,19 @@ public class TraceLogSearchQueryLog implements PersistentObject, Serializable {
   private Timestamp ts;
 
   @NotNull
-  @Column(name = "TERM")
-  private String term;
+  @Column(name = "RECORD_ID")
+  private String recordId;
 
   @NotNull
-  @Column(name = "VALUE")
-  private String value;
+  @Column(name = "RECORD_TYPE")
+  private String recordType;
 
-  public TraceLogSearchQueryLog(String user, Timestamp ts, String term, String value) {
+  public TraceLogClientViewEntry(String user, Timestamp ts, String recordId, String recordType) {
     super();
     this.user = user;
     this.ts = ts;
-    this.term = term;
-    this.value = value;
+    this.recordId = recordId;
+    this.recordType = recordType;
   }
 
   @Override
@@ -77,20 +77,20 @@ public class TraceLogSearchQueryLog implements PersistentObject, Serializable {
     this.user = user;
   }
 
-  public String getTerm() {
-    return term;
+  public String getRecordId() {
+    return recordId;
   }
 
-  public void setTerm(String term) {
-    this.term = term;
+  public void setRecordId(String recordId) {
+    this.recordId = recordId;
   }
 
-  public String getValue() {
-    return value;
+  public String getRecordType() {
+    return recordType;
   }
 
-  public void setValue(String value) {
-    this.value = value;
+  public void setRecordType(String recordType) {
+    this.recordType = recordType;
   }
 
   public Timestamp getTs() {

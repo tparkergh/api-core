@@ -16,9 +16,9 @@ import gov.ca.cwds.data.BaseDaoImpl;
 import gov.ca.cwds.inject.NsSessionFactory;
 import gov.ca.cwds.tracelog.async.TraceLogSearchEntry;
 import gov.ca.cwds.tracelog.core.TraceLogSearchQueryDao;
-import gov.ca.cwds.tracelog.entity.TraceLogSearchQueryLog;
+import gov.ca.cwds.tracelog.entity.TraceLogSearchQueryEntry;
 
-public class TraceLogSearchQueryDaoImpl extends BaseDaoImpl<TraceLogSearchQueryLog>
+public class TraceLogSearchQueryDaoImpl extends BaseDaoImpl<TraceLogSearchQueryEntry>
     implements TraceLogSearchQueryDao {
 
   private static final Logger LOGGER = LoggerFactory.getLogger(TraceLogSearchQueryDaoImpl.class);
@@ -34,7 +34,7 @@ public class TraceLogSearchQueryDaoImpl extends BaseDaoImpl<TraceLogSearchQueryL
     Transaction txn = null;
     try (final Session session = getSessionFactory().openSession()) {
       txn = session.beginTransaction();
-      create(new TraceLogSearchQueryLog(userId, Timestamp.valueOf(moment), term, value));
+      create(new TraceLogSearchQueryEntry(userId, Timestamp.valueOf(moment), term, value));
       session.getTransaction().commit();
     } catch (Exception e) {
       LOGGER.error("ERROR SAVING SINGLE SEARCH QUERY!", e);
@@ -61,7 +61,7 @@ public class TraceLogSearchQueryDaoImpl extends BaseDaoImpl<TraceLogSearchQueryL
       txn = session.beginTransaction();
       while (!searchQueue.isEmpty() && (ae = searchQueue.poll()) != null) {
         LOGGER.debug("Trace Log: persist search query: {}", ae);
-        create(new TraceLogSearchQueryLog(ae.getUserId(), Timestamp.valueOf(ae.getMoment()),
+        create(new TraceLogSearchQueryEntry(ae.getUserId(), Timestamp.valueOf(ae.getMoment()),
             ae.getTerm(), ae.getValue()));
       }
       session.flush();

@@ -18,16 +18,16 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import gov.ca.cwds.data.persistence.PersistentObject;
 
 @Entity
-@Table(name = "client_view_logs")
+@Table(name = "query_logs")
 @JsonPropertyOrder(alphabetic = true)
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class TraceLogClientViewLog implements PersistentObject, Serializable {
+public class TraceLogSearchQueryEntry implements PersistentObject, Serializable {
 
   private static final long serialVersionUID = 1L;
 
   @Id
-  @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "client_view_logs_id_seq")
-  @SequenceGenerator(name = "client_view_logs_id_seq", sequenceName = "client_view_logs_id_seq",
+  @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "query_logs_id_seq")
+  @SequenceGenerator(name = "query_logs_id_seq", sequenceName = "query_logs_id_seq",
       allocationSize = 50)
   @Column(name = "ID")
   private Long id;
@@ -41,19 +41,19 @@ public class TraceLogClientViewLog implements PersistentObject, Serializable {
   private Timestamp ts;
 
   @NotNull
-  @Column(name = "RECORD_ID")
-  private String recordId;
+  @Column(name = "TERM")
+  private String term;
 
   @NotNull
-  @Column(name = "RECORD_TYPE")
-  private String recordType;
+  @Column(name = "VALUE")
+  private String value;
 
-  public TraceLogClientViewLog(String user, Timestamp ts, String recordId, String recordType) {
+  public TraceLogSearchQueryEntry(String user, Timestamp ts, String term, String value) {
     super();
     this.user = user;
     this.ts = ts;
-    this.recordId = recordId;
-    this.recordType = recordType;
+    this.term = term;
+    this.value = value;
   }
 
   @Override
@@ -77,20 +77,20 @@ public class TraceLogClientViewLog implements PersistentObject, Serializable {
     this.user = user;
   }
 
-  public String getRecordId() {
-    return recordId;
+  public String getTerm() {
+    return term;
   }
 
-  public void setRecordId(String recordId) {
-    this.recordId = recordId;
+  public void setTerm(String term) {
+    this.term = term;
   }
 
-  public String getRecordType() {
-    return recordType;
+  public String getValue() {
+    return value;
   }
 
-  public void setRecordType(String recordType) {
-    this.recordType = recordType;
+  public void setValue(String value) {
+    this.value = value;
   }
 
   public Timestamp getTs() {
