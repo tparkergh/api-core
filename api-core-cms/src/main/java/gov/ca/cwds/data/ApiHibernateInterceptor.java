@@ -95,7 +95,7 @@ public class ApiHibernateInterceptor extends EmptyInterceptor {
    */
   public static void addHandler(Class<? extends PersistentObject> klass,
       Consumer<PersistentObject> consumer) {
-    LOGGER.info("addHandler -> class={}", klass.getName());
+    LOGGER.debug("addHandler -> class={}", klass.getName());
     handlers.put(klass, consumer);
   }
 
@@ -174,7 +174,7 @@ public class ApiHibernateInterceptor extends EmptyInterceptor {
         final Class<?> klazz = entity.getClass();
 
         if (handlers.containsKey(klazz)) {
-          LOGGER.debug("handler for class {}", klazz);
+          LOGGER.trace("handler for class {}", klazz);
           handlers.get(klazz).accept(entity);
         }
 
@@ -196,7 +196,7 @@ public class ApiHibernateInterceptor extends EmptyInterceptor {
     LOGGER.trace("afterTransactionBegin");
     CaresStackUtils.logStack();
     if (tx != null) {
-      LOGGER.debug("afterTransactionBegin -> txn status={}", tx.getStatus());
+      LOGGER.trace("afterTransactionBegin -> txn status={}", tx.getStatus());
     }
     super.afterTransactionBegin(tx);
   }
@@ -206,7 +206,7 @@ public class ApiHibernateInterceptor extends EmptyInterceptor {
     LOGGER.trace("****** before transaction completion ******");
     CaresStackUtils.logStack();
     if (tx != null) {
-      LOGGER.debug("beforeTransactionCompletion -> txn status={}", tx.getStatus());
+      LOGGER.trace("beforeTransactionCompletion -> txn status={}", tx.getStatus());
     }
     super.beforeTransactionCompletion(tx);
   }
@@ -216,14 +216,14 @@ public class ApiHibernateInterceptor extends EmptyInterceptor {
     LOGGER.trace("****** after transaction completion ******");
     CaresStackUtils.logStack();
     if (tx != null) {
-      LOGGER.debug("afterTransactionCompletion -> txn status={}", tx.getStatus());
+      LOGGER.trace("afterTransactionCompletion -> txn status={}", tx.getStatus());
     }
     super.afterTransactionCompletion(tx);
   }
 
   @Override
   public Object instantiate(String entityName, EntityMode entityMode, Serializable id) {
-    LOGGER.debug("instantiate -> id={}, entityClass={}", id, entityName);
+    LOGGER.trace("instantiate -> id={}, entityClass={}", id, entityName);
     return super.instantiate(entityName, entityMode, id);
   }
 
@@ -238,7 +238,7 @@ public class ApiHibernateInterceptor extends EmptyInterceptor {
     if (obj instanceof PersistentObject && obj instanceof AccessLimitationAware) {
       final String limitedAccessCode = ((AccessLimitationAware) obj).getLimitedAccessCode();
       if (StringUtils.isNotBlank(limitedAccessCode) && !"N".equalsIgnoreCase(limitedAccessCode)) {
-        LOGGER.debug(operation, " -> id= {}, entityClass= {}, sealed/sensitive= {}",
+        LOGGER.trace(operation, " -> id= {}, entityClass= {}, sealed/sensitive= {}",
             ((PersistentObject) obj).getPrimaryKey(), obj.getClass().getName(), limitedAccessCode);
         logged = true;
       }
