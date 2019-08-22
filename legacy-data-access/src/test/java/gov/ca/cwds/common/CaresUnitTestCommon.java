@@ -8,6 +8,6 @@ import gov.ca.cwds.data.persistence.PersistentObject;
  * @param <T> persistence class type
  * @author CWDS API Team
  */
-public class CaresUnitTestCommon<T extends PersistentObject> extends CaresTestHarness<T> {
+public class CaresUnitTestCommon<T extends PersistentObject> extends OscarTheGrouch<T> {
 
 }

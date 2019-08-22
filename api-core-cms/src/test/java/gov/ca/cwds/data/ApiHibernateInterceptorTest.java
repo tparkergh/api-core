@@ -30,9 +30,9 @@ import gov.ca.cwds.data.persistence.cms.SystemCode;
  * @author CWDS API Team
  */
 public class ApiHibernateInterceptorTest {
+
   ApiHibernateInterceptor target;
 
-  // Consumer<PersistentObject> check = c -> apply((TestPersistentObject) c);
   @Before
   public void setup() throws Exception {
     target = new ApiHibernateInterceptor();

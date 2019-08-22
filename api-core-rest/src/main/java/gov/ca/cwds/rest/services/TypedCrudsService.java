@@ -2,6 +2,8 @@ package gov.ca.cwds.rest.services;
 
 import java.io.Serializable;
 
+import org.apache.commons.lang3.NotImplementedException;
+
 import gov.ca.cwds.rest.api.Request;
 import gov.ca.cwds.rest.api.Response;
 import gov.ca.cwds.rest.api.domain.DomainObject;
@@ -25,7 +27,9 @@ public interface TypedCrudsService<K extends Serializable, I extends Request, O 
    * 
    * @return The {@link Response} containing the found object, null if not found.
    */
-  public O find(K primaryKey);
+  default O find(K primaryKey) {
+    throw new NotImplementedException("Find is not implemented");
+  }
 
   /**
    * Delete object by id
@@ -34,7 +38,9 @@ public interface TypedCrudsService<K extends Serializable, I extends Request, O 
    * 
    * @return The {@link Response} containing the deleted object, null if not found.
    */
-  public O delete(K primaryKey);
+  default O delete(K primaryKey) {
+    throw new NotImplementedException("Delete is not implemented");
+  }
 
   /**
    * Create object
@@ -43,7 +49,9 @@ public interface TypedCrudsService<K extends Serializable, I extends Request, O 
    * 
    * @return The {@link Response}
    */
-  public O create(I request);
+  default O create(I request) {
+    throw new NotImplementedException("Create is not implemented");
+  }
 
   /**
    * Update object
@@ -53,6 +61,8 @@ public interface TypedCrudsService<K extends Serializable, I extends Request, O 
    * 
    * @return The {@link Response}
    */
-  public O update(K primaryKey, I request);
+  default O update(K primaryKey, I request) {
+    throw new NotImplementedException("Update is not implemented");
+  }
 
 }

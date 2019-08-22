@@ -9,15 +9,17 @@ import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.mock;
 
-import gov.ca.cwds.common.OscarTheGrouch;
-import gov.ca.cwds.data.legacy.cms.entity.Client;
-import gov.ca.cwds.data.std.ApiLanguageAware;
 import java.util.Date;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.slf4j.Logger;
 
-public class BaseClientTest extends OscarTheGrouch<Client> {
+import gov.ca.cwds.common.CaresTestHarness;
+import gov.ca.cwds.data.legacy.cms.entity.Client;
+import gov.ca.cwds.data.std.ApiLanguageAware;
+
+public class BaseClientTest extends CaresTestHarness<Client> {
 
   BaseClient target;
 

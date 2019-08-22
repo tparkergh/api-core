@@ -8,7 +8,6 @@ import org.mapstruct.AfterMapping;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.MappingTarget;
-import org.mapstruct.factory.Mappers;
 
 import gov.ca.cwds.cms.data.access.CWSIdentifier;
 import gov.ca.cwds.cms.data.access.Constants;
@@ -95,7 +94,11 @@ public interface CountyOwnershipMapper {
   //@formatter:on
 
   /**
-   * Throwing runtime exception in case of impossibility of calculations.
+   * Throws runtime exception in case of impossible calculations.
+   * 
+   * @param countyOwnership county ownership bean
+   * @param entityId entity id
+   * @param discriminator discriminator (type selection) value
    */
   @SuppressWarnings("squid:S00112")
   @AfterMapping
@@ -117,8 +120,7 @@ public interface CountyOwnershipMapper {
       }
     }
 
-    final String multiFlag = yFlagsCount > 1 ? Constants.Y : Constants.N;
-    countyOwnership.setMultiFlg(multiFlag);
+    countyOwnership.setMultiFlg(yFlagsCount > 1 ? Constants.Y : Constants.N);
   }
 
 }

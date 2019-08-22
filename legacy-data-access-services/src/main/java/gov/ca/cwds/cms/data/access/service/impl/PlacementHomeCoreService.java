@@ -6,7 +6,16 @@ import static gov.ca.cwds.cms.data.access.service.impl.IdGenerator.generateId;
 import static gov.ca.cwds.cms.data.access.utils.ParametersValidator.checkNotPersisted;
 import static gov.ca.cwds.security.utils.PrincipalUtils.getStaffPersonId;
 
+import java.io.Serializable;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.Collections;
+import java.util.Date;
+
+import org.apache.commons.lang3.StringUtils;
+
 import com.google.inject.Inject;
+
 import gov.ca.cwds.authorizer.PlacementHomeResultReadAuthorizer;
 import gov.ca.cwds.cms.data.access.CWSIdentifier;
 import gov.ca.cwds.cms.data.access.Constants.PhoneticSearchTables;
@@ -55,12 +64,6 @@ import gov.ca.cwds.data.legacy.cms.entity.PlacementHomeUc;
 import gov.ca.cwds.data.legacy.cms.entity.SubstituteCareProvider;
 import gov.ca.cwds.security.annotations.Authorize;
 import gov.ca.cwds.security.realm.PerryAccount;
-import java.io.Serializable;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.util.Collections;
-import java.util.Date;
-import org.apache.commons.lang3.StringUtils;
 
 /**
  * Service for create/update/find PlacementHome with business validation and data processing.
@@ -112,10 +115,14 @@ public class PlacementHomeCoreService
 
   /**
    * Constructor with injected services.
+   * 
+   * @param xaDaoFacade XA dao wrapper
+   * @param nonXaDaoFacade non-XA dao wrapper
    */
   @Inject
   public PlacementHomeCoreService(XaDaoProvider xaDaoFacade, NonXaDaoProvider nonXaDaoFacade) {
-    super(xaDaoFacade.getDao(PlacementHomeDao.class), nonXaDaoFacade.getDao(PlacementHomeDao.class));
+    super(xaDaoFacade.getDao(PlacementHomeDao.class),
+        nonXaDaoFacade.getDao(PlacementHomeDao.class));
     placementHomeUcDao = xaDaoFacade.getDao(PlacementHomeUcDao.class);
     countyOwnershipDao = xaDaoFacade.getDao(CountyOwnershipDao.class);
     externalInterfaceDao = xaDaoFacade.getDao(ExternalInterfaceDao.class);
@@ -153,9 +160,8 @@ public class PlacementHomeCoreService
 
   @Override
   protected PlacementHome create(
-    @Authorize("placementHome:create:entityAwareDTO.entity") PlacementHomeEntityAwareDTO entityAwareDto,
-    boolean isXaTransaction)
-      throws DataAccessServicesException {
+      @Authorize("placementHome:create:entityAwareDTO.entity") PlacementHomeEntityAwareDTO entityAwareDto,
+      boolean isXaTransaction) throws DataAccessServicesException {
     return super.create(entityAwareDto, isXaTransaction);
   }
 

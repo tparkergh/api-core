@@ -11,7 +11,7 @@ import java.lang.annotation.Target;
 import com.google.inject.BindingAnnotation;
 
 /**
- * Annotation for binding to our New System database.
+ * Annotation for binding to our New System database (PostGreSQL).
  * 
  * @author CWDS API Team
  */

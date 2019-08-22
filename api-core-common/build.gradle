@@ -2,7 +2,8 @@ dependencies {
   compile group: "io.dropwizard", name: "dropwizard-views-mustache", version: dropwizardVersion
   compile group: 'commons-beanutils', name: 'commons-beanutils', version: commonsBeanutilsVersion
   compile group: 'com.google.inject', name: 'guice', version:guiceVersion
-
+  compile group: 'com.jayway.jsonpath', name: 'json-path', version: '2.4.0'
+  
   testCompile group: 'org.hamcrest', name: 'hamcrest-junit', version: hamcrestVersion
   testCompile group: 'org.mockito', name: 'mockito-core', version: mockitoVersion
   testCompile group: 'org.powermock', name: 'powermock-module-junit4', version: powerMockVersion

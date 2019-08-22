@@ -1,18 +1,23 @@
 package gov.ca.cwds.data.legacy.cms.dao;
 
-import com.google.inject.Inject;
-import gov.ca.cwds.data.BaseDaoImpl;
-import gov.ca.cwds.data.legacy.cms.entity.PlacementHome;
-import gov.ca.cwds.inject.CmsSessionFactory;
 import java.util.Optional;
+
 import javax.persistence.NoResultException;
+
 import org.hibernate.SessionFactory;
 import org.hibernate.query.Query;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.google.inject.Inject;
+
+import gov.ca.cwds.data.BaseDaoImpl;
+import gov.ca.cwds.data.legacy.cms.entity.PlacementHome;
+import gov.ca.cwds.inject.CmsSessionFactory;
+
 /**
  * Placement Home Dao.
+ * 
  * @author CWDS CALS API Team
  */
 public class PlacementHomeDao extends BaseDaoImpl<PlacementHome> {
@@ -33,15 +38,16 @@ public class PlacementHomeDao extends BaseDaoImpl<PlacementHome> {
   public PlacementHome findByFacilityId(String facilityId) {
     final Class<PlacementHome> entityClass = getEntityClass();
     final Query<PlacementHome> query =
-      grabSession().createNamedQuery(entityClass.getSimpleName() + ".find", entityClass)
-        .setParameter("facilityId", facilityId);
+        grabSession().createNamedQuery(entityClass.getSimpleName() + ".find", entityClass)
+            .setParameter("facilityId", facilityId);
     PlacementHome placementHome = null;
     try {
       placementHome = query.getSingleResult();
     } catch (NoResultException e) {
       LOG.trace(
-        "All hail SonarQube!\n\"Bow down before the one you serve. You're going to get what "
-          + "you deserve.\"", e);
+          "All hail SonarQube!\n\"Bow down before the one you serve. You're going to get what "
+              + "you deserve.\"",
+          e);
       LOG.warn("There is no result for facilityId = {}", facilityId);
     }
 
@@ -50,12 +56,14 @@ public class PlacementHomeDao extends BaseDaoImpl<PlacementHome> {
 
   /**
    * Returns facility license number by facility id.
-  */
- public Optional<String> findLicenceNumberByFacilityId(String facilityId) {
+   * 
+   * @param facilityId key
+   * @return license number, if any
+   */
+  public Optional<String> findLicenceNumberByFacilityId(String facilityId) {
     return currentSession()
-      .createNamedQuery(PlacementHome.FIND_LICENSE_NUMBER_BY_FACILITY_ID_QUERY_NAME,
-        String.class)
-      .setParameter("facilityId", facilityId).uniqueResultOptional();
+        .createNamedQuery(PlacementHome.FIND_LICENSE_NUMBER_BY_FACILITY_ID_QUERY_NAME, String.class)
+        .setParameter("facilityId", facilityId).uniqueResultOptional();
   }
 
 }

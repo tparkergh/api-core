@@ -17,6 +17,7 @@ import gov.ca.cwds.data.persistence.PersistentObject;
  * @param <T> The {@link PersistentObject} the DAO implements CRUDS for
  */
 public interface CrudsDao<T extends PersistentObject> extends Dao {
+
   /**
    * Find {@link PersistentObject} by id
    * 

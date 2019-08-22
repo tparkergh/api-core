@@ -16,8 +16,13 @@ import org.hibernate.type.Type;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.google.inject.Inject;
+
 import gov.ca.cwds.data.persistence.AccessLimitationAware;
 import gov.ca.cwds.data.persistence.PersistentObject;
+import gov.ca.cwds.tracelog.core.TraceLogRequestContext;
+import gov.ca.cwds.tracelog.core.TraceLogService;
+import gov.ca.cwds.tracelog.simple.SimpleTraceLogService;
 
 /**
  * Hibernate interceptor that logs SQL activity and traps referential integrity (RI) errors as a
@@ -57,7 +62,7 @@ public class ApiHibernateInterceptor extends EmptyInterceptor {
   private static final Logger LOGGER = LoggerFactory.getLogger(ApiHibernateInterceptor.class);
 
   /**
-   * Types of Hibernate events to handle.
+   * Hibernate events to handle.
    */
   public enum ApiHibernateEvent {
     BEFORE_COMMIT, AFTER_COMMIT, SAVE, LOAD, DELETE, AFTER_TXN_BEGIN, BEFORE_TXN_COMPLETE, AFTER_TXN_COMPLETE;
@@ -65,6 +70,22 @@ public class ApiHibernateInterceptor extends EmptyInterceptor {
 
   private static final Map<Class<? extends PersistentObject>, Consumer<PersistentObject>> handlers =
       new ConcurrentHashMap<>();
+
+  private final TraceLogService traceLogService;
+
+  /**
+   * Ctor with basic Trace Log service.
+   */
+  public ApiHibernateInterceptor() {
+    super();
+    traceLogService = new SimpleTraceLogService();
+  }
+
+  @Inject
+  public ApiHibernateInterceptor(TraceLogService traceLogService) {
+    super();
+    this.traceLogService = traceLogService;
+  }
 
   /**
    * Register an RI handler by entity.
@@ -78,15 +99,25 @@ public class ApiHibernateInterceptor extends EmptyInterceptor {
     handlers.put(klass, consumer);
   }
 
+  /**
+   * Log access to database records.
+   * 
+   * @param entity Hibernate entity instance
+   * @param id primary key
+   * @param action CRUD action
+   */
+  protected void logAccess(Object entity, Serializable id, String action) {
+    LOGGER.debug("{} -> id={}, entityClass={}", action, id, entity.getClass().getName());
+    final String userId = TraceLogRequestContext.instance().getUserId();
+    if (id != null) {
+      traceLogService.logRecordAccess(userId, entity, id.toString());
+    }
+  }
+
   @Override
   public void onDelete(Object entity, Serializable id, Object[] state, String[] propertyNames,
       Type[] types) {
-    if (LOGGER.isTraceEnabled()) {
-      LOGGER.trace("onDelete -> id={}, entity={}", id, entity);
-    } else {
-      LOGGER.debug("onDelete -> id={}, entityClass={}", id, entity.getClass().getName());
-    }
-
+    logAccess(entity, id, "D");
     logLimitedAccessRecord(entity, "onDelete");
   }
 
@@ -96,14 +127,9 @@ public class ApiHibernateInterceptor extends EmptyInterceptor {
   @Override
   public boolean onFlushDirty(Object entity, Serializable id, Object[] currentState,
       Object[] previousState, String[] propertyNames, Type[] types) {
-    if (LOGGER.isTraceEnabled()) {
-      LOGGER.trace("onFlushDirty -> id={}, entity={}", id, entity);
-    } else {
-      LOGGER.debug("onFlushDirty -> id={}, entityClass={}", id, entity.getClass().getName());
-    }
-
+    logAccess(entity, id, "U");
     logLimitedAccessRecord(entity, "onFlushDirty");
-    return false;
+    return false; // object state not changed
   }
 
   /**
@@ -112,27 +138,17 @@ public class ApiHibernateInterceptor extends EmptyInterceptor {
   @Override
   public boolean onLoad(Object entity, Serializable id, Object[] state, String[] propertyNames,
       Type[] types) {
-    if (LOGGER.isTraceEnabled()) {
-      LOGGER.trace("onLoad -> id={}, entity={}", id, entity);
-    } else {
-      LOGGER.debug("onLoad -> id={}, entityClass={}", id, entity.getClass().getName());
-    }
-
+    logAccess(entity, id, "R");
     logLimitedAccessRecord(entity, "onLoad");
-    return false;
+    return false; // object state not changed
   }
 
   @Override
   public boolean onSave(Object entity, Serializable id, Object[] state, String[] propertyNames,
       Type[] types) {
-    if (LOGGER.isTraceEnabled()) {
-      LOGGER.trace("onSave -> id={}, entity={}", id, entity);
-    } else {
-      LOGGER.debug("onSave -> id={}, entityClass={}", id, entity.getClass().getName());
-    }
-
+    logAccess(entity, id, "C");
     logLimitedAccessRecord(entity, "onSave");
-    return false;
+    return false; // object state not changed
   }
 
   /**
@@ -147,25 +163,18 @@ public class ApiHibernateInterceptor extends EmptyInterceptor {
   @Override
   @SuppressWarnings("rawtypes")
   public void preFlush(Iterator iter) {
-    LOGGER.debug("preFlush");
+    LOGGER.trace("preFlush");
     CaresStackUtils.logStack();
     final List list = iterToList(iter);
     for (Object obj : list) {
 
       if (obj instanceof PersistentObject) { // our object type
         final PersistentObject entity = (PersistentObject) obj;
-        if (LOGGER.isTraceEnabled()) {
-          LOGGER.trace("preFlush -> id={}, entity={}", entity.getPrimaryKey(), entity);
-        } else {
-          LOGGER.debug("preFlush -> id={}, entityClass={}", entity.getPrimaryKey(),
-              entity.getClass().getName());
-        }
-
         logLimitedAccessRecord(obj, "preFlush");
         final Class<?> klazz = entity.getClass();
 
         if (handlers.containsKey(klazz)) {
-          LOGGER.debug("handler for class {}", klazz);
+          LOGGER.trace("handler for class {}", klazz);
           handlers.get(klazz).accept(entity);
         }
 
@@ -178,58 +187,58 @@ public class ApiHibernateInterceptor extends EmptyInterceptor {
    */
   @Override
   public void postFlush(@SuppressWarnings("rawtypes") Iterator iterator) {
-    LOGGER.debug("postFlush");
+    LOGGER.trace("postFlush");
     CaresStackUtils.logStack();
   }
 
   @Override
   public void afterTransactionBegin(Transaction tx) {
-    LOGGER.debug("afterTransactionBegin");
+    LOGGER.trace("afterTransactionBegin");
     CaresStackUtils.logStack();
     if (tx != null) {
-      LOGGER.debug("afterTransactionBegin -> txn status={}", tx.getStatus());
+      LOGGER.trace("afterTransactionBegin -> txn status={}", tx.getStatus());
     }
     super.afterTransactionBegin(tx);
   }
 
   @Override
   public void beforeTransactionCompletion(Transaction tx) {
-    LOGGER.debug("****** before transaction completion ******");
+    LOGGER.trace("****** before transaction completion ******");
     CaresStackUtils.logStack();
     if (tx != null) {
-      LOGGER.debug("beforeTransactionCompletion -> txn status={}", tx.getStatus());
+      LOGGER.trace("beforeTransactionCompletion -> txn status={}", tx.getStatus());
     }
     super.beforeTransactionCompletion(tx);
   }
 
   @Override
   public void afterTransactionCompletion(Transaction tx) {
-    LOGGER.debug("****** after transaction completion ******");
+    LOGGER.trace("****** after transaction completion ******");
     CaresStackUtils.logStack();
     if (tx != null) {
-      LOGGER.debug("afterTransactionCompletion -> txn status={}", tx.getStatus());
+      LOGGER.trace("afterTransactionCompletion -> txn status={}", tx.getStatus());
     }
     super.afterTransactionCompletion(tx);
   }
 
   @Override
   public Object instantiate(String entityName, EntityMode entityMode, Serializable id) {
-    LOGGER.debug("instantiate -> id={}, entityClass={}", id, entityName);
+    LOGGER.trace("instantiate -> id={}, entityClass={}", id, entityName);
     return super.instantiate(entityName, entityMode, id);
   }
 
   @SuppressWarnings({"rawtypes", "unchecked"})
   private synchronized List<?> iterToList(Iterator iter) {
-    LOGGER.debug("iterToList");
+    LOGGER.trace("iterToList");
     return IteratorUtils.toList(iter);
   }
 
   private static boolean logLimitedAccessRecord(Object obj, String operation) {
     boolean logged = false;
     if (obj instanceof PersistentObject && obj instanceof AccessLimitationAware) {
-      String limitedAccessCode = ((AccessLimitationAware) obj).getLimitedAccessCode();
+      final String limitedAccessCode = ((AccessLimitationAware) obj).getLimitedAccessCode();
       if (StringUtils.isNotBlank(limitedAccessCode) && !"N".equalsIgnoreCase(limitedAccessCode)) {
-        LOGGER.warn(operation, " -> id= {}, entityClass= {}, sealed/sensitive= {}",
+        LOGGER.trace(operation, " -> id= {}, entityClass= {}, sealed/sensitive= {}",
             ((PersistentObject) obj).getPrimaryKey(), obj.getClass().getName(), limitedAccessCode);
         logged = true;
       }
