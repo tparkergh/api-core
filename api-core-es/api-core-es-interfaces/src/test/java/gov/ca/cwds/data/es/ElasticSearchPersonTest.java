@@ -9,18 +9,20 @@ import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.mock;
 
-import gov.ca.cwds.data.es.ElasticSearchPerson.ESColumn;
-import gov.ca.cwds.data.es.ElasticSearchPerson.ESOptionalCollection;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
 import org.apache.commons.io.IOUtils;
 import org.elasticsearch.search.SearchHit;
 import org.junit.Before;
 import org.junit.Test;
+
+import gov.ca.cwds.data.es.ElasticSearchPerson.ESColumn;
+import gov.ca.cwds.data.es.ElasticSearchPerson.ESOptionalCollection;
 
 public class ElasticSearchPersonTest {
 
@@ -36,7 +38,7 @@ public class ElasticSearchPersonTest {
     assertThat(ElasticSearchPerson.class, notNullValue());
   }
 
-    @Test
+  @Test
   public void shouldTrimValues_whenCreated() {
     ElasticSearchPerson person = createElasticSearchPerson();
     assertEquals("first name", person.getFirstName());
@@ -96,14 +98,14 @@ public class ElasticSearchPersonTest {
 
   private ElasticSearchPerson createElasticSearchPerson(String gender) {
     return new ElasticSearchPerson(" id ", " first name ", " last name ", " middle name ",
-      " name suffix ", gender, " date of birth ", " ssn ", " source type ", " source json ", " highlight fields ",
-      null, null, null, null);
+        " name suffix ", gender, " date of birth ", " ssn ", " source type ", " source json ",
+        " highlight fields ", null, null, null, null);
   }
 
-    @Test
+  @Test
   public void readPerson_Args__String() throws Exception {
-    final String json =
-        IOUtils.toString(ElasticSearchPersonTest.class.getResourceAsStream("/fixtures/data/es/es_person.json"));
+    final String json = IOUtils.toString(
+        ElasticSearchPersonTest.class.getResourceAsStream("/fixtures/data/es/es_person.json"));
     final ElasticSearchPerson actual = ElasticSearchPerson.readPerson(json);
     assertThat(actual, is(notNullValue())); // if it loads, then it's 80% right.
   }
@@ -215,11 +217,8 @@ public class ElasticSearchPersonTest {
   @Test
   public void getSearchableDateOfBirth() throws Exception {
     target.setDateOfBirth("1990-09-09");
-    String[] expectedDateOfBirths =
-      {"09091990", "091990", "1990", "0909",
-        "090990", "991990", "9990", "91990",
-        "99", "09990", "90990", "0990",
-        "0991990", "9091990"};
+    String[] expectedDateOfBirths = {"09091990", "091990", "1990", "0909", "090990", "991990",
+        "9990", "91990", "99", "09990", "90990", "0990", "0991990", "9091990"};
     String[] actualSearchableDateOfBirth = target.getSearchableDateOfBirth();
     assertThat(Arrays.equals(expectedDateOfBirths, actualSearchableDateOfBirth), is(true));
   }
@@ -558,8 +557,8 @@ public class ElasticSearchPersonTest {
 
   @Test
   public void readPerson_A$String() throws Exception {
-    final String json =
-        IOUtils.toString(ElasticSearchPersonTest.class.getResourceAsStream("/fixtures/data/es/es_person.json"));
+    final String json = IOUtils.toString(
+        ElasticSearchPersonTest.class.getResourceAsStream("/fixtures/data/es/es_person.json"));
     Object actual = ElasticSearchPerson.readPerson(json);
     assertThat(actual, is(notNullValue()));
   }
@@ -1134,4 +1133,5 @@ public class ElasticSearchPersonTest {
   private ElasticSearchPerson createElasticSearchPerson() {
     return createElasticSearchPerson(" gender ");
   }
+
 }

@@ -16,6 +16,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
+
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
@@ -24,12 +25,14 @@ import org.elasticsearch.search.SearchHit;
 import org.elasticsearch.search.fetch.subphase.highlight.HighlightField;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+
 import gov.ca.cwds.ObjectMapperUtils;
 import gov.ca.cwds.data.ApiTypedIdentifier;
 import gov.ca.cwds.rest.api.domain.DomainChef;
@@ -52,50 +55,50 @@ public class ElasticSearchPerson implements ApiTypedIdentifier<String> {
    */
   @Deprecated
   public enum ESColumn {
-    /**
-     * ElasticSearch identifier
-     */
-    ID("id", String.class, ""),
+  /**
+   * ElasticSearch identifier
+   */
+  ID("id", String.class, ""),
 
-    /**
-     * first name
-     */
-    FIRST_NAME("first_name", String.class, ""),
+  /**
+   * first name
+   */
+  FIRST_NAME("first_name", String.class, ""),
 
-    /**
-     * middle name
-     */
-    MIDDLE_NAME("middle_name", String.class, ""),
+  /**
+   * middle name
+   */
+  MIDDLE_NAME("middle_name", String.class, ""),
 
-    /**
-     * last name
-     */
-    LAST_NAME("last_name", String.class, ""),
+  /**
+   * last name
+   */
+  LAST_NAME("last_name", String.class, ""),
 
-    /**
-     * gender code (M,F,U)
-     */
-    GENDER("gender", String.class, "U"),
+  /**
+   * gender code (M,F,U)
+   */
+  GENDER("gender", String.class, "U"),
 
-    /**
-     * birth date
-     */
-    BIRTH_DATE("date_of_birth", String.class, null),
+  /**
+   * birth date
+   */
+  BIRTH_DATE("date_of_birth", String.class, null),
 
-    /**
-     * Social Security Number
-     */
-    SSN("ssn", String.class, null),
+  /**
+   * Social Security Number
+   */
+  SSN("ssn", String.class, null),
 
-    /**
-     * CWDS API class type, usually a domain class.
-     */
-    TYPE("type", String.class, null),
+  /**
+   * CWDS API class type, usually a domain class.
+   */
+  TYPE("type", String.class, null),
 
-    /**
-     * Nested JSON from {@link #TYPE} class.
-     */
-    SOURCE("source", String.class, null);
+  /**
+   * Nested JSON from {@link #TYPE} class.
+   */
+  SOURCE("source", String.class, null);
 
     /**
      * ElasticSearch column name.
@@ -341,6 +344,20 @@ public class ElasticSearchPerson implements ApiTypedIdentifier<String> {
 
   @JsonProperty("legacy_id")
   private String legacyId;
+
+  @JsonProperty("case_status")
+  @JsonInclude(JsonInclude.Include.ALWAYS)
+  private String caseStatus;
+
+  @JsonProperty("sp_county")
+  private String spCounty;
+
+  @JsonProperty("sp_phone")
+  private String spPhoneNumber;
+
+  @JsonProperty("estimated_dob_code")
+  @JsonInclude
+  private String estimatedDobCode;
 
   @JsonProperty("addresses")
   private List<ElasticSearchPersonAddress> addresses = new ArrayList<>();
@@ -1516,7 +1533,11 @@ public class ElasticSearchPerson implements ApiTypedIdentifier<String> {
   public void setCleintRace(ElasticSearchRaceAndEthnicity clientRace) {
     this.clientRace = clientRace;
   }
-  
+
+  public void setClientRace(ElasticSearchRaceAndEthnicity clientRace) {
+    this.clientRace = clientRace;
+  }
+
   /**
    * Getter for first name ngram.
    * 
@@ -1560,4 +1581,37 @@ public class ElasticSearchPerson implements ApiTypedIdentifier<String> {
   public String getNameSuffixNgram() {
     return this.getNameSuffix();
   }
+
+  public String getCaseStatus() {
+    return caseStatus;
+  }
+
+  public void setCaseStatus(String caseStatus) {
+    this.caseStatus = caseStatus;
+  }
+
+  public String getSpCounty() {
+    return spCounty;
+  }
+
+  public void setSpCounty(String spCounty) {
+    this.spCounty = spCounty;
+  }
+
+  public String getSpPhoneNumber() {
+    return spPhoneNumber;
+  }
+
+  public void setSpPhoneNumber(String spPhoneNumber) {
+    this.spPhoneNumber = spPhoneNumber;
+  }
+
+  public String getEstimatedDobCode() {
+    return estimatedDobCode;
+  }
+
+  public void setEstimatedDobCode(String estimatedDobCode) {
+    this.estimatedDobCode = estimatedDobCode;
+  }
+
 }
